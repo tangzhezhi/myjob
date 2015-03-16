@@ -28,7 +28,7 @@ public class LoginController {
     @ResponseBody  
     public ModelAndView  userLogin(HttpSession session,ModelAndView model,UserDTO dto) {
 		 model.setViewName("redirect:/index.html");
-		 return model;  //跳转
+		 return model;  //跳
     }
 	
 	
