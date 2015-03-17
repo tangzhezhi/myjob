@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties>    
+        <property name="dialect" value="mysql" />
+        <property name="databaseType" value="mysql"></property>
+    </properties>    
+
+	<typeAliases>
+		<typeAlias alias="UserDTO" type="org.tang.myjob.dto.system.UserDTO"/>
+		<typeAlias alias="Page" type="org.tang.myjob.utils.page.Page"/>
+	</typeAliases>
+	
+	<!-- 配置数据库分页的实现 -->  
+	<plugins>  
+       <plugin interceptor="org.tang.myjob.utils.page.PageInterceptor"></plugin>
+    </plugins>  
+	<mappers>
+		 <mapper resource="config/system/User.xml" />
+	</mappers>
+</configuration>
+

@@ -9,11 +9,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>myweb</module>
         <module>mydto</module>
         <module>myutils</module>
         <module>mydao</module>
         <module>myservice</module>
+        <module>myweb</module>
     </modules>
 
 

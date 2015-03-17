@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tang.myjob.dao.login.UserDao">
+
+	<resultMap type="UserDTO" id="UserDTO">
+		<id 	column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_pwd" property="userPwd" />
+	</resultMap>
+
+
+	<!-- 查询用户登录  用户信息放入session -->
+	<select id="selectUserLoginIsExist" parameterType="UserDTO" resultMap="boolean" >
+		<![CDATA[
+ 		select count(user_id) from t_user where 1=1
+ 		and u.user_name = #{userName}
+ 		and u.user_pwd = #{userPwd}
+ 		]]>
+	</select>
+
+</mapper>
