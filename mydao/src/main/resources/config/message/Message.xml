@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tang.myjob.dao.message.MessageDao">
+
+	<resultMap type="MessageDTO" id="MessageDTO">
+		<id 	column="title" property="title" />
+		<result column="content" property="userName" />
+		<result column="create_date" property="createDate" />
+	</resultMap>
+
+
+	<!-- 查询用户登录  用户信息放入session -->
+	<select id="selectMessage"  resultMap="MessageDTO" >
+		<![CDATA[
+ 			select title,content,create_date from t_msg_message
+ 		]]>
+	</select>
+
+</mapper>
