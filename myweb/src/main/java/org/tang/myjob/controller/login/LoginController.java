@@ -16,8 +16,7 @@ import org.tang.myjob.service.LoginService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@RestController
-@Controller("loginController")  
+@Controller("loginController")
 @RequestMapping("login")  
 public class LoginController {
 	private  Logger  logger  = Logger.getLogger("LoginController");

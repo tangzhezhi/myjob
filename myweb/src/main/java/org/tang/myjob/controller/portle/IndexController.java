@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.LoginService;
+import org.tang.myjob.service.exception.BusinessException;
+import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
 
 import javax.servlet.http.HttpSession;
@@ -20,8 +22,8 @@ import java.util.Map;
  * Created by Administrator on 2015/3/23.
  */
 
-@Controller
-@RequestMapping("portle/Index")
+@Controller("IndexController")
+@RequestMapping("index")
 public class IndexController {
 
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
@@ -32,14 +34,22 @@ public class IndexController {
 
     @RequestMapping(value = "/loadIndexJumbotronContent", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexJumbotronContent() {
+    public Map<String, Object> loadIndexJumbotronContent() throws BusinessException{
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
-        MessageDTO dto = indexService.getMessage();
+        MessageDTO dto = null;
+        try {
+            dto = indexService.getMessage();
+        } catch (BusinessException e) {
+            m.put("msg",ExceptionType.message_msg);
+            m.put("ack",ExceptionType.message_code);
+            throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
+        }
 
-        m.put("data",dto);
-        return m;  //跳
+        m.put("result",dto);
+        return m;
+
     }
 
 

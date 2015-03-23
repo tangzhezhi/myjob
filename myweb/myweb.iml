@@ -9,13 +9,6 @@
         </webroots>
       </configuration>
     </facet>
-    <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/conf/spring-mvc.xml</file>
-        </fileset>
-      </configuration>
-    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -27,7 +20,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Tomcat 8.0.20" level="application_server_libraries" />
     <orderEntry type="module" module-name="myservice" />
     <orderEntry type="module" module-name="mydto" />
     <orderEntry type="module" module-name="myutils" />

@@ -3,7 +3,7 @@ package org.tang.myjob.service.exception;
 /**
  * Created by Administrator on 2015/3/23.
  */
-public class BusinessException extends RuntimeException {
+public class BusinessException extends Exception {
 
     /** serialVersionUID */
     private static final long serialVersionUID = 2332608236621015980L;

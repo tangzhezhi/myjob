@@ -22,12 +22,7 @@ public class IndexService {
 
     public MessageDTO getMessage() throws BusinessException {
         MessageDTO dto = null;
-        try {
-            dto =  messageDao.selectMessage();
-        } catch (BusinessException e) {
-            e.printStackTrace();
-            throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
-        }
+        dto =  messageDao.selectMessage();
         return dto;
     }
 

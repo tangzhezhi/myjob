@@ -4,7 +4,7 @@
 
 	<resultMap type="MessageDTO" id="MessageDTO">
 		<id 	column="title" property="title" />
-		<result column="content" property="userName" />
+		<result column="content" property="content" />
 		<result column="create_date" property="createDate" />
 	</resultMap>
 
