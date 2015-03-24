@@ -25,69 +25,22 @@
 
     <!-- 静态资源映射 -->
    <mvc:resources mapping="/resources/**" location="/resources/" cache-period="31536000"/>
-
-
-	<!--<bean-->
-		<!--class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">-->
-	<!--</bean>-->
-	<!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" p:ignoreDefaultModelOnRedirect="true">-->
-		<!--<property name="messageConverters">-->
-			<!--<list>-->
-				<!--<bean-->
-					<!--class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"  p:supportedMediaTypes="*/*" />-->
-			<!--</list>-->
-		<!--</property>-->
-	<!--</bean>-->
-
-
-	 <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">-->
-        <!--<property name="mediaTypes">-->
-            <!--<map>-->
-                <!--<entry key="html" value="text/html" />-->
-                <!--<entry key="json" value="application/json" />-->
-                <!--<entry key="xml" value="application/xml" />-->
-                <!--<entry key="octet-stream" value="application/octet-stream" />-->
-            <!--</map>-->
-        <!--</property>-->
-        <!--<property name="viewResolvers">-->
-            <!--<list>-->
-                <!--<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />-->
-                <!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-                    <!--<property name="prefix" value="/" />-->
-                    <!--<property name="suffix" value=".html" />-->
-                <!--</bean>-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="defaultViews">-->
-            <!--<list>-->
-                <!--<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-      
-           <!-- SpringMVC上传文件时,需配置MultipartResolver处理器 -->  
+           <!-- SpringMVC上传文件时,需配置MultipartResolver处理器 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
         <!-- 指定所上传文件的总大小不能超过800KB......注意maxUploadSize属性的限制不是针对单个文件,而是所有文件的容量之和 -->  
         <property name="maxUploadSize" value="8000000"/>  
     </bean>  
-    
-      
-          <!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException 
-     该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->  
-    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  -->
-        <!--<property name="exceptionMappings">  -->
-            <!--<props>  -->
-                <!--<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">error/405</prop>-->
-                <!--<prop key="java.lang.Throwable">error/500</prop>-->
-            <!--</props>  -->
-        <!--</property>  -->
-    <!--</bean>  -->
-    <!--&lt;!&ndash; 控制器异常处理 &ndash;&gt;-->
-    <!--<bean id="exceptionHandlerExceptionResolver" class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver">-->
-    <!--</bean>-->
 
-    <!--<task:executor id="executor" pool-size="10" />-->
 
-    <bean id="exceptionResolver" class="org.tang.myjob.controller.exception.MyErrorHandler"/>
+    <bean id="exceptionResolver" class="org.tang.myjob.controller.exception.MyErrorHandler">
+        <!--配合自定义的异常解析器-->
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.tang.myjob.service.exception.BusinessException">errorpage/500.html</prop>
+                <prop key="java.lang.Exception">errorpage/405.html</prop>
+            </props>
+        </property>
+    </bean>
+
 
 </beans>

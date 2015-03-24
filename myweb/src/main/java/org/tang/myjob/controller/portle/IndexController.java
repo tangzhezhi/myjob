@@ -41,14 +41,16 @@ public class IndexController {
         MessageDTO dto = null;
         try {
             dto = indexService.getMessage();
+
+
         } catch (BusinessException e) {
             m.put("msg",ExceptionType.message_msg);
             m.put("ack",ExceptionType.message_code);
             throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
         }
-
-        m.put("result",dto);
-        return m;
+        throw new BusinessException("500");
+//        m.put("result",dto);
+//        return m;
 
     }
 
