@@ -3,6 +3,7 @@ package org.tang.myjob.controller.exception;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.tang.myjob.service.exception.BusinessException;
 import org.tang.myjob.service.exception.ExceptionI18Message;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,16 +38,18 @@ public class MyErrorHandler extends SimpleMappingExceptionResolver {
                 // 异步方式返回
                 try {
                     PrintWriter writer = response.getWriter();
-//                    writer.write(ExceptionI18Message.getLocaleMessage(ex.getMessage()));
-//                    response.setStatus(404, ExceptionI18Message.getLocaleMessage(ex.getMessage()));
-                    writer.write(ex.getMessage());
-                    response.setStatus(404, ex.getMessage());
-
+                    if(ex instanceof BusinessException){
+                        writer.write(((BusinessException) ex).getCode() + ":" + ((BusinessException) ex).getMessage());
+                        response.sendError(((BusinessException) ex).getCode(), ex.getMessage());
+                    }
+                    else{
+                        writer.write(ex.getMessage());
+                        response.setStatus(408);
+                    }
                     //将异常栈信息记录到日志中
                     logger.error(getTrace(ex));
                     writer.flush();
                 } catch ( Exception e ) {
-
                     e.printStackTrace();
                 }
                 // 不进行页面跳转

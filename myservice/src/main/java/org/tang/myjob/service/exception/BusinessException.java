@@ -8,7 +8,7 @@ public class BusinessException extends Exception {
     /** serialVersionUID */
     private static final long serialVersionUID = 2332608236621015980L;
 
-    private String code;
+    private int code;
 
     public BusinessException() {
         super();
@@ -18,7 +18,7 @@ public class BusinessException extends Exception {
         super(message);
     }
 
-    public BusinessException(String code, String message) {
+    public BusinessException(int code, String message) {
         super(message);
         this.code = code;
     }
@@ -31,16 +31,16 @@ public class BusinessException extends Exception {
         super(message, cause);
     }
 
-    public BusinessException(String code, String message, Throwable cause) {
+    public BusinessException(int code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

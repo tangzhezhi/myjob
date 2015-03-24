@@ -34,23 +34,21 @@ public class IndexController {
 
     @RequestMapping(value = "/loadIndexJumbotronContent", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexJumbotronContent() throws BusinessException{
+    public Map<String, Object> loadIndexJumbotronContent() throws Exception{
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
         MessageDTO dto = null;
         try {
             dto = indexService.getMessage();
-
-
+//            int i = 1/0;
         } catch (BusinessException e) {
-            m.put("msg",ExceptionType.message_msg);
+            m.put("msg", ExceptionType.message_msg);
             m.put("ack",ExceptionType.message_code);
             throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
         }
-        throw new BusinessException("500");
-//        m.put("result",dto);
-//        return m;
+        m.put("result",dto);
+        return m;
 
     }
 

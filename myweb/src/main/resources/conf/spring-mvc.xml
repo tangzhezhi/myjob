@@ -36,8 +36,8 @@
         <!--配合自定义的异常解析器-->
         <property name="exceptionMappings">
             <props>
-                <prop key="org.tang.myjob.service.exception.BusinessException">errorpage/500.html</prop>
-                <prop key="java.lang.Exception">errorpage/405.html</prop>
+                <prop key="org.tang.myjob.service.exception.BusinessException">/errorpage/500.html</prop>
+                <prop key="java.lang.Exception">/errorpage/405.html</prop>
             </props>
         </property>
     </bean>
