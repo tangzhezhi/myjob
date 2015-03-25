@@ -39,13 +39,15 @@ public class MyErrorHandler extends SimpleMappingExceptionResolver {
                 try {
                     PrintWriter writer = response.getWriter();
                     if(ex instanceof BusinessException){
+                        response.setStatus(500);
                         writer.write(((BusinessException) ex).getCode() + ":" + ((BusinessException) ex).getMessage());
                         response.sendError(((BusinessException) ex).getCode(), ex.getMessage());
                     }
                     else{
                         writer.write(ex.getMessage());
-                        response.setStatus(408);
+                        response.setStatus(500);
                     }
+                    response.setContentType("application/json;charset=utf-8");
                     //将异常栈信息记录到日志中
                     logger.error(getTrace(ex));
                     writer.flush();

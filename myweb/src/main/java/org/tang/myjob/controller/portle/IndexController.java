@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.tang.myjob.controller.utils.BaseController;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.LoginService;
@@ -24,7 +25,7 @@ import java.util.Map;
 
 @Controller("IndexController")
 @RequestMapping("index")
-public class IndexController {
+public class IndexController extends BaseController {
 
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
 
@@ -34,17 +35,14 @@ public class IndexController {
 
     @RequestMapping(value = "/loadIndexJumbotronContent", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexJumbotronContent() throws Exception{
+    public Map<String, Object> loadIndexJumbotronContent() throws BusinessException{
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
         MessageDTO dto = null;
         try {
             dto = indexService.getMessage();
-//            int i = 1/0;
         } catch (BusinessException e) {
-            m.put("msg", ExceptionType.message_msg);
-            m.put("ack",ExceptionType.message_code);
             throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
         }
         m.put("result",dto);
