@@ -1,4 +1,4 @@
-$(function(){
+define(["jquery"], function($){
     init();
 
     function init(){

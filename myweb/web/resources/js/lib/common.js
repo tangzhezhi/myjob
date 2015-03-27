@@ -1,7 +1,8 @@
 /**
  * Created by Administrator on 2015/3/24.
  */
-$(function(){
+
+define(["jquery","jquery.bootstrap.message"], function($){
 
     function alert_message(msg){
         $().message({
@@ -54,4 +55,5 @@ $(function(){
             this; // 调用本次AJAX请求时传递的options参数
         }
     });
+
 });
