@@ -1,11 +1,10 @@
 define(["jquery"], function($){
-    init();
 
-    function init(){
-        loadJumbotronContent();
+    function init(id){
+        loadJumbotronContent(id);
     }
 
-    function loadJumbotronContent(){
+    function loadJumbotronContent(id){
         $.ajax({
             type: "POST",
             url: 'index/loadIndexJumbotronContent?random='+parseInt(Math.random()*100000),
@@ -20,11 +19,15 @@ define(["jquery"], function($){
                     "</div>" +
                     "</small>" +
                     "</h1>";
-                    $("#jumbotronContent").html(detailHtml);
+                    $("#"+id).html(detailHtml);
                 }
             }
         });
     }
+
+    return {
+        init :init
+    };
 
 });
 
