@@ -1,13 +1,13 @@
 define(["jquery"], function($){
 
-    function loadIndexTopNews(id,callback,error_back){
+    function init(id,callback,error_back){
         $.ajax({
             type: "POST",
-            url: 'index/loadIndexTopNews?random='+parseInt(Math.random()*100000),
+            url: 'index/loadIndexProducts?random='+parseInt(Math.random()*100000),
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.result!=null){
-                    callback(id,data);
+                    callback(id,data.result);
                 }
                 else{
                     error_back();
@@ -17,7 +17,7 @@ define(["jquery"], function($){
     }
 
     return {
-        init:loadIndexTopNews
+        init:init
     }
 
 });

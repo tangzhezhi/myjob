@@ -29,8 +29,8 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_news'],
-    function   ($,b,c,d,top_news) {
+requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_news', 'app/portal_product'],
+    function   ($,b,c,d,top_news,portal_product) {
 
         function showTopNew(id,data){
             var detailHtml = "";
@@ -44,6 +44,20 @@ requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_n
             $("#"+id).html(detailHtml);
         }
 
+        function showPortalProduct(id,data){
+            var detailHtml = "";
+            detailHtml = "<h1>"+data.result.title+"" +
+            "<small>" +
+            "<div class='row'>" +
+            "<br><div class='col-xs-12 col-sm-offset-2'>"+data.result.content+"</div>" +
+            "</div>" +
+            "</small>" +
+            "</h1>";
+            $("#"+id).html(detailHtml);
+        }
+
         top_news.init("jumbotronContent",showTopNew, d.alert_message("没有数据"));
+
+        portal_product.init();
 
     });

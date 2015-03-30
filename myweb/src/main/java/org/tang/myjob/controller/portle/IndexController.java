@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.tang.myjob.controller.utils.BaseController;
 import org.tang.myjob.dto.message.MessageDTO;
+import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.LoginService;
 import org.tang.myjob.service.exception.BusinessException;
@@ -33,9 +34,9 @@ public class IndexController extends BaseController {
     public IndexService indexService;
 
 
-    @RequestMapping(value = "/loadIndexJumbotronContent", method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value = "/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexJumbotronContent() throws BusinessException{
+    public Map<String, Object> loadIndexTopNews() throws BusinessException{
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
@@ -49,6 +50,26 @@ public class IndexController extends BaseController {
         return m;
 
     }
+
+
+    @RequestMapping(value = "/loadIndexProducts", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> loadIndexProducts() throws BusinessException{
+
+        Map<String ,Object> m = new HashMap<String ,Object>();
+
+        ProductDTO dto = null;
+        try {
+            dto = indexService.getProduct();
+        } catch (BusinessException e) {
+            throw new BusinessException(ExceptionType.product_code,ExceptionType.product_msg,e);
+        }
+        m.put("result",dto);
+        return m;
+
+    }
+
+
 
 
 }
