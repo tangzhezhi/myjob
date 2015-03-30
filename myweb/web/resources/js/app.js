@@ -14,7 +14,7 @@ requirejs.config({
         app: '../app',
         jquery: 'jquery',
         bootstrap: 'bootstrap',
-        jquery_bootstrap_message:'jquery.bootstrap.message',
+        'jquery.bootstrap.message':'jquery.bootstrap.message',
         top_news: '../app/top_news'
     },
     shim : {
@@ -22,17 +22,28 @@ requirejs.config({
             deps : [ 'jquery' ],
             exports : 'bootstrap'
         },
-        jquery_bootstrap_message:{
-            deps : [ 'jquery','bootstrap' ],
-            exports:'jquery.bootstrap.message'
-        }
-    },
-    waitSeconds: 150
+        'jquery.bootstrap.message':['jquery']
+
+    }
+    //,waitSeconds: 150
 });
 
 // Start the main app logic.
 requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_news'],
-    function   ($,b,c,d,e) {
-        //jQuery, canvas and the app/sub module are all
-        //loaded and can be used here now.
+    function   ($,b,c,d,top_news) {
+
+        function showTopNew(id,data){
+            var detailHtml = "";
+            detailHtml = "<h1>"+data.result.title+"" +
+            "<small>" +
+            "<div class='row'>" +
+            "<br><div class='col-xs-12 col-sm-offset-2'>"+data.result.content+"</div>" +
+            "</div>" +
+            "</small>" +
+            "</h1>";
+            $("#"+id).html(detailHtml);
+        }
+
+        top_news.init("jumbotronContent",showTopNew, d.alert_message("没有数据"));
+
     });
