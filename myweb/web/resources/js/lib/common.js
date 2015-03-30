@@ -2,9 +2,9 @@
  * Created by Administrator on 2015/3/24.
  */
 
-define(["jquery","jquery.bootstrap.message"], function($){
+define(["jquery"], function($){
 
-    function alert_message(msg){
+    function alert_message(msg,callback){
         $().message({
             type: 'danger',
             html: "<div class='row'><p class='text-center'>"+msg+"</p></div>",
@@ -15,12 +15,12 @@ define(["jquery","jquery.bootstrap.message"], function($){
                 // code to execute before plugin execution
             },
             afterFunc: function () {
-                // code to execute after plugin execution
+                callback
             },
             onCloseFunc: function () {
                 // code to execute on close event of message box
             }
-        });
+        })();
     }
 
     // 设置jQuery Ajax全局的参数
@@ -56,4 +56,7 @@ define(["jquery","jquery.bootstrap.message"], function($){
         }
     });
 
+    return {
+        alert_message:alert_message
+    }
 });
