@@ -20,7 +20,7 @@ define(["jquery"], function($){
             onCloseFunc: function () {
                 // code to execute on close event of message box
             }
-        })();
+        });
     }
 
     // 设置jQuery Ajax全局的参数

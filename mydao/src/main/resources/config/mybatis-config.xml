@@ -13,6 +13,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 		<!--message -->
 		<typeAlias alias="MessageDTO" type="org.tang.myjob.dto.message.MessageDTO"/>
+
+		<typeAlias alias="ProductDTO" type="org.tang.myjob.dto.product.ProductDTO"/>
 		<typeAlias alias="Page" type="org.tang.myjob.utils.page.Page"/>
 	</typeAliases>
 	
@@ -23,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<mappers>
 		 <mapper resource="config/system/User.xml" />
 		 <mapper resource="config/message/Message.xml" />
+		<mapper resource="config/product/Product.xml" />
 	</mappers>
 </configuration>
 

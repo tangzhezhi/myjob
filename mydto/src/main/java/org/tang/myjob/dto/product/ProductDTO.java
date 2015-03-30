@@ -10,7 +10,7 @@ public class ProductDTO implements Serializable{
 
 	private Integer id;
 	private String name;
-	private String desc;
+	private String describe;
 	private String picUrl;
 	private String price;
 	private String color;
@@ -33,12 +33,12 @@ public class ProductDTO implements Serializable{
 		this.name = name;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescribe() {
+		return describe;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescribe(String describe) {
+		this.describe = describe;
 	}
 
 	public String getPicUrl() {
