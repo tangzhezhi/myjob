@@ -34,7 +34,10 @@ public class IndexController extends BaseController {
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
 
     @Autowired
-    public IndexService indexService;
+    private IndexService indexService;
+
+    @Autowired
+    private LoginService loginService;
 
 
     @RequestMapping(value = "/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
@@ -72,6 +75,26 @@ public class IndexController extends BaseController {
             throw new Exception(ExceptionType.product_msg,e);
         }
         m.put("result",dtoList);
+        return m;
+
+    }
+
+    @RequestMapping(value = "/login", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> login(UserDTO dto) throws Exception {
+
+        Map<String ,Object> m = new HashMap<String ,Object>();
+
+        boolean flag = false;
+
+        try {
+            flag = loginService.queryUserLoginIsExist(dto);
+            m.put("msg",flag);
+
+        } catch (Exception e) {
+            logger.error(ExceptionType.login_msg,e);
+        }
+
         return m;
 
     }

@@ -10,4 +10,7 @@ public interface ExceptionType {
     public int product_code = 102; //产品异常
     public String product_msg = "产品异常"; //产品异常
 
+    public int login_code = 103;
+    public String login_msg = "登录异常";
+
 }

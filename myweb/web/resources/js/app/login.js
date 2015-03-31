@@ -1,23 +1,23 @@
 define(["jquery"], function($){
 
-    function login(user,callback,error){
+    function login(user){
         var username = user.userName;
-        var password = $.md5(user.password);
+        var password = user.userPwd;
 
         $.ajax({
             type: "POST",
             url: 'index/login?random='+parseInt(Math.random()*100000),
             data:{
-                    username:username,
-                    password:password
+                    userName:username,
+                    userPwd:password
             },
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
-                    callback(id,data);
+
                 }
                 else{
-                    error(data.msg);
+
                 }
             }
         });

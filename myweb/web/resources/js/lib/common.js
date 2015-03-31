@@ -51,7 +51,7 @@ define(["jquery"], function($){
             alert_message("操作成功");
         },
         complete: function(XMLHttpRequest, textStatus) {
-            console.log(XMLHttpRequest);
+            //console.log(XMLHttpRequest);
             this; // 调用本次AJAX请求时传递的options参数
         }
     });
