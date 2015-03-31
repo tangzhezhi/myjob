@@ -10,7 +10,7 @@ define(["jquery"], function($){
                     callback(id,data.result);
                 }
                 else{
-                    error_back();
+                    error_back("没有数据");
                 }
             }
         });

@@ -22,15 +22,16 @@ requirejs.config({
             deps : [ 'jquery' ],
             exports : 'bootstrap'
         },
-        'jquery.bootstrap.message':['jquery']
+        'jquery.bootstrap.message':['jquery'],
+        'jquery.md5':['jquery']
 
     }
     //,waitSeconds: 150
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_news', 'app/portal_product'],
-    function   ($,b,c,d,top_news,portal_product) {
+requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_news', 'app/portal_product', 'app/login'],
+    function   ($,b,c,d,top_news,portal_product,login) {
 
         function showTopNew(id,data){
             var detailHtml = "";
@@ -45,18 +46,50 @@ requirejs(['jquery', 'bootstrap','jquery.bootstrap.message','common', 'app/top_n
         }
 
         function showPortalProduct(id,data){
-
             var detailHtml = "";
-            detailHtml = "<div class='col-md-4'>" +
-                            "<h2>"+data.name+"</h2>" +
-                            "<p>"+data.desc+"</p>" +
-                            "<p><a class='btn btn-default' href='#' role='button'>View details &raquo;</a></p> " +
-                         "</div>";
+            if(data!=null){
+                if(data.length == 1){
+                    detailHtml = detailHtml + "<div class='col-md-12'>" +
+                    "<h2>"+item.name+"</h2>" +
+                    "<p>"+item.describe+"</p>" +
+                    "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                    "</div>";
+                }
+                else if(data.length == 2){
+                    $.each(data,function(i,item){
+                        detailHtml = detailHtml + "<div class='col-md-6'>" +
+                        "<h2>"+item.name+"</h2>" +
+                        "<p>"+item.describe+"</p>" +
+                        "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                        "</div>";
+                    });
+                }
+                else{
+                    $.each(data,function(i,item){
+                        detailHtml = detailHtml + "<div class='col-md-4'>" +
+                        "<h2>"+item.name+"</h2>" +
+                        "<p>"+item.describe+"</p>" +
+                        "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                        "</div>";
+                    });
+                }
+            }
+
             $("#"+id).empty().html(detailHtml);
         }
 
-        top_news.init("jumbotronContent",showTopNew, d.alert_message("没有数据"));
+        top_news.init("jumbotronContent",showTopNew, d.alert_message);
 
-        portal_product.init("portal_product",showPortalProduct, d.alert_message("没有数据"));
+        portal_product.init("portal_product",showPortalProduct, d.alert_message);
+
+        $("#loginBtn").click(function(){
+            var user = {
+                username:$("#user_name").val(),
+                password:$("#password").val()
+            }
+
+            login.init(user);
+
+        });
 
     });

@@ -1,9 +1,16 @@
 define(["jquery"], function($){
 
-    function loadIndexTopNews(id,callback,error){
+    function login(user,callback,error){
+        var username = user.userName;
+        var password = $.md5(user.password);
+
         $.ajax({
             type: "POST",
-            url: 'index/loadIndexTopNews?random='+parseInt(Math.random()*100000),
+            url: 'index/login?random='+parseInt(Math.random()*100000),
+            data:{
+                    username:username,
+                    password:password
+            },
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
@@ -17,7 +24,7 @@ define(["jquery"], function($){
     }
 
     return {
-        init:loadIndexTopNews
+        init:login
     }
 
 });

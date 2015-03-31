@@ -9,7 +9,10 @@ import org.tang.myjob.dao.product.ProductDao;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.service.exception.BusinessException;
+import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/3/23.
@@ -25,16 +28,22 @@ public class IndexService {
     @Autowired
     private ProductDao productDao;
 
-    public MessageDTO getMessage() throws BusinessException {
+    public MessageDTO getMessage() throws Exception {
         MessageDTO dto = null;
-        dto =  messageDao.selectMessage();
+        try {
+            dto =  messageDao.selectMessage();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
         return dto;
     }
 
-    public ProductDTO getProduct() throws BusinessException {
-        ProductDTO dto = null;
-        dto =  productDao.selectProduct();
-        return dto;
+    public List<ProductDTO> getProduct() throws Exception {
+        try {
+            return productDao.selectProduct();
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
     }
 
 }

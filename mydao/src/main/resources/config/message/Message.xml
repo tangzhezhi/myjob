@@ -12,7 +12,7 @@
 	<!-- 查询用户登录  用户信息放入session -->
 	<select id="selectMessage"  resultMap="MessageDTO" >
 		<![CDATA[
- 			select title,content,create_date from t_msg_message
+ 			select title,content,max(create_date) as create_date from t_msg_message
  		]]>
 	</select>
 

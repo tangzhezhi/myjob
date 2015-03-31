@@ -13,11 +13,14 @@ import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.LoginService;
 import org.tang.myjob.service.exception.BusinessException;
+import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,15 +39,18 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexTopNews() throws BusinessException{
+    public Map<String, Object> loadIndexTopNews() throws Exception {
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
         MessageDTO dto = null;
         try {
             dto = indexService.getMessage();
-        } catch (BusinessException e) {
-            throw new BusinessException(ExceptionType.message_code,ExceptionType.message_msg,e);
+            m.put("msg","success");
+        }
+        catch (Exception br){
+            logger.error(ExceptionType.product_msg, br);
+            throw new Exception(br);
         }
         m.put("result",dto);
         return m;
@@ -54,17 +60,18 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/loadIndexProducts", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> loadIndexProducts() throws BusinessException{
+    public Map<String, Object> loadIndexProducts() throws Exception {
 
         Map<String ,Object> m = new HashMap<String ,Object>();
 
-        ProductDTO dto = null;
+        List<ProductDTO> dtoList = null;
         try {
-            dto = indexService.getProduct();
-        } catch (BusinessException e) {
-            throw new BusinessException(ExceptionType.product_code,ExceptionType.product_msg,e);
+            dtoList = indexService.getProduct();
+        } catch (Exception e) {
+            logger.error(ExceptionType.product_msg,e);
+            throw new Exception(ExceptionType.product_msg,e);
         }
-        m.put("result",dto);
+        m.put("result",dtoList);
         return m;
 
     }

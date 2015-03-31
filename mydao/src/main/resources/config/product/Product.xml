@@ -4,8 +4,8 @@
 
 	<resultMap type="ProductDTO" id="ProductDTO">
 		<id 	column="id" property="id" />
-		<result column="name" property="name" />
-		<result column="desc" property="desc" />
+		<result column="pro_name" property="name" />
+		<result column="pro_describe" property="describe" />
 		<result column="pic_url" property="picUrl" />
 		<result column="price" property="price" />
 		<result column="color" property="color" />
@@ -17,7 +17,7 @@
 	<!-- 查询用户登录  用户信息放入session -->
 	<select id="selectProduct"  resultMap="ProductDTO" >
 		<![CDATA[
- 			select id,name,desc,pic_url,price,color,style,brand from t_portal_product
+ 			select id,pro_name,pro_describe,pic_url,price,color,style,brand from t_portal_product
  		]]>
 	</select>
 
