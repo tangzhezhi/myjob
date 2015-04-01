@@ -9,17 +9,18 @@ requirejs.config({
         jquery: 'jquery',
         bootstrap: 'bootstrap',
         'jquery.bootstrap.message':'jquery.bootstrap.message',
-        'formvalidation.bootstrap':'formvalidation.bootstrap',
         'jquery.md5':'jquery.md5',
         'jquery.form':'jquery.form',
-        'formValidation':'formValidation'
+        'formValidation':'formValidation',
+        'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap'
     },
     shim : {
         bootstrap : {
             deps : [ 'jquery' ],
             exports : 'bootstrap'
         },
-        'formvalidation.bootstrap':['jquery'],
+        'formValidation':['jquery'],
+        'FormValidation.Framework.Bootstrap':['jquery'],
         'jquery.bootstrap.message':['jquery'],
         'jquery.md5':['jquery']
     }
@@ -33,14 +34,14 @@ requirejs([
         'jquery.bootstrap.message',
         'jquery.md5',
         'jquery.form',
-        'formvalidation.bootstrap',
         'formValidation',
+        'FormValidation.Framework.Bootstrap',
         'common',
         'app/top_news',
         'app/portal_product',
         'app/login'
         ],
-    function   ($,bootstrap,message,md5,form,formvalidation_bootstrap,formValidation,common,top_news,portal_product,login) {
+    function   ($,bootstrap,message,md5,form,formValidation,formvalidation_bootstrap,common,top_news,portal_product,login) {
 
         function showTopNew(id,data){
             var detailHtml = "";
@@ -119,21 +120,7 @@ requirejs([
                     }
                 }
             }
-        }).on('success.form.fv', function(e) {
-            // Prevent form submission
-            e.preventDefault();
-
-            // Get the form instance
-            var $form = $(e.target);
-
-            // Get the FormValidation instance
-            var bv = $form.data('formValidation');
-
-            // Use Ajax to submit form data
-            $.post($form.attr('action'), $form.serialize(), function(result) {
-                console.log(result);
-            }, 'json');
-        });;
+        });
 
         //$("#loginBtn").click(function(){
         //    var user = {
