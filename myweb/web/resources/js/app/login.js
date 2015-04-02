@@ -1,6 +1,6 @@
 define(["jquery"], function($){
 
-    function login(user){
+    function login(user,callback,error){
         var username = user.userName;
         var password = user.userPwd;
 
@@ -14,10 +14,10 @@ define(["jquery"], function($){
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
-
+                    callback(data.user);
                 }
                 else{
-
+                    error("用户验证不通过")
                 }
             }
         });

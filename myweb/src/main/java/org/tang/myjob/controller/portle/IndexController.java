@@ -89,12 +89,14 @@ public class IndexController extends BaseController {
 
         try {
             flag = loginService.queryUserLoginIsExist(dto);
-            m.put("msg",flag);
-
+            if(flag){
+                dto.setUserPwd(null);
+                m.put("user",dto);
+                m.put("msg","success");
+            }
         } catch (Exception e) {
             logger.error(ExceptionType.login_msg,e);
         }
-
         return m;
 
     }

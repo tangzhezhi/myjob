@@ -4,6 +4,7 @@
 
 requirejs.config({
     baseUrl: 'resources/js/lib',
+    //urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
         app: '../app',
         jquery: 'jquery',
@@ -63,7 +64,7 @@ requirejs([
                         detailHtml = detailHtml + "<div class='col-md-12'>" +
                         "<h2>"+item.name+"</h2>" +
                         "<p>"+item.describe+"</p>" +
-                        "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                        "<p><a class='btn btn-default' href='#' role='button'>查看详情ad &raquo;</a></p> " +
                         "</div>";
                     });
                 }
@@ -72,7 +73,7 @@ requirejs([
                         detailHtml = detailHtml + "<div class='col-md-6'>" +
                         "<h2>"+item.name+"</h2>" +
                         "<p>"+item.describe+"</p>" +
-                        "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                        "<p><a class='btn btn-default' href='#' role='button'>查看详情cdccc &raquo;</a></p> " +
                         "</div>";
                     });
                 }
@@ -81,7 +82,7 @@ requirejs([
                         detailHtml = detailHtml + "<div class='col-md-4'>" +
                         "<h2>"+item.name+"</h2>" +
                         "<p>"+item.describe+"</p>" +
-                        "<p><a class='btn btn-default' href='#' role='button'>查看详情 &raquo;</a></p> " +
+                        "<p><a class='btn btn-default' href='#' role='button'>查看详情cd &raquo;</a></p> " +
                         "</div>";
                     });
                 }
@@ -102,33 +103,45 @@ requirejs([
                 validating: 'glyphicon glyphicon-refresh'
             },
             fields: {
+                row: '.col-sm-4',
                 userName: {
-                    message: 'The username is not valid',
+                    message: '用户名无效',
                     validators: {
                         notEmpty: {
-                            message: 'The username is required and can\'t be empty'
+                            message: '用户名不能为空'
                         },
                         stringLength: {
                             min: 6,
-                            max: 30,
-                            message: 'The username must be more than 6 and less than 30 characters long'
+                            max: 50,
+                            message: '用户名必须超过6个字符少于30字符'
                         },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                            message: 'The username can only consist of alphabetical, number, dot and underscore'
+                        emailAddress: {
+                            message: '不是一个有效的邮件格式'
                         }
                     }
                 }
             }
+        }).on('success.form.fv', function(e) {
+            // Prevent form submission
+            e.preventDefault();
+
+            // Get the form instance
+            var $form = $(e.target);
+
+            // Get the FormValidation instance
+            var bv = $form.data('formValidation');
+
+            var user = {
+                userName:$("#userName").val(),
+                userPwd: $.md5($("#password").val())
+            }
+
+            login.init(user,loginCallback,common.alert_message);
         });
 
-        //$("#loginBtn").click(function(){
-        //    var user = {
-        //        userName:$("#user_name").val(),
-        //        userPwd: $.md5($("#password").val())
-        //    }
-        //    login.init(user);
-        //
-        //});
+
+        function loginCallback(user){
+            $("#myForm").addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
+        }
 
     });
