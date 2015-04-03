@@ -12,20 +12,21 @@ requirejs.config({
         'jquery.bootstrap.message':'jquery.bootstrap.message',
         'jquery.md5':'jquery.md5',
         'jquery.form':'jquery.form',
-        'formValidation':'formValidation',
-        'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap'
+        'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap',
+        'FormValidation':'formValidation'
+
     },
     shim : {
         bootstrap : {
             deps : [ 'jquery' ],
             exports : 'bootstrap'
         },
-        'formValidation':['jquery'],
         'FormValidation.Framework.Bootstrap':['jquery'],
+        'FormValidation':['jquery'],
         'jquery.bootstrap.message':['jquery'],
         'jquery.md5':['jquery']
     }
-    ,waitSeconds: 500
+    ,waitSeconds: 1000
 });
 
 // Start the main app logic.
@@ -36,11 +37,11 @@ requirejs([
         'jquery.md5',
         'jquery.form',
         'formValidation',
-        'FormValidation.Framework.Bootstrap',
+        'formvalidation.bootstrap',
         'common',
-        'app/top_news',
-        'app/portal_product',
-        'app/login'
+        './app/top_news',
+        './app/portal_product',
+        './app/login'
         ],
     function   ($,bootstrap,message,md5,form,formValidation,formvalidation_bootstrap,common,top_news,portal_product,login) {
 

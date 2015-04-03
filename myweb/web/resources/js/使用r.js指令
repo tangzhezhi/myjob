@@ -1,0 +1,2 @@
+到lib目录下执行：
+node ..\r.js -o ..\build.js
