@@ -12,6 +12,7 @@ requirejs.config({
         'jquery.bootstrap.message':'jquery.bootstrap.message',
         'jquery.md5':'jquery.md5',
         'jquery.form':'jquery.form',
+        'common':'common',
         'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap',
         'FormValidation':'formValidation'
 
@@ -31,6 +32,7 @@ requirejs.config({
 
 // Start the main app logic.
 requirejs([
+        //"domReady!",
         'jquery',
         'bootstrap',
         'jquery.bootstrap.message',
