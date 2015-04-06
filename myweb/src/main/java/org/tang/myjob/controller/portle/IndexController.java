@@ -68,8 +68,10 @@ public class IndexController extends BaseController {
         Map<String ,Object> m = new HashMap<String ,Object>();
 
         List<ProductDTO> dtoList = null;
+        ProductDTO param = new ProductDTO();
+        param.setType(1);
         try {
-            dtoList = indexService.getProduct();
+            dtoList = indexService.getProduct(param);
         } catch (Exception e) {
             logger.error(ExceptionType.product_msg,e);
             throw new Exception(ExceptionType.product_msg,e);
@@ -78,6 +80,28 @@ public class IndexController extends BaseController {
         return m;
 
     }
+
+    @RequestMapping(value = "/loadIndexTopProduct", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> loadIndexTopProduct() throws Exception {
+
+        Map<String ,Object> m = new HashMap<String ,Object>();
+
+        List<ProductDTO> dtoList = null;
+        ProductDTO param = new ProductDTO();
+        param.setType(0);
+        try {
+            dtoList = indexService.getProduct(param);
+        } catch (Exception e) {
+            logger.error(ExceptionType.product_msg,e);
+            throw new Exception(ExceptionType.product_msg,e);
+        }
+        m.put("result",dtoList);
+        return m;
+
+    }
+
+
 
     @RequestMapping(value = "/login", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody

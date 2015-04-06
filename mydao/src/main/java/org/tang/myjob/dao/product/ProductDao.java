@@ -10,5 +10,5 @@ import java.util.List;
  */
 @Repository
 public interface ProductDao {
-    public List<ProductDTO> selectProduct();
+    public List<ProductDTO> selectProduct(ProductDTO dto);
 }

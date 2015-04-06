@@ -38,9 +38,9 @@ public class IndexService {
         return dto;
     }
 
-    public List<ProductDTO> getProduct() throws Exception {
+    public List<ProductDTO> getProduct(ProductDTO dto) throws Exception {
         try {
-            return productDao.selectProduct();
+            return productDao.selectProduct(dto);
         } catch (Exception e) {
             throw new Exception(e);
         }

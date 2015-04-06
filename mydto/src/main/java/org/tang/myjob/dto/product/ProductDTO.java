@@ -16,6 +16,7 @@ public class ProductDTO implements Serializable{
 	private String color;
 	private String style;
 	private String brand;
+	private int type;
 
 	public Integer getId() {
 		return id;
@@ -79,5 +80,13 @@ public class ProductDTO implements Serializable{
 
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

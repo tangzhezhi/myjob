@@ -4,23 +4,17 @@
 
 define(["jquery"], function($){
 
-    function alert_message(msg,callback){
-        $().message({
-            type: 'danger',
-            html: "<div class='row'><p class='text-center'>"+msg+"</p></div>",
-            icon: true,
-            position: 'top',
-            autoHide: 4000,
-            beforeFunc: function () {
-                // code to execute before plugin execution
-            },
-            afterFunc: function () {
-                callback
-            },
-            onCloseFunc: function () {
-                // code to execute on close event of message box
-            }
-        });
+    function alert_message(title,msg,callback){
+       $().toastmessage('showToast', {
+          text     : msg,
+          sticky   : true,
+          position : 'top-right',
+          type     : 'success',
+          close    : function () {
+              callback
+              console.log("toast is closed ...");
+          }
+       });
     }
 
     // 设置jQuery Ajax全局的参数
@@ -29,26 +23,26 @@ define(["jquery"], function($){
         error: function(jqXHR, textStatus, errorThrown){
             switch (jqXHR.status){
                 case(500):
-                    alert_message("服务器系统内部错误");
+                    alert_message("错误","服务器系统内部错误");
                     break;
                 case(401):
-                    alert_message("未登录");
+                    alert_message("错误","未登录");
                     break;
                 case(403):
-                    alert_message("无权限执行此操作");
+                    alert_message("错误","无权限执行此操作");
                     break;
                 case(408):
-                    alert_message("请求超时");
+                    alert_message("错误","请求超时");
                     break;
                 case(404):
-                    alert_message("没有找到资源");
+                    alert_message("错误","没有找到资源");
                     break;
                 default:
-                    alert_message("未知错误");
+                    alert_message("错误","未知错误");
             }
         },
         success: function(data){
-            alert_message("操作成功");
+            alert_message("提示","操作成功");
         },
         complete: function(XMLHttpRequest, textStatus) {
             //console.log(XMLHttpRequest);

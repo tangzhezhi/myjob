@@ -11,14 +11,20 @@
 		<result column="color" property="color" />
 		<result column="style" property="style" />
 		<result column="brand" property="brand" />
+
+		<result column="type" property="type" />
 	</resultMap>
 
 
-	<!-- 查询用户登录  用户信息放入session -->
-	<select id="selectProduct"  resultMap="ProductDTO" >
+	<select id="selectProduct"  resultMap="ProductDTO"  parameterType="org.tang.myjob.dto.product.ProductDTO">
 		<![CDATA[
- 			select id,pro_name,pro_describe,pic_url,price,color,style,brand from t_portal_product
+ 			select id,pro_name,pro_describe,pic_url,price,color,style,brand,type from t_portal_product
  		]]>
+		<where>
+			<if test="type!=null">
+				type = #{type}
+			</if>
+		</where>
 	</select>
 
 </mapper>
