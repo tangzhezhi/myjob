@@ -5,16 +5,21 @@
 define(["jquery"], function($){
 
     function alert_message(title,msg,callback){
-       $().toastmessage('showToast', {
-          text     : msg,
-          sticky   : true,
-          position : 'top-right',
-          type     : 'success',
-          close    : function () {
-              callback
-              console.log("toast is closed ...");
-          }
-       });
+       $().toastmessage('showToast',
+           {
+              text     : msg,
+              sticky   : false,
+              position : 'top-right',
+              type     : 'success',
+              close    : function () {
+                  callback
+                  console.log("toast is closed ...");
+              }
+            },
+           'settings',{
+               stayTime: 	3000
+           }
+       );
     }
 
     // 设置jQuery Ajax全局的参数
