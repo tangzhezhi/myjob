@@ -12,8 +12,8 @@ requirejs.config({
         'jquery.md5':'jquery.md5',
         'jquery.form':'jquery.form',
         'common':'common',
-        'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap',
-        'FormValidation':'formValidation',
+        'formvalidation.bootstrap':'formvalidation.bootstrap',
+        'formValidation':'formValidation',
         'lightbox':'lightbox',
         'jquery.cookie':'jquery.cookie',
         app: '../app'
@@ -23,8 +23,8 @@ requirejs.config({
             deps : [ 'jquery' ],
             exports : 'bootstrap'
         },
-        'FormValidation.Framework.Bootstrap':['jquery'],
-        'FormValidation':['jquery'],
+        'formvalidation.bootstrap':['jquery'],
+        'formValidation':['jquery'],
         'jquery.toastmessage':['jquery'],
         'jquery.md5':['jquery'],
         'lightbox':['jquery']

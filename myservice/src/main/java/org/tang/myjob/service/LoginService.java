@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tang.myjob.dao.login.UserDao;
 import org.tang.myjob.dto.system.UserDTO;
+import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.json.JacksonUtil;
-import org.tang.myjob.utils.redis.RedisUtil;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -13,16 +13,8 @@ import org.tang.myjob.utils.redis.RedisUtil;
 
 @Service
 public class LoginService {
-
-    private RedisUtil redisUtil ;
-
-    public RedisUtil getRedisUtil() {
-        return redisUtil;
-    }
-
-    public void setRedisUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Autowired
     private UserDao userDao;
@@ -34,6 +26,8 @@ public class LoginService {
      */
     public Boolean queryUserLoginIsExist(UserDTO dto) {
         Boolean result = false;
+
+
         try {
             result =  userDao.selectUserLoginIsExist(dto);
 

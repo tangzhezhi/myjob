@@ -7,11 +7,11 @@
     
 	<!-- poolÅäÖÃ -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxTotal" value="1000" />
+		<property name="maxActive" value="1000" />
 		<property name="maxIdle" value="100" />
 		<property name="minIdle" value="20" />
-		<property name="testOnBorrow" value="true" />
-	</bean>
+	<property name="testOnBorrow" value="true" />
+</bean>
 	<!-- jedis poolÅäÖÃ -->
 	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
@@ -19,7 +19,7 @@
 		<constructor-arg index="2" value="6379" />
 	</bean>
 	<!-- °ü×°Àà -->
-	<bean id="redisUtil" class="org.tang.myjob.utils.redis.RedisUtil">
+	<bean id="redisUtil" class="org.tang.myjob.service.redis.RedisUtil">
 		<property name="jedisPool" ref="jedisPool" />
 	</bean>
 	

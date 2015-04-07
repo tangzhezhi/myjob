@@ -1,16 +1,18 @@
-package org.tang.myjob.utils.redis;
+package org.tang.myjob.service.redis;
 
 /**
  * Created by Administrator on 2015/4/7.
  */
 
 import org.apache.log4j.Logger;
+import org.tang.myjob.utils.json.JacksonUtil;
+import org.tang.myjob.utils.redis.PushConstant;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 连接和使用redis资源的工具类
@@ -82,14 +84,16 @@ public class RedisUtil {
             try {
                 if(!jedis.sismember(key, value)){
                     jedis.sadd(key, value);
-                    jedis.publish(PushConstant.PushObject_Pub,value);
+                    Set set = jedis.smembers(key);
+                    JacksonUtil jacksonUtil = new JacksonUtil();
+                    jedis.publish(PushConstant.PushObject_Pub,jacksonUtil.toJSon(set));
                 }
                 flag = true;
             }
             catch (JedisConnectionException e) {
                 logger.error("生产Redis消息时--连接异常",e);
                 if (null != jedis) {
-                    this.getJedisPool().returnBrokenResource(jedis);
+                    getJedisPool().returnBrokenResource(jedis);
                     jedis = null;
                 }
             }
@@ -99,7 +103,7 @@ public class RedisUtil {
             }
             finally{
                 if (null != jedis) {
-                    this.closeConnection(jedis);
+                    closeConnection(jedis);
                     jedis = null;
                 }
 
@@ -113,7 +117,7 @@ public class RedisUtil {
      * 消费了消息后到redis 并且进行消息发布
      * @return
      */
-    public boolean consumeRedisAndPub(String key,String value) throws IOException {
+    public boolean consumeRedisAndPub(String key,String value ) throws IOException {
         boolean flag = false;
         if (org.springframework.util.StringUtils.hasText(key)) {
 
@@ -121,14 +125,16 @@ public class RedisUtil {
             try {
                 if(jedis.sismember(key, value)){
                     jedis.srem(key, value);
-                    jedis.publish(PushConstant.PushObject_Pub,jedis.get(key));
+                    Set set = jedis.smembers(key);
+                    JacksonUtil jacksonUtil = new JacksonUtil();
+                    jedis.publish(PushConstant.PushObject_Pub,jacksonUtil.toJSon(set));
                 }
                 flag = true;
             }
             catch (JedisConnectionException e) {
                 logger.error("消费Redis消息时--连接异常",e);
                 if (null != jedis) {
-                    this.getJedisPool().returnBrokenResource(jedis);
+                    getJedisPool().returnBrokenResource(jedis);
                     jedis = null;
                 }
             }
@@ -138,7 +144,7 @@ public class RedisUtil {
             }
             finally{
                 if (null != jedis) {
-                    this.closeConnection(jedis);
+                    closeConnection(jedis);
                     jedis = null;
                 }
 

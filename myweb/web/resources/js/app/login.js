@@ -1,4 +1,4 @@
-define(["jquery","jquery.cookie","common"], function($,cookie, common){
+define(["jquery","formValidation","jquery.cookie","common"], function($,formValidation,cookie, common){
 
     function login(user,callback,error){
         var username = user.userName;
