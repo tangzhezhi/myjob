@@ -1,4 +1,4 @@
-define(["jquery","common"], function($, common){
+define(["jquery","jquery.cookie","common"], function($,cookie, common){
 
     function login(user,callback,error){
         var username = user.userName;
@@ -70,15 +70,16 @@ define(["jquery","common"], function($, common){
                 userPwd: $.md5($("#password").val())
             }
 
-            login(user,loginCallback,common.alert_message);
+            login(user,loginCallback(user,id),common.alert_message);
         });
     }
 
     function loginCallback(user,id){
         $("#"+id).addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
+
+        $.cookie('userName', user.userName, { expires: 7 });
+
     }
-
-
 
 
     return {

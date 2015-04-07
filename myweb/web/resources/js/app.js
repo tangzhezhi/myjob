@@ -15,6 +15,7 @@ requirejs.config({
         'FormValidation.Framework.Bootstrap':'formvalidation.bootstrap',
         'FormValidation':'formValidation',
         'lightbox':'lightbox',
+        'jquery.cookie':'jquery.cookie',
         app: '../app'
     },
     shim : {
@@ -41,6 +42,7 @@ requirejs([
         'formValidation',
         'formvalidation.bootstrap',
         'lightbox',
+        'jquery.cookie',
         'common',
         './app/top_news',
         './app/portal_product',
@@ -56,6 +58,7 @@ requirejs([
                     formValidation,
                     formvalidationbootstrap,
                     lightbox,
+                    cookie,
                     common,
                     top_news,
                     portal_product,
@@ -103,5 +106,12 @@ requirejs([
         portal_product.queryTopProduct("top_pic",top_carousel.init, common.alert_message);
 
         login.init("myForm");
+
+        if( $.cookie('userName')){
+            var user = {
+                userName:$.cookie('userName')
+            }
+            $("#myForm").addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
+        }
 
     });
