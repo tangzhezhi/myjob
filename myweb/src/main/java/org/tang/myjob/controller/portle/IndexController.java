@@ -16,6 +16,8 @@ import org.tang.myjob.service.exception.BusinessException;
 import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
+import org.tang.myjob.utils.json.JacksonUtil;
+import org.tang.myjob.utils.redis.RedisUtil;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -113,6 +115,7 @@ public class IndexController extends BaseController {
 
         try {
             flag = loginService.queryUserLoginIsExist(dto);
+
             if(flag){
                 dto.setUserPwd(null);
                 m.put("user",dto);
