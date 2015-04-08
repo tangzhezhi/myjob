@@ -12,7 +12,7 @@ requirejs.config({
         'jquery.md5':'jquery.md5',
         'jquery.form':'jquery.form',
         'common':'common',
-        'formvalidation.bootstrap':'formvalidation.bootstrap',
+        'bootstrapValidator':'formvalidation.bootstrap',
         'formValidation':'formValidation',
         'lightbox':'lightbox',
         'jquery.cookie':'jquery.cookie',
@@ -20,16 +20,42 @@ requirejs.config({
     },
     shim : {
         bootstrap : {
-            deps : [ 'jquery' ],
-            exports : 'bootstrap'
+            deps : [
+                'jquery',
+                'css!../../../resources/css/bootstrap.css',
+                'css!../../../resources/css/app/app-carousel.css'
+            ]
         },
-        'formvalidation.bootstrap':['jquery'],
-        'formValidation':['jquery'],
-        'jquery.toastmessage':['jquery'],
+        'formValidation': {
+            deps:[
+                'jquery'
+                ,'css!../../../resources/css/formValidation.css'
+            ]
+        },
+        'bootstrapValidator':{
+            deps:['jquery', 'formValidation']
+        },
+        'jquery.toastmessage':{
+            deps:[
+                'jquery',
+                'css!../../../resources/css/jquery.toastmessage.css'
+            ]
+        },
         'jquery.md5':['jquery'],
-        'lightbox':['jquery']
+        'lightbox':{
+            deps : [
+                'jquery',
+                'css!../../../resources/css/lightbox.css',
+                'css!../../../resources/css/screen.css'
+            ]
+        }
     }
-    ,waitSeconds: 1000
+    ,waitSeconds: 500,
+    map: {
+        '*': {
+            'css': 'css'
+        }
+    }
 });
 
 // Start the main app logic.
@@ -40,7 +66,7 @@ requirejs([
         'jquery.md5',
         'jquery.form',
         'formValidation',
-        'formvalidation.bootstrap',
+        'bootstrapValidator',
         'lightbox',
         'jquery.cookie',
         'common',

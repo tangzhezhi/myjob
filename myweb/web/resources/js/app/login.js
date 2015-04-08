@@ -1,4 +1,4 @@
-define(["jquery","formValidation","jquery.cookie","common"], function($,formValidation,cookie, common){
+define(["jquery","bootstrapValidator","jquery.cookie","common"], function($,bootstrapValidator,cookie, common){
 
     function login(user,callback,error){
         var username = user.userName;
