@@ -32,7 +32,6 @@ import java.util.Map;
  */
 
 @Controller("IndexController")
-@RequestMapping("/index")
 public class IndexController extends BaseController {
     public static final String SESSION_USERID = "tangUSERID";
     public static final String SESSION_AUTHS = "tangAUTHS";
@@ -47,7 +46,7 @@ public class IndexController extends BaseController {
     private LoginService loginService;
 
 
-    @RequestMapping(value = "/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
     public Map<String, Object> loadIndexTopNews() throws Exception {
 
@@ -68,7 +67,7 @@ public class IndexController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/loadIndexProducts", method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value = "index/loadIndexProducts", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
     public Map<String, Object> loadIndexProducts() throws Exception {
 
@@ -88,7 +87,7 @@ public class IndexController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/loadIndexTopProduct", method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value = "index/loadIndexTopProduct", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
     public Map<String, Object> loadIndexTopProduct() throws Exception {
 
@@ -111,10 +110,8 @@ public class IndexController extends BaseController {
     @Auth
     @RequestMapping(value={"/index"})
     public ModelAndView index(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("index", "首页");
-        modelAndView.setViewName("index");
-        return modelAndView;
+        ModelAndView mv = new ModelAndView("/index");
+        return mv;
     }
 
     @RequestMapping(value = "/login", method = {RequestMethod.POST , RequestMethod.GET})
@@ -130,7 +127,7 @@ public class IndexController extends BaseController {
 
             try {
                 flag = loginService.queryUserLoginIsExist(dto);
-//                session.setAttribute(SESSION_USERID,dto.getUserName());
+                session.setAttribute(SESSION_USERID,dto.getUserName());
                 if(flag){
                     dto.setUserPwd(null);
                     m.put("user",dto);
