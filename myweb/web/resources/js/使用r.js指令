@@ -1,2 +1,4 @@
-到lib目录下执行：
-node ..\r.js -o ..\build.js
+到js目录下执行：
+node r.js -o build_app.js
+
+多页面目前想到的是准备执行多次，分模块，也许错了
