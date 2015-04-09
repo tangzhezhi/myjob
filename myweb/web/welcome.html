@@ -16,7 +16,7 @@
     <!--<link href="./resources/css/app/app-carousel.css" rel="stylesheet">-->
     <!--<link href="./resources/css/formValidation.css" rel="stylesheet">-->
     <!--<link href="./resources/css/jquery.toastmessage.css" rel="stylesheet">-->
-
+    <link href="./resources/css/app/built_app.css" rel="stylesheet">
 </head>
 
 <body>
@@ -78,14 +78,14 @@
     </footer>
 </div> <!-- /container -->
 
-<script data-main="./resources/js/app.js" src="./resources/js/lib/require.js"></script>
+<!--<script data-main="./resources/js/app.js" src="./resources/js/lib/require.js"></script>-->
 <!--压缩后使用-->
-<!--<script data-main="./resources/js/built.js" src="./resources/js/lib/require.js"></script>-->
+<script data-main="./resources/js/built_app.js" src="./resources/js/lib/require.js"></script>
 <script>
 //    <!--开启调试是去缓存 -->
-    require.config({
-        urlArgs: "bust=" + (new Date()).getTime()
-    });
+//    require.config({
+//        urlArgs: "bust=" + (new Date()).getTime()
+//    });
 </script>
 </body>
 </html>
