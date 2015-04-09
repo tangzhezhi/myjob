@@ -16,6 +16,7 @@ requirejs.config({
         'formValidation':'formValidation',
         'lightbox':'lightbox',
         'jquery.cookie':'jquery.cookie',
+        'jquery.base64':'jquery.base64',
         app: '../app'
     },
     shim : {
@@ -42,6 +43,7 @@ requirejs.config({
             ]
         },
         'jquery.md5':['jquery'],
+        'jquery.base64':['jquery'],
         'lightbox':{
             deps : [
                 'jquery',
@@ -69,6 +71,7 @@ requirejs([
         'bootstrapValidator',
         'lightbox',
         'jquery.cookie',
+        'jquery.base64',
         'common',
         './app/top_news',
         './app/portal_product',
@@ -85,6 +88,7 @@ requirejs([
                     formvalidationbootstrap,
                     lightbox,
                     cookie,
+                    base64,
                     common,
                     top_news,
                     portal_product,

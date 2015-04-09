@@ -26,15 +26,16 @@ public class LoginService {
      */
     public Boolean queryUserLoginIsExist(UserDTO dto) {
         Boolean result = false;
-
+        int flag = 0;
 
         try {
-            result =  userDao.selectUserLoginIsExist(dto);
-
-            JacksonUtil jacksonUtil = new JacksonUtil();
-            String jsonStr = jacksonUtil.toJSon(dto);
-            redisUtil.productRedisAndPub("user:online",jsonStr);
-
+            flag =  userDao.selectUserLoginIsExist(dto);
+            if(flag > 0){
+                JacksonUtil jacksonUtil = new JacksonUtil();
+                String jsonStr = jacksonUtil.toJSon(dto);
+                redisUtil.productRedisAndPub("user:online",jsonStr);
+                result = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

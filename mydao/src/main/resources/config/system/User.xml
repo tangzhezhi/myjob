@@ -10,7 +10,7 @@
 
 
 	<!-- 查询用户登录  用户信息放入session -->
-	<select id="selectUserLoginIsExist" parameterType="UserDTO" resultType="boolean" >
+	<select id="selectUserLoginIsExist" parameterType="UserDTO" resultType="Integer" >
 		<![CDATA[
  		select count(user_id) from t_user  u where 1=1
  		and u.user_name = #{userName}

@@ -3,10 +3,12 @@ package org.tang.myjob.controller.portle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.tang.myjob.controller.Interceptor.Auth;
 import org.tang.myjob.controller.utils.BaseController;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.product.ProductDTO;
@@ -17,6 +19,7 @@ import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
 import org.tang.myjob.utils.json.JacksonUtil;
+import org.tang.myjob.utils.secret.Base64;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -29,8 +32,11 @@ import java.util.Map;
  */
 
 @Controller("IndexController")
-@RequestMapping("index")
+@RequestMapping("/index")
 public class IndexController extends BaseController {
+    public static final String SESSION_USERID = "tangUSERID";
+    public static final String SESSION_AUTHS = "tangAUTHS";
+
 
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
 
@@ -102,32 +108,40 @@ public class IndexController extends BaseController {
 
     }
 
-
+    @Auth
+    @RequestMapping(value={"/index"})
+    public ModelAndView index(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("index", "首页");
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/login", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> login(UserDTO dto) throws Exception {
+    public Map<String, Object> login(HttpSession session, String first) throws Exception {
 
-        Map<String ,Object> m = new HashMap<String ,Object>();
+        if(StringUtils.hasText(first)){
+            Map<String ,Object> m = new HashMap<String ,Object>();
+            String user = Base64.getFromBase64(first);
+            UserDTO dto =  JacksonUtil.readValue(user, UserDTO.class);
 
-        boolean flag = false;
+            boolean flag = false;
 
-        try {
-            flag = loginService.queryUserLoginIsExist(dto);
-
-            if(flag){
-                dto.setUserPwd(null);
-                m.put("user",dto);
-                m.put("msg","success");
+            try {
+                flag = loginService.queryUserLoginIsExist(dto);
+//                session.setAttribute(SESSION_USERID,dto.getUserName());
+                if(flag){
+                    dto.setUserPwd(null);
+                    m.put("user",dto);
+                    m.put("msg","success");
+                }
+            } catch (Exception e) {
+                logger.error(ExceptionType.login_msg,e);
             }
-        } catch (Exception e) {
-            logger.error(ExceptionType.login_msg,e);
+            return m;
         }
-        return m;
-
+        return  null;
     }
-
-
-
 
 }

@@ -1,20 +1,16 @@
 define(["jquery","common"], function($, common){
 
-    function login(user,callback,error){
-        var username = user.userName;
-        var password = user.userPwd;
-
+    function login(user,id,callback,error){
         $.ajax({
             type: "POST",
             url: 'index/login?random='+parseInt(Math.random()*100000),
             data:{
-                    userName:username,
-                    userPwd:password
+                    first:$.base64('encode', JSON.stringify(user))
             },
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
-                    callback(data.user);
+                    callback(data.user,id);
                 }
                 else{
                     try {
@@ -70,17 +66,15 @@ define(["jquery","common"], function($, common){
                 userPwd: $.md5($("#password").val())
             }
 
-            login(user,loginCallback(user,id),common.alert_message);
+            login(user,id,loginCallback,common.alert_message);
         });
     }
 
     function loginCallback(user,id){
-        $("#"+id).addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
-
+        //$("#"+id).addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
         $.cookie('userName', user.userName, { expires: 7 });
-
+        location.href = "index/index";
     }
-
 
     return {
         init:validateLogin
