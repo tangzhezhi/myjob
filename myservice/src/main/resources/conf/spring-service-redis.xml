@@ -7,7 +7,7 @@
     
 	<!-- poolÅäÖÃ -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxActive" value="1000" />
+		<!--<property name="maxActive" value="1000" />-->
 		<property name="maxIdle" value="100" />
 		<property name="minIdle" value="20" />
 	<property name="testOnBorrow" value="true" />
