@@ -30,10 +30,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             else{
                 //在这里实现自己的权限验证逻辑
                 if (request.getSession().getAttribute(SESSION_USERID) == null) {//如果验证成功返回true（这里直接写false来模拟验证失败的处理）
+
                     response.setStatus(HttpStatus.FORBIDDEN.value());
                     response.setContentType("application/json;charset=utf-8");
                     //返回到登录界面
-                    response.sendRedirect("../welcome.html");
+                    response.sendRedirect("welcome.html");
 //                    PrintWriter out=response.getWriter();
 //                    out.write("{\"type\":\"nosignin\",\"msg\":\"请您先登录!\"}");
 //                    out.flush();

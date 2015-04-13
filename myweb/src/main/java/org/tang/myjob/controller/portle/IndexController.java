@@ -1,5 +1,6 @@
 package org.tang.myjob.controller.portle;
 
+import com.radiadesign.catalina.session.RedisSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,14 +19,17 @@ import org.tang.myjob.service.exception.BusinessException;
 import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
+import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.secret.Base64;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2015/3/23.
@@ -35,7 +39,9 @@ import java.util.Map;
 public class IndexController extends BaseController {
     public static final String SESSION_USERID = "tangUSERID";
     public static final String SESSION_AUTHS = "tangAUTHS";
-
+    //KEY值根据SessionID生成
+    private static final String SID_PREFIX = "online:sid:";
+    private static final String UID_PREFIX = "online:uid:";
 
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
 
@@ -45,6 +51,8 @@ public class IndexController extends BaseController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
@@ -126,9 +134,17 @@ public class IndexController extends BaseController {
             boolean flag = false;
 
             try {
+                //如果此用户已登陆，其他人使用该帐号在其他地方登陆,强制下线前一个
+                if(loginService.isOnline(dto.getUserId())){
+                    loginService.logout(dto.getUserId());
+                }
+
                 flag = loginService.queryUserLoginIsExist(dto);
                 session.setAttribute(SESSION_USERID,dto.getUserName());
+                logger.info("SESSION_USERID::"+session.getAttribute(SESSION_USERID));
+
                 if(flag){
+                    loginService.login(session.getId(),dto);
                     dto.setUserPwd(null);
                     m.put("user",dto);
                     m.put("msg","success");
@@ -140,5 +156,58 @@ public class IndexController extends BaseController {
         }
         return  null;
     }
+
+
+
+    @RequestMapping(value = "/loginOut", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> loginOut(HttpSession session, String first) throws Exception {
+
+        if(StringUtils.hasText(first)){
+            Map<String ,Object> m = new HashMap<String ,Object>();
+            String user = Base64.getFromBase64(first);
+            UserDTO dto =  JacksonUtil.readValue(user, UserDTO.class);
+            boolean flag = false;
+            try {
+                loginService.logout(session.getId(),dto.getUserId());
+                flag = redisUtil.delKey(session.getId());
+                if(flag){
+                    m.put("msg","success");
+                }
+            } catch (Exception e) {
+                logger.error(ExceptionType.login_out_msg,e);
+            }
+            return m;
+        }
+        return  null;
+    }
+
+
+    @RequestMapping(value = "/onlineUser", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> onlineUser(HttpSession session) throws Exception {
+
+        boolean flag = false;
+        Map<String ,Object> m = new HashMap<String ,Object>();
+        try {
+            Set set = redisUtil.getConnection().smembers(SID_PREFIX);
+
+            int numbers = set.size();
+            List<UserDTO> userDTOList = null;
+            //好友列表
+
+            //在线好友列表
+
+            //系统在线用户
+            if(flag){
+                m.put("msg","success");
+            }
+        } catch (Exception e) {
+            logger.error(ExceptionType.login_out_msg,e);
+        }
+        return m;
+    }
+
+
 
 }

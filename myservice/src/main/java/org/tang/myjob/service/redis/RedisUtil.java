@@ -21,6 +21,10 @@ import java.util.*;
  */
 public class RedisUtil {
 
+
+    private static final int OVERDATETIME = 30 * 60;
+    private static final int BROADCAST_OVERDATETIME = 70;//Ajax每60秒发起一次，超过BROADCAST_OVERDATETIME时间长度未发起表示已经离开该页面
+
     private static Logger logger = Logger.getLogger(RedisUtil.class.getName());
     /**
      * 数据源
@@ -70,6 +74,47 @@ public class RedisUtil {
     public JedisPool getJedisPool() {
         return jedisPool;
     }
+
+
+    /**
+     * 保存到redis
+     * @return
+     */
+    public boolean productRedis(String key,String value) throws IOException {
+        boolean flag = false;
+        if (org.springframework.util.StringUtils.hasText(key)) {
+
+            Jedis jedis = this.getConnection();
+            try {
+                if(!jedis.sismember(key, value)){
+                    jedis.sadd(key, value);
+                    Set set = jedis.smembers(key);
+                }
+                flag = true;
+            }
+            catch (JedisConnectionException e) {
+                logger.error("生产Redis消息时--连接异常",e);
+                if (null != jedis) {
+                    getJedisPool().returnBrokenResource(jedis);
+                    jedis = null;
+                }
+            }
+            catch (Exception e) {
+                logger.error("生产Redis消息时--处理异常",e);
+                e.printStackTrace();
+            }
+            finally{
+                if (null != jedis) {
+                    closeConnection(jedis);
+                    jedis = null;
+                }
+
+            }
+        }
+        return flag;
+    }
+
+
 
 
     /**
@@ -151,6 +196,68 @@ public class RedisUtil {
             }
         }
         return flag;
+    }
+
+
+    /**
+     * 消费了消息后到redis
+     * @return
+     */
+    public boolean consumeRedis(String key,String value ) throws IOException {
+        boolean flag = false;
+        if (org.springframework.util.StringUtils.hasText(key)) {
+
+            Jedis jedis = this.getConnection();
+            try {
+                if(jedis.sismember(key, value)){
+                    jedis.srem(key, value);
+                    Set set = jedis.smembers(key);
+                }
+                flag = true;
+            }
+            catch (JedisConnectionException e) {
+                logger.error("消费Redis消息时--连接异常",e);
+                if (null != jedis) {
+                    getJedisPool().returnBrokenResource(jedis);
+                    jedis = null;
+                }
+            }
+            catch (Exception e) {
+                logger.error("消费Redis消息时--处理异常",e);
+                e.printStackTrace();
+            }
+            finally{
+                if (null != jedis) {
+                    closeConnection(jedis);
+                    jedis = null;
+                }
+
+            }
+        }
+        return flag;
+    }
+
+
+    public boolean delKey(String key) throws IOException {
+        boolean flag = false;
+        if (org.springframework.util.StringUtils.hasText(key)) {
+            Jedis jedis = this.getConnection();
+            try {
+                jedis.del(key);
+            } catch (JedisConnectionException e) {
+                logger.error("删除时异常key:" + key, e);
+                if (null != jedis) {
+                    getJedisPool().returnBrokenResource(jedis);
+                    jedis = null;
+                }
+            } finally {
+                if (null != jedis) {
+                    closeConnection(jedis);
+                    jedis = null;
+                }
+            }
+        }
+        return  flag;
     }
 
 
