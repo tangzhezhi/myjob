@@ -35,7 +35,7 @@ public class LoginService {
     public  void login(String sid,UserDTO user){
         Jedis jedis = redisUtil.getConnection();
         jedis.setex(SID_PREFIX+sid, OVERDATETIME,  jacksonUtil.toJSon(user));   //根据sessionid得到用户信息
-        jedis.setex(UID_PREFIX+user.getUserId(), OVERDATETIME, sid); //根据userId得到sessionid
+        jedis.setex(UID_PREFIX+user.getUserName(), OVERDATETIME, sid); //根据userId得到sessionid
         redisUtil.closeConnection(jedis);
     }
 
@@ -50,14 +50,16 @@ public class LoginService {
      */
     public  void logout(String uid){
         Jedis jedis = redisUtil.getConnection();
+
+        //根据sessionid 删除session
+        jedis.del(jedis.get(UID_PREFIX+uid));
+
         //删除sid
         jedis.del(SID_PREFIX+jedis.get(UID_PREFIX+uid));
 
         //删除uid
         jedis.del(UID_PREFIX+uid);
 
-        //根据sessionid 删除session
-        jedis.del(jedis.get(UID_PREFIX+uid));
         redisUtil.closeConnection(jedis);
     }
 
@@ -193,21 +195,16 @@ public class LoginService {
      * @param dto
      * @return
      */
-    public Boolean queryUserLoginIsExist(UserDTO dto) {
+    public UserDTO queryUser(UserDTO dto) {
         Boolean result = false;
-        int flag = 0;
+        UserDTO u = null;
 
         try {
-            flag =  userDao.selectUserLoginIsExist(dto);
-            if(flag > 0){
-//                String jsonStr = jacksonUtil.toJSon(dto);
-//                redisUtil.productRedisAndPub("user:online", jsonStr);
-                result = true;
-            }
+            u =  userDao.selectUser(dto);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return u;
     }
 
 }

@@ -1,31 +1,33 @@
 package org.tang.myjob.controller.portle;
 
-import com.radiadesign.catalina.session.RedisSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.TextMessage;
 import org.tang.myjob.controller.Interceptor.Auth;
 import org.tang.myjob.controller.utils.BaseController;
+import org.tang.myjob.controller.websocket.Constants;
+import org.tang.myjob.controller.websocket.hndler.SystemWebSocketHandler;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.LoginService;
-import org.tang.myjob.service.exception.BusinessException;
-import org.tang.myjob.service.exception.BusinessRuntimeException;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.IndexService;
 import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.secret.Base64;
-import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +38,7 @@ import java.util.Set;
  */
 
 @Controller("IndexController")
-public class IndexController extends BaseController {
+public class IndexController extends BaseController  {
     public static final String SESSION_USERID = "tangUSERID";
     public static final String SESSION_AUTHS = "tangAUTHS";
     //KEY值根据SessionID生成
@@ -53,6 +55,8 @@ public class IndexController extends BaseController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+
 
     @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
@@ -135,18 +139,22 @@ public class IndexController extends BaseController {
 
             try {
                 //如果此用户已登陆，其他人使用该帐号在其他地方登陆,强制下线前一个
-                if(loginService.isOnline(dto.getUserId())){
-                    loginService.logout(dto.getUserId());
+                if(loginService.isOnline(dto.getUserName())){
+                    loginService.logout(dto.getUserName());
+                    systemWebSocketHandler().sendMessageToUser(dto.getUserName(), new TextMessage("用户在其他地方登陆"));
+//                    greeting(dto.getUserName() + "用户在其他地方登陆");
+//                    Jedis jedis =  redisUtil.getConnection();
+//                    jedis.publish(jedis.get(UID_PREFIX + dto.getUserName()), "用户在其他地方登陆");
+//                    this.template.convertAndSend("/websocket", "用户在其他地方登陆");
+//                    redisUtil.closeConnection(jedis);
                 }
 
-                flag = loginService.queryUserLoginIsExist(dto);
-                session.setAttribute(SESSION_USERID,dto.getUserName());
-                logger.info("SESSION_USERID::"+session.getAttribute(SESSION_USERID));
-
-                if(flag){
-                    loginService.login(session.getId(),dto);
-                    dto.setUserPwd(null);
-                    m.put("user",dto);
+                UserDTO userDTO = loginService.queryUser(dto);
+                if(userDTO!=null){
+                    session.setAttribute(SESSION_USERID,userDTO.getUserName());
+                    logger.info("SESSION_USERID::"+session.getAttribute(SESSION_USERID));
+                    loginService.login(session.getId(),userDTO);
+                    m.put("user",userDTO);
                     m.put("msg","success");
                 }
             } catch (Exception e) {
@@ -169,7 +177,7 @@ public class IndexController extends BaseController {
             UserDTO dto =  JacksonUtil.readValue(user, UserDTO.class);
             boolean flag = false;
             try {
-                loginService.logout(session.getId(),dto.getUserId());
+                loginService.logout(session.getId(),dto.getUserName());
                 flag = redisUtil.delKey(session.getId());
                 if(flag){
                     m.put("msg","success");
@@ -209,5 +217,9 @@ public class IndexController extends BaseController {
     }
 
 
+    @Bean
+    public SystemWebSocketHandler systemWebSocketHandler() {
+        return new SystemWebSocketHandler();
+    }
 
 }

@@ -10,5 +10,5 @@ import org.tang.myjob.dto.system.UserDTO;
 @Repository
 public interface UserDao {
 
-    public Integer selectUserLoginIsExist(UserDTO dto);
+    public UserDTO selectUser(UserDTO dto);
 }

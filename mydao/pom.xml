@@ -13,7 +13,7 @@
     <!-- 属性配置 -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.0.6.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
         <druid.version>1.0.2</druid.version>
     </properties>
 

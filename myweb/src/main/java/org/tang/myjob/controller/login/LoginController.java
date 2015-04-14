@@ -27,8 +27,8 @@ public class LoginController {
 	@RequestMapping(value = "/userLogin", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody  
     public ModelAndView  userLogin(HttpSession session,ModelAndView model,UserDTO dto) {
-		Boolean u = loginService.queryUserLoginIsExist(dto);
-		if(u){
+		UserDTO u = loginService.queryUser(dto);
+		if(u!=null){
 			model.setViewName("redirect:/index.html");
 		}
 		else{
