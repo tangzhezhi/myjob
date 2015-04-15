@@ -61,12 +61,10 @@
       }
       //websocket = new SockJS("http://localhost:8084/SpringWebSocketPush/sockjs/websck");
       ws.onopen = function () {
-        alert('open');
         setConnected(true);
         //log('Info: connection opened.');
       };
       ws.onmessage = function (event) {
-        alert('Received:' + event.data);
         log('Received: ' + event.data);
       };
       ws.onclose = function (event) {
@@ -110,7 +108,6 @@
     }
 
     function updateTransport(transport) {
-      alert(transport);
       transports = (transport == 'all') ?  [] : [transport];
     }
 

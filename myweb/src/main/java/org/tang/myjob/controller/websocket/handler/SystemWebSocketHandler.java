@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.tang.myjob.controller.websocket.hndler;
+package org.tang.myjob.controller.websocket.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -14,6 +13,8 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.tang.myjob.controller.websocket.Constants;
+import org.tang.myjob.service.redis.RedisUtil;
+import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,14 +25,15 @@ import java.util.ArrayList;
  */
 @Component
 public class SystemWebSocketHandler implements WebSocketHandler {
+    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(SystemWebSocketHandler.class.getName());
 
-    private static final Logger logger;
+    @Autowired
+    private RedisUtil redisUtil;
 
     private static final ArrayList<WebSocketSession> users;
 
     static {
         users = new ArrayList();
-        logger = LoggerFactory.getLogger(SystemWebSocketHandler.class);
     }
 
 //    @Autowired
@@ -45,14 +47,22 @@ public class SystemWebSocketHandler implements WebSocketHandler {
         if(userName!= null){
             //查询未读消息
 //            int count = webSocketService.getUnReadNews((String) session.getAttributes().get(Constants.WEBSOCKET_USERNAME));
-            session.sendMessage(new TextMessage("你有未读消息"));
+            session.sendMessage(new TextMessage("connect websocket success"));
         }
     }
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-
+        if(message instanceof  TextMessage){
+            logger.info("收到文本消息::"+message.getPayload());
+            this.redisPublishTextMessageOfUser(Constants.message_prefix+session.getAttributes().get(Constants.WEBSOCKET_USERNAME),(String)message.getPayload());
+        }
+        else{
+            logger.info("收到其他类型消息::"+message.getPayload());
+        }
     }
+
+
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
@@ -110,6 +120,20 @@ public class SystemWebSocketHandler implements WebSocketHandler {
                 }
                 break;
             }
+        }
+    }
+
+    /**
+     * 发布用户消息
+     * @param channel
+     */
+    private void redisPublishTextMessageOfUser(String channel,String message){
+        try {
+            Jedis jedis = redisUtil.getConnection();
+            jedis.publish(channel,message);
+            redisUtil.closeConnection(jedis);
+        } catch (Exception e) {
+            logger.error("redis发布消息时异常:"+e);
         }
     }
     

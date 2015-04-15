@@ -3,8 +3,6 @@ package org.tang.myjob.controller.portle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.TextMessage;
 import org.tang.myjob.controller.Interceptor.Auth;
+import org.tang.myjob.controller.listen.RedisSubscribeListener;
 import org.tang.myjob.controller.utils.BaseController;
-import org.tang.myjob.controller.websocket.Constants;
-import org.tang.myjob.controller.websocket.hndler.SystemWebSocketHandler;
+import org.tang.myjob.controller.websocket.handler.SystemWebSocketHandler;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.dto.system.UserDTO;
@@ -25,8 +23,8 @@ import org.tang.myjob.service.portle.IndexService;
 import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.secret.Base64;
+import redis.clients.jedis.Jedis;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +53,6 @@ public class IndexController extends BaseController  {
 
     @Autowired
     private RedisUtil redisUtil;
-
 
 
     @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
@@ -142,20 +139,23 @@ public class IndexController extends BaseController  {
                 if(loginService.isOnline(dto.getUserName())){
                     loginService.logout(dto.getUserName());
                     systemWebSocketHandler().sendMessageToUser(dto.getUserName(), new TextMessage("用户在其他地方登陆"));
-//                    greeting(dto.getUserName() + "用户在其他地方登陆");
-//                    Jedis jedis =  redisUtil.getConnection();
-//                    jedis.publish(jedis.get(UID_PREFIX + dto.getUserName()), "用户在其他地方登陆");
-//                    this.template.convertAndSend("/websocket", "用户在其他地方登陆");
-//                    redisUtil.closeConnection(jedis);
                 }
 
                 UserDTO userDTO = loginService.queryUser(dto);
                 if(userDTO!=null){
-                    session.setAttribute(SESSION_USERID,userDTO.getUserName());
-                    logger.info("SESSION_USERID::"+session.getAttribute(SESSION_USERID));
-                    loginService.login(session.getId(),userDTO);
-                    m.put("user",userDTO);
-                    m.put("msg","success");
+                    try {
+                        session.setAttribute(SESSION_USERID,userDTO.getUserName());
+                        logger.info("SESSION_USERID::"+session.getAttribute(SESSION_USERID));
+                        loginService.login(session.getId(),userDTO);
+
+                        //redis订阅用户频道
+//                        redisSubscribeUser(dto.getUserName());
+
+                        m.put("user",userDTO);
+                        m.put("msg","success");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             } catch (Exception e) {
                 logger.error(ExceptionType.login_msg,e);
@@ -221,5 +221,20 @@ public class IndexController extends BaseController  {
     public SystemWebSocketHandler systemWebSocketHandler() {
         return new SystemWebSocketHandler();
     }
+
+
+    private void redisSubscribeUser(String channel){
+        try {
+            Jedis jedis = redisUtil.getConnection();
+            final RedisSubscribeListener redisSubscribeListener = new RedisSubscribeListener();
+            jedis.psubscribe(redisSubscribeListener, channel);
+            redisUtil.closeConnection(jedis);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 }

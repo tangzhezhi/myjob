@@ -5,6 +5,7 @@ package org.tang.myjob.service.redis;
  */
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.redis.PushConstant;
 import redis.clients.jedis.Jedis;
@@ -19,6 +20,7 @@ import java.util.*;
  * @author watson
  * @version 0.5
  */
+@Component
 public class RedisUtil {
 
 

@@ -21,6 +21,18 @@ import java.util.Map;
 public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     private static Logger logger = LoggerFactory.getLogger(HandshakeInterceptor.class);
+
+
+    /**
+     * websocket握手协议拦截器，通过对ServerHttpRequest的拦截，获得HttpSession，得到用户的相关信息，放入attributes中，
+     * attributes就是WebSocketHandler的attributes
+     * @param request
+     * @param response
+     * @param wsHandler
+     * @param attributes
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object
                 > attributes) throws Exception {
@@ -38,6 +50,6 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
+        logger.error("websocket握手出现异常:"+exception);
     }
 }

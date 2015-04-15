@@ -8,7 +8,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.context.annotation.Bean;
-import org.tang.myjob.controller.websocket.hndler.SystemWebSocketHandler;
+import org.tang.myjob.controller.websocket.handler.SystemWebSocketHandler;
 import org.tang.myjob.controller.websocket.interceptor.WebSocketHandshakeInterceptor;
 
 @Configuration

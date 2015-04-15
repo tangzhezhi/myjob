@@ -60,6 +60,8 @@ public class LoginService {
         //删除uid
         jedis.del(UID_PREFIX+uid);
 
+        jedis.publish(uid,"用户下线");
+
         redisUtil.closeConnection(jedis);
     }
 
