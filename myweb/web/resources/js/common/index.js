@@ -24,7 +24,17 @@ define([
 
 
     function getSockJs(url){
-        return new SockJS(getRootPath()+url);
+        var sock = null;
+        //if ('WebSocket' in window) {
+        //     var temp = getRootPath().replace("http","ws");
+        //    sock= new WebSocket(temp+url);
+        //}else {
+        //    var sock = new SockJS(getRootPath()+url);
+        //}
+
+         sock = new SockJS(getRootPath()+url);
+
+        return sock;
     }
 
 

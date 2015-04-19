@@ -1,3 +1,7 @@
 libs下的jar包是给tomcat使用，做redis的session缓存使用，可以兼容tomcat8，
 tomcat-redis-session-manager是使用了
 https://github.com/bsr1983/tomcat-redis-session-manager
+
+问题来了：
+tomcat-redis-session-manager不支持async，
+sockjs没法用啊

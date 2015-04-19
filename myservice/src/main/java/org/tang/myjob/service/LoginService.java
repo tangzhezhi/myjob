@@ -52,15 +52,13 @@ public class LoginService {
         Jedis jedis = redisUtil.getConnection();
 
         //根据sessionid 删除session
-        jedis.del(jedis.get(UID_PREFIX+uid));
+//        jedis.del(jedis.get(UID_PREFIX+uid));
 
         //删除sid
         jedis.del(SID_PREFIX+jedis.get(UID_PREFIX+uid));
 
         //删除uid
         jedis.del(UID_PREFIX+uid);
-
-        jedis.publish(uid,"用户下线");
 
         redisUtil.closeConnection(jedis);
     }

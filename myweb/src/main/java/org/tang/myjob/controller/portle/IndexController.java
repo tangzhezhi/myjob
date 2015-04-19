@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.TextMessage;
 import org.tang.myjob.controller.Interceptor.Auth;
-import org.tang.myjob.controller.listen.RedisSubscribeListener;
 import org.tang.myjob.controller.utils.BaseController;
-import org.tang.myjob.controller.websocket.handler.SystemWebSocketHandler;
+import org.tang.myjob.controller.websocket.handler.MyHandler;
 import org.tang.myjob.dto.message.MessageDTO;
 import org.tang.myjob.dto.product.ProductDTO;
 import org.tang.myjob.dto.system.UserDTO;
@@ -23,7 +22,6 @@ import org.tang.myjob.service.portle.IndexService;
 import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.secret.Base64;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -53,6 +51,35 @@ public class IndexController extends BaseController  {
 
     @Autowired
     private RedisUtil redisUtil;
+
+
+    @Bean
+    public MyHandler myHandler() {
+        return new MyHandler();
+    }
+
+//    @Autowired
+//    private MyHandler myHandler;
+
+//    //用于转发数据(sendTo)
+//    @Autowired
+//    private SimpMessagingTemplate template;
+//
+//    @Autowired
+//    public IndexController(SimpMessagingTemplate t) {
+//        template = t;
+//    }
+
+//    /**
+//     * WebSocket聊天的相应接收方法和转发方法
+//     * @param userDTO  重复登录验证
+//     */
+//    @MessageMapping("/isHadLogin")
+//    public void isHadLogin(UserDTO userDTO) {
+//        //找到需要发送的地址
+//        String dest = "/isHadLogin/msg" + userDTO.getUserName();
+//        this.template.convertAndSend(dest, "用户在其他地方登录");
+//    }
 
 
     @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
@@ -138,7 +165,8 @@ public class IndexController extends BaseController  {
                 //如果此用户已登陆，其他人使用该帐号在其他地方登陆,强制下线前一个
                 if(loginService.isOnline(dto.getUserName())){
                     loginService.logout(dto.getUserName());
-                    systemWebSocketHandler().sendMessageToUser(dto.getUserName(), new TextMessage("用户在其他地方登陆"));
+                    myHandler().sendMessageToUser(dto.getUserName(),new TextMessage("用户在其他地方登陆"));
+//                    systemWebSocketHandler().sendMessageToUser(dto.getUserName(), new TextMessage("用户在其他地方登陆"));
                 }
 
                 UserDTO userDTO = loginService.queryUser(dto);
@@ -216,23 +244,22 @@ public class IndexController extends BaseController  {
         return m;
     }
 
-
-    @Bean
-    public SystemWebSocketHandler systemWebSocketHandler() {
-        return new SystemWebSocketHandler();
-    }
-
-
-    private void redisSubscribeUser(String channel){
-        try {
-            Jedis jedis = redisUtil.getConnection();
-            final RedisSubscribeListener redisSubscribeListener = new RedisSubscribeListener();
-            jedis.psubscribe(redisSubscribeListener, channel);
-            redisUtil.closeConnection(jedis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Bean
+//    public SystemWebSocketHandler systemWebSocketHandler() {
+//        return new SystemWebSocketHandler();
+//    }
+//
+//
+//    private void redisSubscribeUser(String channel){
+//        try {
+//            Jedis jedis = redisUtil.getConnection();
+//            final RedisSubscribeListener redisSubscribeListener = new RedisSubscribeListener();
+//            jedis.psubscribe(redisSubscribeListener, channel);
+//            redisUtil.closeConnection(jedis);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 

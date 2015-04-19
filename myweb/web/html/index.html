@@ -10,12 +10,6 @@
 
   <title>首页</title>
 
-  <link href="../resources/css/bootstrap.css" rel="stylesheet">
-  <link href="../resources/css/lightbox.css" rel="stylesheet">
-  <link href="../resources/css/screen.css" rel="stylesheet">
-  <link href="../resources/css/app/app-carousel.css" rel="stylesheet">
-  <link href="../resources/css/formValidation.css" rel="stylesheet">
-  <link href="../resources/css/jquery.toastmessage.css" rel="stylesheet">
 </head>
 
 <body>
@@ -56,24 +50,12 @@
   </footer>
 </div> <!-- /container -->
 
-<script data-main="../resources/js/person.js" src="../resources/js/lib/require.js"></script>
-<!--<script src="../resources/js/lib/sockjs-0.3.4.js"></script>-->
-<!--<script src="../resources/js/lib/stomp.js"></script>-->
+<script data-main="resources/js/person.js" src="./resources/js/lib/require.js"></script>
 
 <script>
-//    var sock = new SockJS('http://localhost:8080/myjob/sockjs/websck"');
-//    sock.onopen = function() {
-//      console.log('open');
-//    };
-//    sock.onmessage = function(e) {
-//      console.log('message', e.data);
-//    };
-//    sock.onclose = function(e) {
-//      console.log('close',e);
-//    };
-//
-//    sock.send('test');
-//    sock.close();
+      require.config({
+          urlArgs: "bust=" + (new Date()).getTime()
+      });
 </script>
 </body>
 </html>

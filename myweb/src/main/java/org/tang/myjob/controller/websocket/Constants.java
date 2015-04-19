@@ -6,6 +6,8 @@ package org.tang.myjob.controller.websocket;
  * 创建时间: 2014/7/15 22:04
  */
 public class Constants {
+    public static final String SID_PREFIX = "online:sid:";
+    public static final String UID_PREFIX = "online:uid:";
     public static final String SESSION_USERID = "tangUSERID";
     public static final String WEBSOCKET_USERNAME = "websocket_username";
 

@@ -6,12 +6,7 @@
 package org.tang.myjob.controller.websocket.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.WebSocketMessage;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.*;
 import org.tang.myjob.controller.websocket.Constants;
 import org.tang.myjob.service.redis.RedisUtil;
 import redis.clients.jedis.Jedis;
@@ -23,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author dayu
  */
-@Component
+//@Component
 public class SystemWebSocketHandler implements WebSocketHandler {
     private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(SystemWebSocketHandler.class.getName());
 
