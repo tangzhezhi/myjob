@@ -13,7 +13,7 @@ requirejs.config({
         'jquery.toastmessage':'jquery.toastmessage',
         'sockjs':'sockjs-0.3.4',
         'stomp':'stomp',
-        //'common':'../common',
+        'common':'../common',
         app: '../person'
     },
     shim : {
@@ -40,35 +40,37 @@ requirejs([
         'bootstrap',
         'jquery.toastmessage',
         'sockjs',
-        'stomp'
-        //'./common/index'
+        'stomp',
+        './common/index'
         //'../person/main'
     ],
     function   (
         $,bootstrap,toastmessage,sock,stomp
-        //,common
+        ,common
     ) {
 
         var socket = null;
         var stompClient = null;
 
-        function connect() {
-            var socket = new SockJS('socket_msg');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function(frame) {
-                console.log('Connected: ' + frame);
+        //function connect() {
+        //    var socket = new SockJS('socket_msg');
+        //    stompClient = Stomp.over(socket);
+        //    stompClient.connect({}, function(frame) {
+        //        console.log('Connected: ' + frame);
+        //
+        //        stompClient.subscribe('/topic/repeatLogin'+"/tangzhezi@126.com", function(greeting){
+        //            console.log("repeatLogin:data::::::"+greeting)
+        //        });
+        //
+        //        stompClient.subscribe('/topic/greetings', function(greeting){
+        //            console.log("data::::::"+greeting)
+        //        });
+        //
+        //    });
+        //}
 
-                stompClient.subscribe('/topic/repeatLogin'+"/tangzhezi@126.com", function(greeting){
-                    console.log("repeatLogin:data::::::"+greeting)
-                });
+        var data = common.getWebSocketMsg(null,'/topic/repeatLogin'+"/tangzhezi@126.com",null);
 
-                stompClient.subscribe('/topic/greetings', function(greeting){
-                    console.log("data::::::"+greeting)
-                });
-
-            });
-        }
-
-        connect();
+        console.log("data::::::"+data);
 
     });

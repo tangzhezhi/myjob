@@ -7,8 +7,8 @@ define([
     'bootstrap',
     'jquery.toastmessage',
     'sockjs',
-    'Stomp'
-    ], function($, bootstrap,toastmessage,sockjs,Stomp){
+    'stomp'
+    ], function($, bootstrap,toastmessage,sockjs,stomp){
 
     /**
      * 获得项目路径
@@ -77,6 +77,7 @@ define([
     });
 
     function getWebSocketMsg(endpoint,subscribeAddr,callback) {
+        var data = null;
         if(endpoint==null || endpoint == "undefined"){
             endpoint = "socket_msg"
         }
@@ -86,7 +87,7 @@ define([
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe(subscribeAddr, function(data){
-                   return callback(data);
+                   return data;
             });
         });
     }
