@@ -5,9 +5,10 @@
 define([
     'jquery',
     'bootstrap',
+    'jquery.toastmessage',
     'sockjs',
-    'jquery.toastmessage'
-    ], function($, bootstrap,sockjs,toastmessage){
+    'Stomp'
+    ], function($, bootstrap,toastmessage,sockjs,Stomp){
 
     /**
      * 获得项目路径
@@ -20,21 +21,6 @@ define([
         var prePath=strFullPath.substring(0,pos);
         var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
         return(prePath+postPath);
-    }
-
-
-    function getSockJs(url){
-        var sock = null;
-        //if ('WebSocket' in window) {
-        //     var temp = getRootPath().replace("http","ws");
-        //    sock= new WebSocket(temp+url);
-        //}else {
-        //    var sock = new SockJS(getRootPath()+url);
-        //}
-
-         sock = new SockJS(getRootPath()+url);
-
-        return sock;
     }
 
 
@@ -90,9 +76,25 @@ define([
         }
     });
 
+    function getWebSocketMsg(endpoint,subscribeAddr,callback) {
+        if(endpoint==null || endpoint == "undefined"){
+            endpoint = "socket_msg"
+        }
+        var stompClient = null;
+        var socket = new SockJS(endpoint);
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe(subscribeAddr, function(data){
+                   return callback(data);
+            });
+        });
+    }
+
+
     return {
         getRootPath:getRootPath,
-        getSockJs:getSockJs,
+        getWebSocketMsg:getWebSocketMsg,
         alert_message:alert_message
     }
 

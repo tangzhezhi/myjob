@@ -65,5 +65,11 @@
         </property>
     </bean>
 
+    <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/socket_msg">
+            <websocket:sockjs />
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic" />
+    </websocket:message-broker>
 
 </beans>

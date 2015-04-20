@@ -3,6 +3,9 @@ package org.tang.myjob.controller.portle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +27,7 @@ import org.tang.myjob.utils.json.JacksonUtil;
 import org.tang.myjob.utils.secret.Base64;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Administrator on 2015/3/23.
@@ -53,34 +53,22 @@ public class IndexController extends BaseController  {
     private RedisUtil redisUtil;
 
 
-    @Bean
-    public MyHandler myHandler() {
-        return new MyHandler();
-    }
+//    @Bean
+//    public MyHandler myHandler() {
+//        return new MyHandler();
+//    }
 
 //    @Autowired
 //    private MyHandler myHandler;
 
 //    //用于转发数据(sendTo)
-//    @Autowired
-//    private SimpMessagingTemplate template;
+    @Autowired
+    private SimpMessagingTemplate template;
 //
-//    @Autowired
-//    public IndexController(SimpMessagingTemplate t) {
-//        template = t;
-//    }
-
-//    /**
-//     * WebSocket聊天的相应接收方法和转发方法
-//     * @param userDTO  重复登录验证
-//     */
-//    @MessageMapping("/isHadLogin")
-//    public void isHadLogin(UserDTO userDTO) {
-//        //找到需要发送的地址
-//        String dest = "/isHadLogin/msg" + userDTO.getUserName();
-//        this.template.convertAndSend(dest, "用户在其他地方登录");
-//    }
-
+    @Autowired
+    public IndexController(SimpMessagingTemplate t) {
+        template = t;
+    }
 
     @RequestMapping(value = "index/loadIndexTopNews", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
@@ -165,8 +153,7 @@ public class IndexController extends BaseController  {
                 //如果此用户已登陆，其他人使用该帐号在其他地方登陆,强制下线前一个
                 if(loginService.isOnline(dto.getUserName())){
                     loginService.logout(dto.getUserName());
-                    myHandler().sendMessageToUser(dto.getUserName(),new TextMessage("用户在其他地方登陆"));
-//                    systemWebSocketHandler().sendMessageToUser(dto.getUserName(), new TextMessage("用户在其他地方登陆"));
+                    this.repeatLoginMsg(dto.getUserName(),"测试消息");
                 }
 
                 UserDTO userDTO = loginService.queryUser(dto);
@@ -243,6 +230,19 @@ public class IndexController extends BaseController  {
         }
         return m;
     }
+
+
+
+    public void repeatLoginMsg(String userid,String message) throws Exception {
+        logger.info("repeatLoginMsg:message:"+message);
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setTitle("您被挤下线");
+        messageDTO.setContent("此用户帐号在其他地方登陆");
+        messageDTO.setCreateDate(new Date());
+        template.convertAndSend("/topic/repeatLogin/"+userid,messageDTO);
+
+    }
+
 
 //    @Bean
 //    public SystemWebSocketHandler systemWebSocketHandler() {
