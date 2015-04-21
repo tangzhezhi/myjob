@@ -14,7 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!--message -->
 		<typeAlias alias="MessageDTO" type="org.tang.myjob.dto.message.MessageDTO"/>
 
+		<!-- product-->
 		<typeAlias alias="ProductDTO" type="org.tang.myjob.dto.product.ProductDTO"/>
+		<typeAlias alias="OrderDTO" type="org.tang.myjob.dto.product.OrderDTO"/>
 		<typeAlias alias="Page" type="org.tang.myjob.utils.page.Page"/>
 	</typeAliases>
 	
@@ -24,8 +26,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     </plugins>  
 	<mappers>
 		 <mapper resource="config/system/User.xml" />
-		 <mapper resource="config/message/Message.xml" />
-		<mapper resource="config/product/Product.xml" />
+
+		  <mapper resource="config/message/Message.xml" />
+
+		 <mapper resource="config/product/Product.xml" />
+		 <mapper resource="config/product/Order.xml" />
 	</mappers>
 </configuration>
 

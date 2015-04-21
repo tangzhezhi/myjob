@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tang.myjob.dao.product.OrderDao">
+
+	<resultMap type="OrderDTO" id="OrderDTO">
+		<id 	column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="state" property="describe" />
+		<result column="remark" property="picUrl" />
+		<result column="create_time" property="createTime" />
+		<result column="start_time" property="startTime" />
+		<result column="end_time" property="endTime" />
+		<result column="total_amount" property="totalAmount" />
+	</resultMap>
+
+
+	<select id="selectOrder"  resultMap="OrderDTO"  parameterType="org.tang.myjob.dto.product.OrderDTO">
+		<![CDATA[
+ 			select id,user_id,state,remark,create_time,start_time,end_time,total_amount,type from t_order
+ 		]]>
+		<where>
+			<if test="userId!=null">
+				user_id = #{userId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

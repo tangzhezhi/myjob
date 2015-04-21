@@ -16,8 +16,33 @@ define([
         });
     }
 
+
+    function getPersonPicture(userid,callback){
+        $.ajax({
+            type: "POST",
+            url: 'getPersonPicture?random='+parseInt(Math.random()*100000),
+            data:{
+                userid:$.base64('encode', JSON.stringify(userid))
+            },
+            dataType: 'json',
+            success: function (data) {
+                if(data!=null && data.msg === "success"){
+                    callback(data);
+                }
+                else{
+                    try {
+                        common.alert_message("error","不好意思，遇到错误");
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            }
+        });
+    }
+
     return {
-        getPersonRealTimeMsg_RepeatLogin:getPersonRealTimeMsg_RepeatLogin
+        getPersonRealTimeMsg_RepeatLogin:getPersonRealTimeMsg_RepeatLogin,
+        getPersonPicture:getPersonPicture
     }
 
 });
