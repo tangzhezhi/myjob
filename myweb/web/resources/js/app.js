@@ -138,10 +138,6 @@ requirejs([
         login.init("myForm");
 
         if( $.cookie('userName')){
-            var user = {
-                userName:$.cookie('userName')
-            }
-            $("#myForm").addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
+            $("#userName").val($.cookie('userName'));
         }
-
     });

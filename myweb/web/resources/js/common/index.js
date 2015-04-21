@@ -6,9 +6,10 @@ define([
     'jquery',
     'bootstrap',
     'jquery.toastmessage',
+    'jquery.cookie',
     'sockjs',
     'stomp'
-    ], function($, bootstrap,toastmessage,sockjs,stomp){
+    ], function($, bootstrap,toastmessage,cookie,sockjs,stomp){
 
     /**
      * 获得项目路径
@@ -76,8 +77,7 @@ define([
         }
     });
 
-    function getWebSocketMsg(endpoint,subscribeAddr,callback) {
-        var data = null;
+    function getWebSocketMsg(subscribeAddr,callback,endpoint) {
         if(endpoint==null || endpoint == "undefined"){
             endpoint = "socket_msg"
         }
@@ -86,17 +86,25 @@ define([
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe(subscribeAddr, function(data){
-                   return data;
-            });
+            stompClient.subscribe(subscribeAddr,callback);
         });
     }
 
 
+    function getUserId(){
+        if(null!=$.cookie('userName') && "undefined"!=$.cookie('userName')){
+            return $.cookie('userName');
+        }
+       else {
+            return null;
+        }
+    }
+
     return {
         getRootPath:getRootPath,
         getWebSocketMsg:getWebSocketMsg,
-        alert_message:alert_message
+        alert_message:alert_message,
+        getUserId:getUserId
     }
 
 });

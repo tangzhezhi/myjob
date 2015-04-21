@@ -1,4 +1,4 @@
-define(["jquery","common"], function($, common){
+define(["jquery","common", 'jquery.cookie'], function($, common,cookie){
 
     function login(user,id,callback,error){
         $.ajax({
@@ -71,8 +71,7 @@ define(["jquery","common"], function($, common){
     }
 
     function loginCallback(user,id){
-        //$("#"+id).addClass("hidden").after("<div class='navbar-right'><span class='navbar-brand'></p>欢迎"+user.userName+"</span></p></div>");
-        //$.cookie('userName', user.userName, { expires: 7 });
+        $.cookie('userName', user.userName, { expires: 7 });
         location.href = "index";
     }
 

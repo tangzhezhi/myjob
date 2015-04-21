@@ -131,6 +131,7 @@ public class IndexController extends BaseController  {
 
     }
 
+
     @Auth
     @RequestMapping(value={"/index"})
     public ModelAndView index(){
