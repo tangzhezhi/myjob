@@ -1,0 +1,85 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${basepackage}.dao.${subpackage}.${className}Dao">
+
+	<resultMap type="${className}DTO" id="${className}DTO">
+    <#list table.columns as column>
+    	<result column="${column.constantName}"  property="${column.columnNameLower}" />
+	</#list>
+	</resultMap>
+	
+	<resultMap type="Page" id="Page${className}">
+		<result column="totalRecord" property="totalRecord" />
+		<result  column="totalPage" property="totalPage" />
+		<result column="pageNo" property="pageNo" />
+		<result column="pageSize"  property="pageSize" />
+		<collection property="results" ofType="${className}DTO">
+		    <#list table.columns as column>
+    		<result column="${column.constantName}"  property="${column.columnNameLower}" />
+		</#list>
+    	</collection>
+	</resultMap>
+
+		
+	 <!-- 查询分页 -->
+	<select id="select${className}All" parameterType="Page" resultMap="Page${className}" >   
+		select  
+		    <#list table.columns as column>
+    			t.${column.constantName}<#if column_has_next>,</#if>
+			</#list>
+		 from ${table.sqlName} t
+		<where>
+			 1=1 
+			<#list table.columns as column>
+    		<if test="params.${column.columnNameLower} != null and params.${column.columnNameLower} != '' " >
+			 	 and  t.${column.constantName}   =  <#if 1=1>#</#if>{params.${column.columnNameLower}} 
+    		</if>
+			</#list>
+		</where>
+	</select>
+	
+	
+	<!-- 向数据库中插入资源记录-->
+	<insert id="insert${className}" parameterType="${className}DTO">    
+		 <selectKey keyProperty="${classNameLower}id" resultType="String" order="BEFORE">  
+            select   UUID() as ${classNameLower}id from dual
+    	</selectKey>
+		insert into ${table.sqlName}(
+			<#list table.columns as column>
+    			${column.constantName}<#if column_has_next>,</#if>
+			</#list>
+		)
+		values(
+			<#list table.columns as column>
+    			<#if 1=1>#</#if>{${column.columnNameLower}, jdbcType=VARCHAR}<#if column_has_next>,</#if>
+			</#list>
+		)
+	</insert>
+
+
+	
+	
+	  <!-- 更新库中的资源 -->
+	<update id="update${className}" parameterType="${className}DTO">   
+		update ${table.sqlName}  
+		<set>
+			<#list table.columns as column>
+    			<if test="${column.columnNameLower} != null and ${column.columnNameLower} != '' ">
+    				${column.constantName}=<#if 1=1>#</#if>{${column.columnNameLower}},
+    			</if>
+			</#list>
+    	</set>
+    	where ${classNameLower}id=#${classNameLower}id}
+	</update>
+	
+	<!-- 删除-->
+	<delete id="delete${className}" parameterType="String">   
+		<#list table.primaryKeyColumns as primaryKeyColumns>
+			delete from ${table.sqlName}  where ${primaryKeyColumns} =  <#if 1=1>#</#if>{${classNameLower}id}
+		</#list>
+	</delete>
+	
+	
+</mapper>

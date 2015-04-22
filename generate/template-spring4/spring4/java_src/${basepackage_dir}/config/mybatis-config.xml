@@ -1,0 +1,26 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties>    
+        <property name="dialect" value="mysql" />
+        <property name="databaseType" value="mysql"></property>
+    </properties>    
+
+	<typeAliases>
+		<typeAlias alias="${className}DTO" type="org.tang.jpa.dto.${subpackage}.${className}DTO"/>
+		<typeAlias alias="Page" type="${basepackage}.utils.Page"/>
+	</typeAliases>
+	
+	<!-- 配置数据库分页的实现 -->  
+	<plugins>  
+       <plugin interceptor="${basepackage}.utils.PageInterceptor"></plugin>
+    </plugins>  
+	<mappers>
+		 <mapper resource="org/tang/myjob/config/${subpackage}/${className}.xml" />
+	</mappers>
+</configuration>
+
