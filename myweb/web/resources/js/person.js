@@ -14,6 +14,7 @@ requirejs.config({
         'jquery.cookie':'jquery.cookie',
         'sockjs':'sockjs-0.3.4',
         'stomp':'stomp',
+        'jquery.dataTables':'jquery.dataTables',
         'common':'../common/index',
         app: '../person'
     },
@@ -25,6 +26,13 @@ requirejs.config({
                 'css!../../../resources/css/app/app-carousel.css'
             ]
         },
+        'jquery.dataTables' : {
+            deps : [
+                'jquery',
+                'css!../../../resources/css/jquery.dataTables.css',
+                'css!../../../resources/css/jquery.dataTables_themeroller.css'
+            ]
+        },
         'jquery.toastmessage':{
             deps:[
                 'jquery',
@@ -32,7 +40,12 @@ requirejs.config({
             ]
         }
     }
-    ,waitSeconds: 500
+    ,waitSeconds: 500,
+    map: {
+        '*': {
+            'css': 'css'
+        }
+    }
 });
 
 // Start the main app console.logic.
@@ -47,6 +60,11 @@ requirejs([
         var userid = common.getUserId();
         if(userid!=null){
             main.getPersonRealTimeMsg_RepeatLogin(userid);
+
+
+
+
+            main.getPersonPicture(userid,"mytable");
         }
 
     });

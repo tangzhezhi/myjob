@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tang.myjob.controller.utils.BaseController;
 import org.tang.myjob.dto.product.OrderDTO;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.PersonService;
@@ -21,8 +22,8 @@ import java.util.Map;
 /**
  * Created by Administrator on 2015/4/18.
  */
-@Controller
-public class PersonController {
+@Controller("PersonController")
+public class PersonController  extends BaseController {
 
     private static Logger logger = Logger.getLogger(PersonController.class.getName());
 

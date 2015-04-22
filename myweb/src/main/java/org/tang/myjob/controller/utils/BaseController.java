@@ -1,11 +1,7 @@
 package org.tang.myjob.controller.utils;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.tang.myjob.service.exception.BusinessException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,23 +12,23 @@ import java.io.PrintWriter;
  */
 public abstract  class BaseController {
 
-    @RequestMapping("upload")
-    public String upload(Model model,HttpServletRequest request)
-    {
-        //转型为MultipartHttpRequest(重点的所在)
-        MultipartHttpServletRequest multipartRequest  =  (MultipartHttpServletRequest) request;
-        //  获得第1张图片（根据前台的name名称得到上传的文件）
-        MultipartFile imgFile1  =  multipartRequest.getFile("imgFile");
-
-        UploadImageUtil uploadutil = new UploadImageUtil();
-        String fileName = imgFile1.getOriginalFilename();
-        try {
-            uploadutil.uploadImage1(request, imgFile1, imgFile1.getContentType(), fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "redirect:query";
-    }
+//    @RequestMapping("upload")
+//    public String upload(Model model,HttpServletRequest request)
+//    {
+//        //转型为MultipartHttpRequest(重点的所在)
+//        MultipartHttpServletRequest multipartRequest  =  (MultipartHttpServletRequest) request;
+//        //  获得第1张图片（根据前台的name名称得到上传的文件）
+//        MultipartFile imgFile1  =  multipartRequest.getFile("imgFile");
+//
+//        UploadImageUtil uploadutil = new UploadImageUtil();
+//        String fileName = imgFile1.getOriginalFilename();
+//        try {
+//            uploadutil.uploadImage1(request, imgFile1, imgFile1.getContentType(), fileName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return "redirect:query";
+//    }
 
 
     @ExceptionHandler
