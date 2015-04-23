@@ -6,7 +6,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <properties>    
         <property name="dialect" value="mysql" />
         <property name="databaseType" value="mysql"></property>
-    </properties>    
+    </properties>
+
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<setting name="logPrefix" value="dao."/>
+	</settings>
 
 	<typeAliases>
 		<typeAlias alias="UserDTO" type="org.tang.myjob.dto.system.UserDTO"/>

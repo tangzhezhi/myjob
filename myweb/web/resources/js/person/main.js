@@ -3,7 +3,8 @@
  */
 define([
     'common',
-    'jquery.dataTables'
+    'datatables',
+    'dataTables.responsive'
 ], function(common,dataTables){
 
     function getPersonRealTimeMsg_RepeatLogin(userid) {
@@ -18,16 +19,15 @@ define([
     }
 
     function getPersonPicture(userid,id){
-        var mytable = $('#mytable').dataTable( {
+        var mytable = $('#mytable').DataTable( {
+            responsive: true,
             "bProcessing" : true, //DataTables载入数据时，是否显示‘进度’提示
             "bServerSide" : true, //是否启动服务器端数据导入
             "bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
-            "sScrollY" : 450, //DataTables的高
-            "sScrollX" : 820, //DataTables的宽
-            "aLengthMenu" : [20, 40, 60], //更改显示记录数选项
-            "iDisplayLength" : 40, //默认显示的记录数
+            "aLengthMenu" : [10, 20, 50], //更改显示记录数选项
+            "iDisplayLength" : 10, //默认显示的记录数
             "bAutoWidth" : true, //是否自适应宽度
-            //"bScrollInfinite" : false, //是否启动初始化滚动条
+            "bScrollInfinite" : false, //是否启动初始化滚动条
             "bScrollCollapse" : true, //是否开启DataTables的高度自适应，当数据条数不够分页数据条数的时候，插件高度是否随数据条数而改变
             "bPaginate" : true, //是否显示（应用）分页器
             "bInfo" : true, //是否显示页脚信息，DataTables插件左下角显示记录数
@@ -83,7 +83,9 @@ define([
                     "sClass" : "center"
                 }
             ],
-            "oLanguage": { //国际化配置
+            "oLanguage": {
+                //"sUrl":'./resources/js/lib/jquery.dataTables.lang.zh.json'
+             //国际化配置
                 "sProcessing" : "正在获取数据，请稍后...",
                 "sLengthMenu" : "显示 _MENU_ 条",
                 "sZeroRecords" : "没有您要搜索的内容",
@@ -100,54 +102,21 @@ define([
                     "sLast" : "最后一页"
                 }
             },
-            "sAjaxSource" : 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
+            //"sAjaxSource" : 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
             //服务器端，数据回调处理
             "fnServerData" : function(sSource, aDataSet, fnCallback) {
                 $.ajax({
                     "dataType" : 'json',
                     "type" : "POST",
-                    "url" : sSource,
+                    "url" : 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
                     "data" : { userid:userid},
-                    "success" : fnCallback
+                    "success" : function(data){
+                        fnCallback(data);
+                    }
                 });
             }
         } );
 
-
-        //alert("ddd");
-        //$('#'+id).dataTable( {
-        //    "ajax": 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
-        //    "columns": [
-        //        { "data": "id" },
-        //        { "data": "userId" },
-        //        { "data": "state" },
-        //        { "data": "remark" },
-        //        { "data": "createTime" },
-        //        { "data": "startTime" },
-        //        { "data": "endTime" },
-        //        { "data": "totalAmount" }
-        //    ]
-        //} );
-        //$.ajax({
-        //    type: "POST",
-        //    url: 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
-        //    data:{
-        //        userid:userid
-        //    },
-        //    dataType: 'json',
-        //    success: function (data) {
-        //        if(data!=null && data.msg === "success"){
-        //            callback(data);
-        //        }
-        //        else{
-        //            try {
-        //                common.alert_message("error","不好意思，遇到错误");
-        //            } catch (e) {
-        //                console.log(e);
-        //            }
-        //        }
-        //    }
-        //});
     }
 
     return {

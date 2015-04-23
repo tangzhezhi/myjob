@@ -56,7 +56,10 @@ public class PersonController  extends BaseController {
             logger.error(ExceptionType.product_msg, br);
             throw new Exception(br);
         }
-        m.put("result",dto);
+        m.put("sEcho", "");
+        m.put("iTotalRecords", "1");
+        m.put("iTotalDisplayRecords", "1");
+        m.put("aaData",dto);
         return m;
 
     }
