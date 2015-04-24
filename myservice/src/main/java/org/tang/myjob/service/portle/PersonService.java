@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tang.myjob.dao.product.OrderDao;
 import org.tang.myjob.dto.product.OrderDTO;
+import org.tang.myjob.utils.page.Page;
+import org.tang.myjob.utils.page.PageDataTable;
 
 import java.util.List;
 
@@ -30,5 +32,21 @@ public class PersonService {
             logger.error("获取用户订单出错:", e);
         }
         return list;
+    }
+
+
+    public PageDataTable getPersonOrderPage(PageDataTable page) {
+        PageDataTable  pageList = (PageDataTable) orderDao.selectOrderPage(page);
+        return pageList;
+
+//        List list = null;
+//        try {
+//            OrderDTO dto = new OrderDTO();
+//            dto.setUserId(userid);
+//            list = orderDao.selectOrderPage(dto);
+//        } catch (Exception e) {
+//            logger.error("获取用户订单分页出错:", e);
+//        }
+//        return list;
     }
 }

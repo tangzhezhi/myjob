@@ -13,6 +13,23 @@
 		<result column="total_amount" property="totalAmount" />
 	</resultMap>
 
+	<resultMap type="Page" id="PageOrder">
+		<result column="iTotalRecords" property="iTotalRecords" />
+		<result column="iTotalDisplayRecords" property="iTotalDisplayRecords" />
+		<result column="iDisplayStart" property="iDisplayStart" />
+		<result column="iDisplayLength" property="iDisplayLength" />
+
+		<collection property="aaData" ofType="OrderDTO">
+			<id 	column="id" property="id" />
+			<result column="user_id" property="userId" />
+			<result column="state" property="state" />
+			<result column="remark" property="remark" />
+			<result column="create_time" property="createTime" />
+			<result column="start_time" property="startTime" />
+			<result column="end_time" property="endTime" />
+			<result column="total_amount" property="totalAmount" />
+		</collection>
+	</resultMap>
 
 	<select id="selectOrder"  resultMap="OrderDTO"  parameterType="org.tang.myjob.dto.product.OrderDTO">
 		<![CDATA[
@@ -21,6 +38,20 @@
 		<where>
 			<if test="userId!=null">
 				user_id = #{userId}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 查询分页 -->
+	<select id="selectOrderPage" parameterType="Page" resultMap="PageOrder" >
+		select
+		id,user_id,state,remark,create_time,start_time,end_time,total_amount
+		from t_order t
+		<where>
+			1=1
+			<if test="params.userId != null and  params.userId != '' ">
+				and  t.user_id   =  #{params.userId}
 			</if>
 		</where>
 	</select>

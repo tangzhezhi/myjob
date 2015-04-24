@@ -4,8 +4,9 @@
 define([
     'common',
     'datatables',
-    'dataTables.responsive'
-], function(common,dataTables){
+    'dataTables.responsive',
+    'text!../lib/jquery.dataTables.lang.zh.txt'
+], function(common,dataTables,responsive,language){
 
     function getPersonRealTimeMsg_RepeatLogin(userid) {
         common.getWebSocketMsg('/topic/repeatLogin/'+userid,function(data){
@@ -19,12 +20,24 @@ define([
     }
 
     function getPersonPicture(userid,id){
+
+        //自定义布局
+//*
+//        l - Length changing * f - Filtering input*
+//        t - The table!* i - Information*
+//        p - Pagination* r - pRocessing*
+//        < and > - div elements*
+//        <"class" and >
+//        - div with a class
+//        * Examples: <"wrapper"flipt>, <lf<t>ip>
+
         var mytable = $('#mytable').DataTable( {
+            "sDom":'<"top"f<"clear">> rt<"bottom"ipl<"wrapper clear">> ',
             responsive: true,
             "bProcessing" : true, //DataTables载入数据时，是否显示‘进度’提示
             "bServerSide" : true, //是否启动服务器端数据导入
             "bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
-            "aLengthMenu" : [10, 20, 50], //更改显示记录数选项
+            "aLengthMenu" : [10, 50, 100], //更改显示记录数选项
             "iDisplayLength" : 10, //默认显示的记录数
             "bAutoWidth" : true, //是否自适应宽度
             "bScrollInfinite" : false, //是否启动初始化滚动条
@@ -83,40 +96,25 @@ define([
                     "sClass" : "center"
                 }
             ],
-            "oLanguage": {
-                //"sUrl":'./resources/js/lib/jquery.dataTables.lang.zh.json'
-             //国际化配置
-                "sProcessing" : "正在获取数据，请稍后...",
-                "sLengthMenu" : "显示 _MENU_ 条",
-                "sZeroRecords" : "没有您要搜索的内容",
-                "sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
-                "sInfoEmpty" : "记录数为0",
-                "sInfoFiltered" : "(全部记录数 _MAX_ 条)",
-                "sInfoPostFix" : "",
-                "sSearch" : "搜索",
-                "sUrl" : "",
-                "oPaginate": {
-                    "sFirst" : "第一页",
-                    "sPrevious" : "上一页",
-                    "sNext" : "下一页",
-                    "sLast" : "最后一页"
-                }
+            "oLanguage": $.parseJSON(language),
+            "sAjaxSource" : 'person/getPersonPicture',
+            "fnServerParams":function(aoData){
+                aoData.push({ "name": "userId", "value": userid});
             },
-            //"sAjaxSource" : 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
             //服务器端，数据回调处理
             "fnServerData" : function(sSource, aDataSet, fnCallback) {
                 $.ajax({
                     "dataType" : 'json',
                     "type" : "POST",
-                    "url" : 'person/getPersonPicture?random='+parseInt(Math.random()*100000),
-                    "data" : { userid:userid},
+                    "url" : sSource,
+                    "data" : aDataSet,
                     "success" : function(data){
                         fnCallback(data);
                     }
                 });
             }
-        } );
 
+        } );
     }
 
     return {

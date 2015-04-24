@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
     <properties>    
         <property name="dialect" value="mysql" />
-        <property name="databaseType" value="mysql"></property>
+        <property name="databaseType" value="mysql"/>
     </properties>
 
 	<settings>
@@ -22,12 +22,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- product-->
 		<typeAlias alias="ProductDTO" type="org.tang.myjob.dto.product.ProductDTO"/>
 		<typeAlias alias="OrderDTO" type="org.tang.myjob.dto.product.OrderDTO"/>
-		<typeAlias alias="Page" type="org.tang.myjob.utils.page.Page"/>
+		<typeAlias alias="Page" type="org.tang.myjob.utils.page.PageDataTable"/>
 	</typeAliases>
 	
 	<!-- 配置数据库分页的实现 -->  
 	<plugins>  
-       <plugin interceptor="org.tang.myjob.utils.page.PageInterceptor"></plugin>
+       <plugin interceptor="org.tang.myjob.utils.page.PageDataTableInterceptor"></plugin>
     </plugins>  
 	<mappers>
 		 <mapper resource="config/system/User.xml" />

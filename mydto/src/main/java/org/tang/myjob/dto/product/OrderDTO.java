@@ -1,8 +1,10 @@
 package org.tang.myjob.dto.product;
 
+import org.tang.myjob.utils.page.PageDataTable;
+
 import java.io.Serializable;
 
-public class OrderDTO implements Serializable{
+public class OrderDTO extends PageDataTable implements Serializable{
 
 	/**
 	 *id` varchar(60) NOT NULL,

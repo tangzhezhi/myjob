@@ -1,25 +1,22 @@
 package org.tang.myjob.utils.page;
 
-import java.lang.reflect.Field;  
-import java.sql.Connection;  
-import java.sql.PreparedStatement;  
-import java.sql.ResultSet;  
-import java.sql.SQLException;  
-import java.util.List;  
-import java.util.Properties;  
-import org.apache.ibatis.executor.parameter.ParameterHandler;  
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;  
-import org.apache.ibatis.executor.statement.StatementHandler;  
-import org.apache.ibatis.mapping.BoundSql;  
-import org.apache.ibatis.mapping.MappedStatement;  
-import org.apache.ibatis.mapping.ParameterMapping;  
-import org.apache.ibatis.plugin.Interceptor;  
-import org.apache.ibatis.plugin.Intercepts;  
-import org.apache.ibatis.plugin.Invocation;  
-import org.apache.ibatis.plugin.Plugin;  
-import org.apache.ibatis.plugin.Signature;  
+import org.apache.ibatis.executor.parameter.ParameterHandler;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
+import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
-  
+
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Properties;
+
 /** 
  *  
  * 分页拦截器，用于拦截需要进行分页查询的操作，然后对其进行分页处理。 利用拦截器实现Mybatis分页的原理： 
@@ -36,7 +33,7 @@ import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
  *  
  */  
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })  
-public class PageInterceptor implements Interceptor {  
+public class PageDataTableInterceptor implements Interceptor {
   
     private String databaseType;// 数据库类型，不同的数据库有不同的分页方法  
   
@@ -63,8 +60,8 @@ public class PageInterceptor implements Interceptor {
         // 拿到当前绑定Sql的参数对象，就是我们在调用对应的Mapper映射语句时所传入的参数对象  
         Object obj = boundSql.getParameterObject();  
         // 这里我们简单的通过传入的是Page对象就认定它是需要进行分页操作的。  
-        if (obj instanceof Page<?>) {  
-            Page<?> page = (Page<?>) obj;  
+        if (obj instanceof PageDataTable<?>) {  
+            PageDataTable<?> page = (PageDataTable<?>) obj;  
             // 通过反射获取delegate父类BaseStatementHandler的mappedStatement属性  
             MappedStatement mappedStatement = (MappedStatement) ReflectUtil.getFieldValue(delegate, "mappedStatement");  
             // 拦截到的prepare方法参数是一个Connection对象  
@@ -106,7 +103,7 @@ public class PageInterceptor implements Interceptor {
      *            原sql语句 
      * @return 
      */  
-    private String getPageSql(Page<?> page, String sql) {  
+    private String getPageSql(PageDataTable<?> page, String sql) {  
         StringBuffer sqlBuffer = new StringBuffer(sql);  
           
         if ("mysql".equalsIgnoreCase(databaseType)) {  
@@ -126,10 +123,10 @@ public class PageInterceptor implements Interceptor {
      *            包含原sql语句的StringBuffer对象 
      * @return Mysql数据库分页语句 
      */  
-    private String getMysqlPageSql(Page<?> page, StringBuffer sqlBuffer) {  
+    private String getMysqlPageSql(PageDataTable<?> page, StringBuffer sqlBuffer) {  
         // 计算第一条记录的位置，Mysql中记录的位置是从0开始的。  
-        int offset = (page.getPageNo() - 1) * page.getPageSize();  
-        sqlBuffer.append(" limit ").append(offset).append(",").append(page.getPageSize());  
+        int offset = page.getiDisplayStart();
+        sqlBuffer.append(" limit ").append(offset).append(",").append(page.getiDisplayLength());
         return sqlBuffer.toString();  
     }  
   
@@ -142,11 +139,11 @@ public class PageInterceptor implements Interceptor {
      *            包含原sql语句的StringBuffer对象 
      * @return Oracle数据库的分页查询语句 
      */  
-    private String getOraclePageSql(Page<?> page, StringBuffer sqlBuffer) {  
+    private String getOraclePageSql(PageDataTable<?> page, StringBuffer sqlBuffer) {  
         // 计算第一条记录的位置，Oracle分页是通过rownum进行的，而rownum是从1开始的  
-        int offset = (page.getPageNo() - 1) * page.getPageSize() + 1;  
+        int offset = page.getiDisplayStart() + 1;
         sqlBuffer.insert(0, "select u.*, rownum r from (").append(") u where rownum < ")  
-                .append(offset + page.getPageSize());  
+                .append(offset + page.getiDisplayLength());
         sqlBuffer.insert(0, "select * from (").append(") where r >= ").append(offset);  
         // 上面的Sql语句拼接之后大概是这个样子：  
         // select * from (select u.*, rownum r from (select * from t_user) u  
@@ -164,7 +161,7 @@ public class PageInterceptor implements Interceptor {
      * @param connection 
      *            当前的数据库连接 
      */  
-    private void setTotalRecord(Page<?> page, MappedStatement mappedStatement, Connection connection) {  
+    private void setTotalRecord(PageDataTable<?> page, MappedStatement mappedStatement, Connection connection) {  
         // 获取对应的BoundSql，这个BoundSql其实跟我们利用StatementHandler获取到的BoundSql是同一个对象。  
         // delegate里面的boundSql也是通过mappedStatement.getBoundSql(paramObj)方法获取到的。  
         BoundSql boundSql = mappedStatement.getBoundSql(page);  
@@ -189,9 +186,9 @@ public class PageInterceptor implements Interceptor {
             rs = pstmt.executeQuery();  
             if (rs.next()) {  
                 int totalRecord = rs.getInt(1);  
-                // 给当前的参数page对象设置总记录数  
-                page.setTotalRecord(totalRecord);  
-            }  
+                // 给当前的参数page对象设置总记录数
+                page.setiTotalRecords(totalRecord);
+            }
         } catch (SQLException e) {  
             e.printStackTrace();  
         } finally {  
