@@ -1,9 +1,7 @@
 package org.tang.myjob.utils.page;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 对分页的基本数据进行一个简单的封装
@@ -15,7 +13,6 @@ public class PageDataTable<T>  implements Serializable {
 	public String sEcho;
 	public Integer iDisplayStart;
 	public Integer iDisplayLength;
-	public String sSearch;
 
 	public List<T> aaData;// 对应的当前页记录
 
@@ -58,14 +55,6 @@ public class PageDataTable<T>  implements Serializable {
 
 	public void setiDisplayLength(Integer iDisplayLength) {
 		this.iDisplayLength = iDisplayLength;
-	}
-
-	public String getsSearch() {
-		return sSearch;
-	}
-
-	public void setsSearch(String sSearch) {
-		this.sSearch = sSearch;
 	}
 
 	public List<T> getAaData() {

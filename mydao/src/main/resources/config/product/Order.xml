@@ -50,10 +50,11 @@
 		from t_order t
 		<where>
 			1=1
-			<if test="params.userId != null and  params.userId != '' ">
-				and  t.user_id   =  #{params.userId}
+			<if test="userId != null and  userId != '' ">
+				and  t.user_id   =  #{userId}
 			</if>
 		</where>
+		order by id
 	</select>
 
 </mapper>

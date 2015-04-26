@@ -14,7 +14,6 @@
         <module>mydao</module>
         <module>myservice</module>
         <module>myweb</module>
-        <module>generate</module>
     </modules>
 
 

@@ -75,7 +75,7 @@ public class PageDataTableInterceptor implements Interceptor {
             // 利用反射设置当前BoundSql对应的sql属性为我们建立好的分页Sql语句  
             ReflectUtil.setFieldValue(boundSql, "sql", pageSql);  
             
-        }  
+        }
         return invocation.proceed();
     }  
   
@@ -176,19 +176,23 @@ public class PageDataTableInterceptor implements Interceptor {
         // 通过mappedStatement、参数对象page和BoundSql对象countBoundSql建立一个用于设定参数的ParameterHandler对象  
         ParameterHandler parameterHandler = new DefaultParameterHandler(mappedStatement, page, countBoundSql);  
         // 通过connection建立一个countSql对应的PreparedStatement对象。  
-        PreparedStatement pstmt = null;  
-        ResultSet rs = null;  
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ResultSet rsList = null;
         try {  
-            pstmt = connection.prepareStatement(countSql);  
-            // 通过parameterHandler给PreparedStatement对象设置参数  
-            parameterHandler.setParameters(pstmt);  
-            // 之后就是执行获取总记录数的Sql语句和获取结果了。  
-            rs = pstmt.executeQuery();  
-            if (rs.next()) {  
+            pstmt = connection.prepareStatement(countSql);
+            // 通过parameterHandler给PreparedStatement对象设置参数
+            parameterHandler.setParameters(pstmt);
+            // 之后就是执行获取总记录数的Sql语句和获取结果了。
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
                 int totalRecord = rs.getInt(1);  
                 // 给当前的参数page对象设置总记录数
                 page.setiTotalRecords(totalRecord);
+                page.setiTotalDisplayRecords(totalRecord);
             }
+
         } catch (SQLException e) {  
             e.printStackTrace();  
         } finally {  
