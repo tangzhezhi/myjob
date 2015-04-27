@@ -53,6 +53,9 @@
 			<if test="userId != null and  userId != '' ">
 				and  t.user_id   =  #{userId}
 			</if>
+			<if test="remark != null and  remark != '' ">
+				and  t.remark   like    '%${remark}%'
+			</if>
 		</where>
 		order by id
 	</select>

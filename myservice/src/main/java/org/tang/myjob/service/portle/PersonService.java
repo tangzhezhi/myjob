@@ -7,6 +7,7 @@ import org.tang.myjob.dao.product.OrderDao;
 import org.tang.myjob.dto.product.OrderDTO;
 import org.tang.myjob.utils.page.PageDataTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class PersonService {
 
     public PageDataTable getPersonOrderPage(PageDataTable page) {
         try {
-            page.setAaData(orderDao.selectOrderPage(page).getAaData());
+            page.setAaData(orderDao.selectOrderPage(page) == null ? new ArrayList() : orderDao.selectOrderPage(page).getAaData());
         } catch (Exception e) {
             logger.error("获取用户订单分页出错:", e);
         }

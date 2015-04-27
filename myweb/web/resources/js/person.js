@@ -70,7 +70,9 @@ requirejs([
             main.getPersonRealTimeMsg_RepeatLogin(userid);
             var mytable = main.getPersonPicture(userid,"mytable");
 
-            $(".my_query_btn").bind("click", mytable);
+            $(".my_query_btn").click(function(){
+                mytable.fnDraw()
+            } );
             //$(".my_add_btn").bind("click", alert("新增"));
         }
 
