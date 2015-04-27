@@ -68,7 +68,10 @@ requirejs([
         var userid = common.getUserId();
         if(userid!=null){
             main.getPersonRealTimeMsg_RepeatLogin(userid);
-            main.getPersonPicture(userid,"mytable");
+            var mytable = main.getPersonPicture(userid,"mytable");
+
+            $(".my_query_btn").bind("click", mytable);
+            //$(".my_add_btn").bind("click", alert("新增"));
         }
 
     });

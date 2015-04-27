@@ -45,10 +45,38 @@
 </nav>
 <br><br><br>
 <div class="container">
-    <table id="mytable" class="display" cellspacing="0" width="100%">
+  <br><br>
+  <div class="row">
+    <div class="col-lg-3 col-sm-6 col-xs-6">
+      <div class="input-group">
+         <span class="input-group-btn">
+              <button type="button" class="btn btn-default check-all">全选</button>
+              <button type="button" class="btn btn-default check-all-not">全不选</button>
+         </span>
+      </div>
+    </div>
+    <div class="col-lg-2">
+      <span>&nbsp;&nbsp;</span>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-xs-12">
+      <div class="input-group">
+        <input  type="text" class="form-control my_query" placeholder="请输入名称...">
+        <span class="input-group-btn">
+           <button class="btn btn-info my_query_btn" type="button">查询</button>
+           <button type="button" class="btn btn-success my_add_btn">新增</button>
+        </span>
+
+      </div>
+    </div>
+
+  </div>
+  <br/>
+    <table id="mytable" class="row-border" cellspacing="0" width="100%">
       <thead>
       <tr>
-        <th>id</th>
+        <th>
+          <!--<label><input type="checkbox"/></label>-->
+        </th>
         <th>userId</th>
         <th>state</th>
         <th>remark</th>
@@ -56,15 +84,14 @@
         <th>startTime</th>
         <th>endTime</th>
         <th>totalAmount</th>
+        <th></th>
       </tr>
       </thead>
     </table>
-    <div class="span12 center">
-    </div>
+
 </div>
 
   <footer>
-    <p>&copy; Company 2014</p>
   </footer>
 </div> <!-- /container -->
 

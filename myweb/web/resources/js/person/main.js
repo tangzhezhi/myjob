@@ -33,10 +33,11 @@ define([
 
         var mytable = $('#mytable').DataTable( {
             "sDom":'<"top"f<"clear">> rt<"bottom"ipl<"wrapper clear">> ',
+            "ordering": false,
             responsive: true,
             "bProcessing" : true, //DataTables载入数据时，是否显示‘进度’提示
             "bServerSide" : true, //是否启动服务器端数据导入
-            "bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+            "bStateSave" : false, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
             "aLengthMenu" : [10, 50, 100], //更改显示记录数选项
             "iDisplayLength" : 10, //默认显示的记录数
             "bAutoWidth" : true, //是否自适应宽度
@@ -45,25 +46,25 @@ define([
             "bPaginate" : true, //是否显示（应用）分页器
             "bInfo" : true, //是否显示页脚信息，DataTables插件左下角显示记录数
             "sPaginationType" : "full_numbers", //详细分页组，可以支持直接跳转到某页
-            "bSort" : true, //是否启动各个字段的排序功能
+            "bSort" : false, //是否启动各个字段的排序功能
             "aaSorting" : [[1, "asc"]], //默认的排序方式，第2列，升序排列
-            "bFilter" : true, //是否启动过滤、搜索功能
+            "bFilter" : false, //是否启动过滤、搜索功能
             "aoColumns": [
                 {
-                    "mDataProp" : "id",
-                    "sDefaultContent" : "", //此列默认值为""，以防数据中没有此值，DataTables加载数据的时候报错
-                    "bVisible" : false //此列不显示
-                }, {
+                    "mDataProp" : function(source, type, val){
+                        return '&nbsp;';
+                    },
+                    "sClass" : "left"
+                },
+                {
                     "mDataProp" : "userId",
                     "sTitle" : "用户ID",
-                    "sDefaultContent" : "",
-                    "sClass" : "center"
+                    "sClass" : "hide"
                 },
                 {
                     "mDataProp" : "state",
                     "sTitle" : "state",
-                    "sDefaultContent" : "",
-                    "sClass" : "center"
+                    "sClass" : "hide"
                 },
                 {
                     "mDataProp" : "remark",
@@ -94,11 +95,24 @@ define([
                     "sTitle" : "totalAmount",
                     "sDefaultContent" : "",
                     "sClass" : "center"
+                },
+                {"mDataProp":
+                    function(source, type, val){
+                        return '<div class="btn-toolbar">'
+                                    +'<button class="btn btn-warning btn-xs" type="button" data-toggle="tooltip" data-placement="top" title="更新">' +
+                                        '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'+
+                                    '</button>' +
+                                    '<button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="删除"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>'
+                                +'</div>';
+                    }
                 }
             ],
             "oLanguage": $.parseJSON(language),
             "sAjaxSource" : 'person/getPersonPicture',
             "fnServerParams":function(aoData){
+                if($(".my_query").val()!=null && $(".my_query").val().length>1){
+                    aoData.push({ "name": "remark", "value": $(".my_query").val()});
+                }
                 aoData.push({ "name": "userId", "value": userid});
             },
             //服务器端，数据回调处理
@@ -114,10 +128,18 @@ define([
                 });
             }
 
-        } );
+        }
+        );
+        return $('#mytable').dataTable();
     }
 
+    function query(dataTable) {
+        dataTable.fnPageChange("first", true);
+    }
+
+
     return {
+        query:query,
         getPersonRealTimeMsg_RepeatLogin:getPersonRealTimeMsg_RepeatLogin,
         getPersonPicture:getPersonPicture
     }
