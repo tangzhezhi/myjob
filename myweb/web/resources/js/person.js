@@ -16,6 +16,8 @@ requirejs.config({
         'stomp':'stomp',
         'datatables':'jquery.dataTables',
         'dataTables.responsive':'dataTables.responsive',
+        'datetimepicker':'bootstrap-datetimepicker',
+        //'datetimepicker.zh':'bootstrap-datetimepicker.zh-CN',
         'common':'../common/index',
         app: '../person'
     },
@@ -46,6 +48,13 @@ requirejs.config({
                 'jquery',
                 'css!../../../resources/css/jquery.toastmessage.css'
             ]
+        },
+        'datetimepicker':{
+            deps:[
+                'jquery',
+                //'datetimepicker.zh',
+                'css!../../../resources/css/bootstrap-datetimepicker.css'
+            ]
         }
     }
     ,waitSeconds: 500,
@@ -59,10 +68,12 @@ requirejs.config({
 // Start the main app console.logic.
 requirejs([
         'common',
+        'datetimepicker',
         '../person/main'
     ],
     function   (
         common,
+        datetimepicker,
         main
     ) {
         var userid = common.getUserId();
@@ -71,9 +82,49 @@ requirejs([
             var mytable = main.getPersonPicture(userid,"mytable");
 
             $(".my_query_btn").click(function(){
-                mytable.fnDraw()
+                main.query(mytable);
             } );
-            //$(".my_add_btn").bind("click", alert("新增"));
+
+            $(".form_datetime").datetimepicker(
+                {
+                    language:'zh',
+                    weekStart: 1,
+                    todayBtn: 1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    format: 'yyyy-mm-dd'
+                });
+
+            $(".my_add_btn").bind("click",function(){
+                if(!$(".myshow").hasClass("hide")){
+                    $(".myshow").addClass("hide");
+                }
+                if($(".myForm").hasClass("hide")){
+                    $(".myForm").removeClass("hide");
+                }
+            });
+
+
+            $(".my_back_btn").click(function(){
+                if($(".myshow").hasClass("hide")){
+                    $(".myshow").removeClass("hide");
+                }
+                if(!$(".myForm").hasClass("hide")){
+                    $(".myForm").addClass("hide");
+                }
+            });
+
+            $(".my_reset_btn").click(function(){
+                $(".myForm input").each(function(){
+                    $(this).val("");
+                });
+
+            });
+
+
         }
 
     });

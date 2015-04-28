@@ -19,6 +19,12 @@ define([
         });
     }
 
+    /**
+     * 初始化表格，然后返回DataTable对象
+     * @param userid
+     * @param id
+     * @returns {*|jQuery}
+     */
     function getPersonPicture(userid,id){
 
         //自定义布局
@@ -31,7 +37,7 @@ define([
 //        - div with a class
 //        * Examples: <"wrapper"flipt>, <lf<t>ip>
 
-        var mytable = $('#mytable').DataTable( {
+        var mytable = $('#'+id).DataTable( {
             "sDom":'<"top"f<"clear">> rt<"bottom"ipl<"wrapper clear">> ',
             "ordering": false,
             responsive: true,
@@ -134,7 +140,9 @@ define([
     }
 
     function query(dataTable) {
-        dataTable.fnPageChange("first", true);
+        //dataTable._fnClearTable();
+        //dataTable._fnDraw(mytable.settings);
+        dataTable._fnPageChange(dataTable.settings,"first", true);
     }
 
 

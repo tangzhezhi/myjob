@@ -46,31 +46,34 @@
 <br><br><br>
 <div class="container">
   <br><br>
-  <div class="row">
-    <div class="col-lg-3 col-sm-6 col-xs-6">
-      <div class="input-group">
+
+  <div class="myshow">
+    <div class="myheader">
+      <div class="row">
+        <div class="col-lg-3 col-sm-6 col-xs-6">
+          <div class="input-group">
          <span class="input-group-btn">
               <button type="button" class="btn btn-default check-all">全选</button>
               <button type="button" class="btn btn-default check-all-not">全不选</button>
          </span>
-      </div>
-    </div>
-    <div class="col-lg-2">
-      <span>&nbsp;&nbsp;</span>
-    </div>
-    <div class="col-lg-6 col-sm-12 col-xs-12">
-      <div class="input-group">
-        <input  type="text" class="form-control my_query" placeholder="请输入名称...">
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <span>&nbsp;&nbsp;</span>
+        </div>
+        <div class="col-lg-6 col-sm-12 col-xs-12">
+          <div class="input-group">
+            <input  type="text" class="form-control my_query" placeholder="请输入名称...">
         <span class="input-group-btn">
            <button class="btn btn-info my_query_btn" type="button">查询</button>
            <button type="button" class="btn btn-success my_add_btn">新增</button>
         </span>
-
+          </div>
+        </div>
       </div>
+      <br/>
     </div>
 
-  </div>
-  <br/>
     <table id="mytable" class="row-border" cellspacing="0" width="100%">
       <thead>
       <tr>
@@ -89,11 +92,64 @@
       </thead>
     </table>
 
+  </div>
+
+    <div class="row">
+        <br> <br>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <form class="myForm hide form-horizontal center">
+            <div class="form-group">
+              <label for="userId" class="col-sm-2 control-label" >Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="userId" placeholder="请输入email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="remark" class="col-sm-2 control-label">remark</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="remark" placeholder="请输入remark">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-append date form_datetime">
+                <label for="createTime" class="col-sm-2 control-label" >createTime</label>
+                <div class="col-sm-10">
+                  <input id="createTime" size="20"   class="form-control" type="text" value="" readonly>
+                  <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="totalAmount" class="col-sm-2 control-label">totalAmount</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="totalAmount" placeholder="请输入totalAmount">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                  <span class="col-sm-2 control-label">&nbsp;&nbsp;</span>
+                  <div class="col-sm-10">
+                    <span class="btn-toolbar">
+                       <button type="button" class="btn btn-success my_back_btn">返回</button>
+                       <button class="btn btn-info my_form_save_btn " type="button">保存</button>
+                       <button type="button" class="btn btn-success my_reset_btn ">重置</button>
+                    </span>
+                  </div>
+
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
 </div>
 
   <footer>
   </footer>
-</div> <!-- /container -->
 
 <script data-main="resources/js/person.js" src="./resources/js/lib/require.js"></script>
 
