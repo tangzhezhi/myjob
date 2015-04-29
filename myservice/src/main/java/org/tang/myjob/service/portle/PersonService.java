@@ -49,7 +49,7 @@ public class PersonService {
         int flag = -1;
         try {
             params.setState(0);
-             orderDao.add(params);
+            flag = orderDao.add(params);
         } catch (Exception e) {
             logger.error("新增用户订单出错:", e);
         }

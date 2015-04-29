@@ -66,6 +66,13 @@ public class PersonController  extends BaseController {
         int flag = -1;
         try {
             flag  = personService.add(params);
+            if(flag > 0){
+                m.put("msg","success");
+            }
+            else{
+                m.put("msg","false");
+            }
+
         }
         catch (Exception br){
             logger.error(ExceptionType.msg, br);

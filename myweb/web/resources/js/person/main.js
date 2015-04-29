@@ -195,7 +195,10 @@ define([
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
-                    //query( $('#mytable').dataTable());
+                    $(".myshow").removeClass("hide");
+                    $(".myForm").addClass("hide");
+                    $('#mytable').dataTable()._fnClearTable();
+                     $('#mytable').dataTable().fnDraw();
                 }
             }
         });
