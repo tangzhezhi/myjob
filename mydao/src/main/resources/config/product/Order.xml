@@ -7,8 +7,8 @@
 		<result column="user_id" property="userId" />
 		<result column="state" property="state" />
 		<result column="remark" property="remark" />
-		<result column="create_time" property="createTime" />
-		<result column="start_time" property="startTime" />
+		<result column="create_time" property="createTime"  />
+		<result column="start_time" property="startTime"  />
 		<result column="end_time" property="endTime" />
 		<result column="total_amount" property="totalAmount" />
 	</resultMap>
@@ -25,8 +25,8 @@
 			<result column="state" property="state" />
 			<result column="remark" property="remark" />
 			<result column="create_time" property="createTime" />
-			<result column="start_time" property="startTime" />
-			<result column="end_time" property="endTime" />
+			<result column="start_time" property="startTime"  />
+			<result column="end_time" property="endTime"/>
 			<result column="total_amount" property="totalAmount" />
 		</collection>
 	</resultMap>
@@ -60,19 +60,60 @@
 		order by id
 	</select>
 
-	<insert id="add" useGeneratedKeys="true" keyProperty="id"  parameterType="OrderDTO">
-		insert into t_order(
-			user_id,state,remark,create_time,start_time,end_time,total_amount
+	<insert id="add" useGeneratedKeys="true" keyProperty="id"  parameterType="org.tang.myjob.dto.product.OrderDTO">
+		insert into t_order ( user_id, state, remark,create_time, start_time,	end_time,total_amount)
+		values (
+			#{userId},#{state},
+		#{remark},#{createTime},
+		#{startTime},	#{endTime},
+		#{totalAmount}
 		)
-		values(
-			#{userId, jdbcType=VARCHAR},
-			#{state, jdbcType=VARCHAR},
-			#{remark, jdbcType=VARCHAR},
-			#{createTime, jdbcType=VARCHAR},
-			#{startTime, jdbcType=VARCHAR},
-			#{endTime, jdbcType=VARCHAR},
-			#{totalAmount, jdbcType=VARCHAR}
-		)
+		<!--<trim prefix="(" suffix=")" suffixOverrides="," >-->
+			<!--<if test="userId != null and  userId != ''" >-->
+				<!--user_id,-->
+			<!--</if>-->
+			<!--<if test="state != null " >-->
+				<!--state,-->
+			<!--</if>-->
+			<!--<if test="remark != null and  remark != ''" >-->
+				<!--remark,-->
+			<!--</if>-->
+			<!--<if test="createTime != null and  createTime != ''" >-->
+				<!--create_time,-->
+			<!--</if>-->
+			<!--<if test="startTime != null and  startTime != ''" >-->
+				<!--start_time,-->
+			<!--</if>-->
+			<!--<if test="endTime != null and  endTime != ''" >-->
+				<!--end_time,-->
+			<!--</if>-->
+			<!--<if test="totalAmount != null and  totalAmount != ''" >-->
+				<!--total_amount,-->
+			<!--</if>-->
+		<!--</trim>-->
+		<!--<trim prefix="values (" suffix=")" suffixOverrides="," >-->
+			<!--<if test="userId != null and  userId != '' " >-->
+				<!--#{userId,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="state != null " >-->
+				<!--#{state,jdbcType=INTEGER},-->
+			<!--</if>-->
+			<!--<if test="remark != null and  remark != ''" >-->
+				<!--#{remark,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="createTime != null and  createTime != ''" >-->
+				<!--#{createTime,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="startTime != null and  startTime != ''" >-->
+				<!--#{startTime,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="endTime != null and  endTime != ''" >-->
+				<!--#{endTime,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="totalAmount != null and  totalAmount != ''" >-->
+				<!--#{totalAmount,jdbcType=VARCHAR},-->
+			<!--</if>-->
+		<!--</trim>-->
 	</insert>
 
 </mapper>

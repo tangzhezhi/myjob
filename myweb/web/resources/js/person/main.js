@@ -79,7 +79,7 @@ define([
                     "sClass" : "center"
                 },
                 {
-                    "mDataProp" : "createTime",
+                    "mDataProp" :"createTime",
                     "sTitle" : "createTime",
                     "sDefaultContent" : "",
                     "sClass" : "center"
@@ -102,15 +102,16 @@ define([
                     "sDefaultContent" : "",
                     "sClass" : "center"
                 },
-                {"mDataProp":
-                    function(source, type, val){
+                {"mDataProp": function(source, type, val){
                         return '<div class="btn-toolbar">'
                                     +'<button class="btn btn-warning btn-xs" type="button" data-toggle="tooltip" data-placement="top" title="更新">' +
                                         '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'+
                                     '</button>' +
                                     '<button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="删除"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>'
                                 +'</div>';
-                    }
+                    },
+                    "sTitle" : "操作",
+                    "sClass" : "center"
                 }
             ],
             "oLanguage": $.parseJSON(language),
@@ -194,7 +195,7 @@ define([
             dataType: 'json',
             success: function (data) {
                 if(data!=null && data.msg === "success"){
-                    query( $('#mytable').dataTable());
+                    //query( $('#mytable').dataTable());
                 }
             }
         });

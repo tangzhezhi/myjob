@@ -17,20 +17,20 @@ public class OrderDTO  extends PageDataTable implements Serializable{
 	 `total_amount` varchar(20) DEFAULT NULL COMMENT '订单总金额',
 	 */
 
-	private String id;
+	private int id;
 	private String userId;
-	private String state;
+	private Integer state;
 	private String remark;
 	private String createTime;
 	private String startTime;
 	private String endTime;
 	private String totalAmount;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -42,11 +42,11 @@ public class OrderDTO  extends PageDataTable implements Serializable{
 		this.userId = userId;
 	}
 
-	public String getState() {
+	public Integer getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 

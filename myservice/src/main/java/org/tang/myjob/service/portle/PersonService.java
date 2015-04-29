@@ -48,7 +48,8 @@ public class PersonService {
     public int add(OrderDTO params) {
         int flag = -1;
         try {
-            flag = orderDao.add(params);
+            params.setState(0);
+             orderDao.add(params);
         } catch (Exception e) {
             logger.error("新增用户订单出错:", e);
         }
