@@ -9,6 +9,7 @@ public interface ExceptionType {
     public String login_msg = "登录异常";
     public String login_out_msg = "登出异常";
 
+    public String msg = "异常";
 
 
 }

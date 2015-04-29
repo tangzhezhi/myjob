@@ -60,4 +60,19 @@
 		order by id
 	</select>
 
+	<insert id="add" useGeneratedKeys="true" keyProperty="id"  parameterType="OrderDTO">
+		insert into t_order(
+			user_id,state,remark,create_time,start_time,end_time,total_amount
+		)
+		values(
+			#{userId, jdbcType=VARCHAR},
+			#{state, jdbcType=VARCHAR},
+			#{remark, jdbcType=VARCHAR},
+			#{createTime, jdbcType=VARCHAR},
+			#{startTime, jdbcType=VARCHAR},
+			#{endTime, jdbcType=VARCHAR},
+			#{totalAmount, jdbcType=VARCHAR}
+		)
+	</insert>
+
 </mapper>

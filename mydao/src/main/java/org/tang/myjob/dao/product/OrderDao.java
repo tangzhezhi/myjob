@@ -14,4 +14,6 @@ public interface OrderDao {
     public List<OrderDTO> selectOrder(OrderDTO dto);
 
     public PageDataTable selectOrderPage(PageDataTable dto);
+
+    public int add(OrderDTO params);
 }

@@ -140,14 +140,71 @@ define([
     }
 
     function query(dataTable) {
-        //dataTable._fnClearTable();
+        dataTable._fnClearTable();
         //dataTable._fnDraw(mytable.settings);
         dataTable._fnPageChange(dataTable.settings,"first", true);
     }
 
 
+
+    function validateForm(id,callback){
+        $("#"+id).formValidation({
+            message: '您的输入值不符合要求',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                row: '.col-sm-4',
+                userId: {
+                    message: 'Email无效',
+                    validators: {
+                        notEmpty: {
+                            message: 'Email不能为空'
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 30,
+                            message: 'Email必须超过6个字符少于30字符'
+                        },
+                        emailAddress: {
+                            message: '不是一个有效的邮件格式'
+                        }
+                    }
+                }
+            }
+        }).on('success.form.fv', function(e) {
+            e.preventDefault();
+            callback(id);
+        });
+    }
+
+
+    function postForm(id){
+        var data = {} ;
+        $("#"+id+" input" ).each(function(i,item){
+            data[item.id] = $(item).val();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: 'person/add?random='+parseInt(Math.random()*100000),
+            data:data,
+            dataType: 'json',
+            success: function (data) {
+                if(data!=null && data.msg === "success"){
+                    query( $('#mytable').dataTable());
+                }
+            }
+        });
+    }
+
+
     return {
         query:query,
+        validateForm:validateForm,
+        postForm:postForm,
         getPersonRealTimeMsg_RepeatLogin:getPersonRealTimeMsg_RepeatLogin,
         getPersonPicture:getPersonPicture
     }

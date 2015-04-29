@@ -1,4 +1,9 @@
-define(["jquery","common", 'jquery.cookie'], function($, common,cookie){
+define(["jquery",
+    "common",
+    'jquery.cookie',
+    'bootstrapValidator',
+    'formValidation'
+], function($, common,cookie,bootstrapValidator,formValidation){
 
     function login(user,id,callback,error){
         $.ajax({

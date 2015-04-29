@@ -16,6 +16,9 @@ import org.tang.myjob.service.portle.PersonService;
 import org.tang.myjob.service.redis.RedisUtil;
 import org.tang.myjob.utils.page.PageDataTable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2015/4/18.
  */
@@ -55,6 +58,23 @@ public class PersonController  extends BaseController {
         return page;
 
     }
+
+    @RequestMapping(value = "person/add", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map add(OrderDTO params) throws Exception {
+        Map m = new HashMap();
+        int flag = -1;
+        try {
+            flag  = personService.add(params);
+        }
+        catch (Exception br){
+            logger.error(ExceptionType.msg, br);
+            throw new Exception(br);
+        }
+        return m;
+    }
+
+
 
     @MessageMapping("/order")
     @SendTo("/topic/order")

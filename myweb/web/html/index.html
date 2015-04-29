@@ -47,6 +47,7 @@
 <div class="container">
   <br><br>
 
+  <!--整个表格显示开始 -->
   <div class="myshow">
     <div class="myheader">
       <div class="row">
@@ -73,7 +74,7 @@
       </div>
       <br/>
     </div>
-
+    <!--表格显示开始 -->
     <table id="mytable" class="row-border" cellspacing="0" width="100%">
       <thead>
       <tr>
@@ -91,18 +92,21 @@
       </tr>
       </thead>
     </table>
-
+    <!--表格显示结束 -->
   </div>
+  <!--整个表格显示结束 -->
 
+
+  <!-- 新增form开始-->
     <div class="row">
         <br> <br>
         <div class="col-md-3"></div>
         <div class="col-md-6">
-          <form class="myForm hide form-horizontal center">
+          <form id="myForm" class="myForm hide form-horizontal center">
             <div class="form-group">
               <label for="userId" class="col-sm-2 control-label" >Email</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="userId" placeholder="请输入email">
+                <input type="email" class="form-control" id="userId"  name="userId"  placeholder="请输入email">
               </div>
             </div>
             <div class="form-group">
@@ -132,9 +136,9 @@
                   <span class="col-sm-2 control-label">&nbsp;&nbsp;</span>
                   <div class="col-sm-10">
                     <span class="btn-toolbar">
-                       <button type="button" class="btn btn-success my_back_btn">返回</button>
-                       <button class="btn btn-info my_form_save_btn " type="button">保存</button>
-                       <button type="button" class="btn btn-success my_reset_btn ">重置</button>
+                       <button type="button" class="btn btn-success form_back_btn">返回</button>
+                       <button class="btn btn-info form_save_btn " type="submit">保存</button>
+                       <button type="reset" class="btn btn-success form_reset_btn ">重置</button>
                     </span>
                   </div>
 
@@ -145,7 +149,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-
+  <!-- 新增form结束-->
 </div>
 
   <footer>
@@ -154,9 +158,9 @@
 <script data-main="resources/js/person.js" src="./resources/js/lib/require.js"></script>
 
 <script>
-      require.config({
-          urlArgs: "bust=" + (new Date()).getTime()
-      });
+//      require.config({
+//          urlArgs: "bust=" + (new Date()).getTime()
+//      });
 </script>
 </body>
 </html>

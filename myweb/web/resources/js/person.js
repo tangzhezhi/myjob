@@ -17,7 +17,8 @@ requirejs.config({
         'datatables':'jquery.dataTables',
         'dataTables.responsive':'dataTables.responsive',
         'datetimepicker':'bootstrap-datetimepicker',
-        //'datetimepicker.zh':'bootstrap-datetimepicker.zh-CN',
+        'bootstrapValidator':'formvalidation.bootstrap',
+        'formValidation':'formValidation',
         'common':'../common/index',
         app: '../person'
     },
@@ -55,6 +56,15 @@ requirejs.config({
                 //'datetimepicker.zh',
                 'css!../../../resources/css/bootstrap-datetimepicker.css'
             ]
+        },
+        'formValidation': {
+            deps:[
+                'jquery'
+                ,'css!../../../resources/css/formValidation.css'
+            ]
+        },
+        'bootstrapValidator':{
+            deps:['jquery', 'formValidation']
         }
     }
     ,waitSeconds: 500,
@@ -69,11 +79,15 @@ requirejs.config({
 requirejs([
         'common',
         'datetimepicker',
+        'formValidation',
+        'bootstrapValidator',
         '../person/main'
     ],
     function   (
         common,
         datetimepicker,
+        formValidation,
+        bootstrapValidator,
         main
     ) {
         var userid = common.getUserId();
@@ -108,7 +122,7 @@ requirejs([
             });
 
 
-            $(".my_back_btn").click(function(){
+            $(".form_back_btn").click(function(){
                 if($(".myshow").hasClass("hide")){
                     $(".myshow").removeClass("hide");
                 }
@@ -117,14 +131,13 @@ requirejs([
                 }
             });
 
-            $(".my_reset_btn").click(function(){
+            $(".form_reset_btn").click(function(){
                 $(".myForm input").each(function(){
                     $(this).val("");
                 });
-
             });
 
-
+            main.validateForm("myForm",main.postForm);
         }
 
     });

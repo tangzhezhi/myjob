@@ -29,7 +29,8 @@ public class PersonService {
             dto.setUserId(userid);
             list = orderDao.selectOrder(dto);
         } catch (Exception e) {
-            logger.error("获取用户订单出错:", e);
+
+            logger.error("获取用户订单出错:"+e);
         }
         return list;
     }
@@ -42,15 +43,15 @@ public class PersonService {
             logger.error("获取用户订单分页出错:", e);
         }
         return page;
+    }
 
-//        List list = null;
-//        try {
-//            OrderDTO dto = new OrderDTO();
-//            dto.setUserId(userid);
-//            list = orderDao.selectOrderPage(dto);
-//        } catch (Exception e) {
-//            logger.error("获取用户订单分页出错:", e);
-//        }
-//        return list;
+    public int add(OrderDTO params) {
+        int flag = -1;
+        try {
+            flag = orderDao.add(params);
+        } catch (Exception e) {
+            logger.error("新增用户订单出错:", e);
+        }
+        return flag;
     }
 }
