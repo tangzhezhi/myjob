@@ -142,8 +142,7 @@ define([
 
     function query(dataTable) {
         dataTable._fnClearTable();
-        //dataTable._fnDraw(mytable.settings);
-        dataTable._fnPageChange(dataTable.settings,"first", true);
+        dataTable._fnDraw();
     }
 
 

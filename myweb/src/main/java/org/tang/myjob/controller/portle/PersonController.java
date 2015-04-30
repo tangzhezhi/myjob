@@ -1,21 +1,32 @@
 package org.tang.myjob.controller.portle;
 
+import com.gs.collections.impl.factory.Maps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.tang.myjob.controller.utils.BaseController;
+import org.tang.myjob.controller.utils.UploadImageUtil;
 import org.tang.myjob.dto.product.OrderDTO;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.PersonService;
 import org.tang.myjob.service.redis.RedisUtil;
+import org.tang.myjob.utils.constant.FileConstant;
 import org.tang.myjob.utils.page.PageDataTable;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +90,53 @@ public class PersonController  extends BaseController {
             throw new Exception(br);
         }
         return m;
+    }
+
+
+    @RequestMapping(value = "person/uploadFile", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> uploadFile(HttpServletRequest request,MultipartFile file)
+
+    {
+        String filePath = FileConstant.imageFile;// 配置图片路径
+        String realFilePath = request.getSession().getServletContext().getRealPath(filePath);
+        Map<String, Object> dataMap =new HashMap();
+        String fileName = file.getOriginalFilename();
+        try
+        {
+            InputStream fileInputStream = file.getInputStream();
+
+
+            file.transferTo(new File(realFilePath+File.separator+fileName));
+
+//            File filedir = new File(realFilePath);
+//            if(!filedir.exists()){
+//                filedir.mkdir();
+//            }
+//            OutputStream outputStream = new FileOutputStream(realFilePath+File.separator+fileName);
+//
+//            int bytesWritten = 0;
+//            int byteCount = 0;
+//
+//            byte[] bytes = new byte[1024];
+//
+//            while ((byteCount = fileInputStream.read(bytes)) != -1)
+//            {
+//                outputStream.write(bytes, bytesWritten, byteCount);
+//                bytesWritten += byteCount;
+//            }
+//            fileInputStream.close();
+//            outputStream.close();
+
+        } catch (Exception e)
+
+        {
+            dataMap.put("result", "部署流程时发生错误");
+            e.printStackTrace();
+        }
+        dataMap.put("result", "success");
+        return dataMap;
+
     }
 
 
