@@ -102,13 +102,28 @@ requirejs([
     ) {
         var userid = common.getUserId();
         if(userid!=null){
+            /**
+             * 监听消息
+             */
             main.getPersonRealTimeMsg_RepeatLogin(userid);
+            main.getPersonRealTimeMsg_FileUpload(userid);
+
+            /**
+             * 实例化表格
+             * @type {*|jQuery}
+             */
             var mytable = main.getPersonPicture(userid,"mytable");
 
+            /**
+             * 查询监听
+             */
             $(".my_query_btn").click(function(){
                 main.query(mytable);
             } );
 
+            /**
+             * 日期控件实例化
+             */
             $(".form_datetime").datetimepicker(
                 {
                     language:'zh',
@@ -122,6 +137,9 @@ requirejs([
                     format: 'yyyy-mm-dd'
                 });
 
+            /**
+             * 新增按钮事件
+             */
             $(".my_add_btn").bind("click",function(){
                 if(!$(".myshow").hasClass("hide")){
                     $(".myshow").addClass("hide");
@@ -131,7 +149,9 @@ requirejs([
                 }
             });
 
-
+            /**
+             * 返回按钮事件
+             */
             $(".form_back_btn").click(function(){
                 if($(".myshow").hasClass("hide")){
                     $(".myshow").removeClass("hide");
@@ -141,27 +161,18 @@ requirejs([
                 }
             });
 
+            /**
+             * 重置按钮事件
+             */
             $(".form_reset_btn").click(function(){
                 $(".myForm input").each(function(){
                     $(this).val("");
                 });
             });
 
-
-            //$("#uploadFile").fileinput({
-            //    uploadUrl: 'person/uploadFile', // you must set a valid URL here else you will get an error
-            //    allowedFileExtensions : ['jpg', 'png','gif'],
-            //    overwriteInitial: false,
-            //    maxFileSize: 1000,
-            //    maxFilesNum: 10,
-            //    //allowedFileTypes: ['image', 'video', 'flash'],
-            //    slugCallback: function(filename) {
-            //        alert("haha");
-            //        return filename.replace('(', '_').replace(']', '_');
-            //    }
-            //});
-
-
+            /**
+             * 上传插件初始化
+             */
             $("#uploadFile").fileinput({
                 showPreview : false,
                 //allowedFileExtensions : ["txt", "zip", "bar", "bpmn", "bpmn20.xml" ], //限制文件类型
@@ -177,28 +188,47 @@ requirejs([
                 uploadIcon : '<i class="glyphicon glyphicon-upload"></i>'
             });
 
+            /**
+             * 上传事件处理
+             */
             $(".myFormFile").submit(function(event) {
                 var formData = new FormData(this); //这里用的是this，如果是Form的话需要Form[0]
 
                 event.preventDefault(); //阻止当前提交事件，自行实现，否则会跳转
                 $.ajax({
-                    url : 'person/uploadFile',
+                    url : 'person/uploadFile?random='+parseInt(Math.random()*100000),
                     type : 'POST',
                     data : formData,
                     contentType : false, //这两个参数需要被定义，否则报错
                     processData : false,
                     success : function(data) {
                     if (data.result == 'success') {
-                        alert("上传成功");
+                        common.alert_message("消息","上传成功");
                     }
                 },
                 error : function() {
-                    alert("上传文件错误");
+                    common.alert_message("消息","上传文件错误");
                 }
             });
         });
 
+            /**
+             * 表单验证
+             */
             main.validateForm("myFormInput",main.postForm);
         }
+
+
+        //$("#test").click(function(){
+        //    $.ajax({
+        //        type: "POST",
+        //        url: 'person/test?random='+parseInt(Math.random()*100000),
+        //        dataType: 'json',
+        //        success: function (data) {
+        //            alert(data);
+        //        }
+        //    });
+        //});
+
 
     });

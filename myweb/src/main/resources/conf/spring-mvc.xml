@@ -72,4 +72,22 @@
         <websocket:simple-broker prefix="/topic" />
     </websocket:message-broker>
 
+    <bean id="myThreadPool"
+          class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" /><!--最小线程数 -->
+        <property name="maxPoolSize" value="10" /><!--最大线程数 -->
+        <property name="queueCapacity" value="50" /><!--缓冲队列大小 -->
+        <property name="threadNamePrefix" value="http-nio-" /><!--线程池中产生的线程名字前缀 -->
+        <property name="keepAliveSeconds" value="30" /><!--线程池中空闲线程的存活时间单位秒 -->
+    </bean>
+
+    <mvc:annotation-driven>
+        <mvc:async-support task-executor="myThreadPool"
+                           default-timeout="60000">
+            <mvc:callable-interceptors>
+                <bean class="org.tang.myjob.controller.Interceptor.TimeOutInterceptor" />
+            </mvc:callable-interceptors>
+        </mvc:async-support>
+    </mvc:annotation-driven>
+
 </beans>

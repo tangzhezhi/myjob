@@ -35,11 +35,7 @@ import java.util.*;
 
 @Controller("IndexController")
 public class IndexController extends BaseController  {
-    public static final String SESSION_USERID = "tangUSERID";
-    public static final String SESSION_AUTHS = "tangAUTHS";
-    //KEY值根据SessionID生成
-    private static final String SID_PREFIX = "online:sid:";
-    private static final String UID_PREFIX = "online:uid:";
+
 
     private static Logger logger = Logger.getLogger(IndexController.class.getName());
 

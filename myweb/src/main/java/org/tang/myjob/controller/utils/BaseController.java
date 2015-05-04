@@ -11,7 +11,11 @@ import java.io.PrintWriter;
  * Created by Administrator on 2015/3/25.
  */
 public abstract  class BaseController {
-
+    public static final String SESSION_USERID = "tangUSERID";
+    public static final String SESSION_AUTHS = "tangAUTHS";
+    //KEY值根据SessionID生成
+    public static final String SID_PREFIX = "online:sid:";
+    public static final String UID_PREFIX = "online:uid:";
 //    @RequestMapping("upload")
 //    public String upload(Model model,HttpServletRequest request)
 //    {

@@ -19,6 +19,15 @@ define([
         });
     }
 
+    function getPersonRealTimeMsg_FileUpload(userid) {
+        common.getWebSocketMsg('/topic/uploadFileMsg/'+userid,function(data){
+            common.alert_message("请注意",$.parseJSON(data.body).content);
+        });
+    }
+
+
+
+
     /**
      * 初始化表格，然后返回DataTable对象
      * @param userid
@@ -209,6 +218,7 @@ define([
         validateForm:validateForm,
         postForm:postForm,
         getPersonRealTimeMsg_RepeatLogin:getPersonRealTimeMsg_RepeatLogin,
+        getPersonRealTimeMsg_FileUpload:getPersonRealTimeMsg_FileUpload,
         getPersonPicture:getPersonPicture
     }
 
