@@ -125,11 +125,11 @@ public class PreviewPdfFile {
     public static String getOfficeHome() {
         String osName = System.getProperty("os.name");
         if (Pattern.matches("Linux.*", osName)) {
-            return "/opt/openoffice.org4";
+            return openOfficePath;
         } else if (Pattern.matches("Windows.*", osName)) {
             return openOfficePath;
         } else if (Pattern.matches("Mac.*", osName)) {
-            return "/Application/OpenOffice.org.app/Contents";
+            return openOfficePath;
         }
         return null;
     }
