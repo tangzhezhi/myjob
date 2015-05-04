@@ -162,22 +162,22 @@ requirejs([
             //});
 
 
-            $("#pdFile").fileinput({
+            $("#uploadFile").fileinput({
                 showPreview : false,
                 //allowedFileExtensions : ["txt", "zip", "bar", "bpmn", "bpmn20.xml" ], //限制文件类型
                 elErrorContainer : "#fileError",
                 browseClass : "btn btn-success",
-                browseLabel : "查找文件",
+                browseLabel : "上传文件",
                 browseIcon : '<i class="glyphicon glyphicon-search"></i>',
                 removeClass : "btn btn-danger",
                 removeLabel : "删除",
                 removeIcon : '<i class="glyphicon glyphicon-trash"></i>',
                 uploadClass : "btn btn-info",
-                uploadLabel : "部署",
-                uploadIcon : '<i class="glyphicon glyphicon-upload"></i>',
-        });
+                uploadLabel : "上传",
+                uploadIcon : '<i class="glyphicon glyphicon-upload"></i>'
+            });
 
-            $("#uploadForm").submit(function(event) {
+            $(".myFormFile").submit(function(event) {
                 var formData = new FormData(this); //这里用的是this，如果是Form的话需要Form[0]
 
                 event.preventDefault(); //阻止当前提交事件，自行实现，否则会跳转
@@ -188,13 +188,12 @@ requirejs([
                     contentType : false, //这两个参数需要被定义，否则报错
                     processData : false,
                     success : function(data) {
-                        alert("dd");
                     if (data.result == 'success') {
-                        $("#uploadFileDiv").slideToggle("slow");
+                        alert("上传成功");
                     }
                 },
                 error : function() {
-                    alert("haha");
+                    alert("上传文件错误");
                 }
             });
         });

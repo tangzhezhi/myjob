@@ -26,6 +26,12 @@
     <orderEntry type="module" module-name="myutils" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.2.7" level="project" />
     <orderEntry type="library" name="Maven: redis.clients:jedis:2.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.artofsolving:jodconverter:3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.openoffice:juh:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openoffice:jurt:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.openoffice:ridl:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openoffice:unoil:3.2.1" level="project" />
     <orderEntry type="module" module-name="mydao" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.5" level="project" />

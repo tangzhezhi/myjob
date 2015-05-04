@@ -20,6 +20,7 @@ import org.tang.myjob.dto.product.OrderDTO;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.PersonService;
 import org.tang.myjob.service.redis.RedisUtil;
+import org.tang.myjob.utils.File.PreviewPdfFile;
 import org.tang.myjob.utils.constant.FileConstant;
 import org.tang.myjob.utils.page.PageDataTable;
 
@@ -98,40 +99,40 @@ public class PersonController  extends BaseController {
     public Map<String, Object> uploadFile(HttpServletRequest request,MultipartFile file)
 
     {
-        String filePath = FileConstant.imageFile;// 配置图片路径
+        String filePath = FileConstant.uploadTempFile;// 上传文件临时路径
         String realFilePath = request.getSession().getServletContext().getRealPath(filePath);
         Map<String, Object> dataMap =new HashMap();
         String fileName = file.getOriginalFilename();
         try
         {
-            InputStream fileInputStream = file.getInputStream();
+            File fileDir = new File(realFilePath);
+            if(!fileDir.exists()){
+                fileDir.mkdir();
+            }
 
+            String truePath = realFilePath+File.separator+fileName;
 
-            file.transferTo(new File(realFilePath+File.separator+fileName));
+            File uploadedFile = new File(realFilePath+File.separator+fileName);
 
-//            File filedir = new File(realFilePath);
-//            if(!filedir.exists()){
-//                filedir.mkdir();
-//            }
-//            OutputStream outputStream = new FileOutputStream(realFilePath+File.separator+fileName);
-//
-//            int bytesWritten = 0;
-//            int byteCount = 0;
-//
-//            byte[] bytes = new byte[1024];
-//
-//            while ((byteCount = fileInputStream.read(bytes)) != -1)
-//            {
-//                outputStream.write(bytes, bytesWritten, byteCount);
-//                bytesWritten += byteCount;
-//            }
-//            fileInputStream.close();
-//            outputStream.close();
+            file.transferTo(uploadedFile);
+
+            String fileSuffix = fileName.split("\\.")[1];
+
+            String filePreffix = fileName.split("\\.")[0];
+
+            if(PreviewPdfFile.judgeIsOffice(fileSuffix)){
+                try {
+                    PreviewPdfFile.windowsSystemOffice2PDF(truePath,realFilePath+File.separator+filePreffix+".pdf");
+                } catch (Exception e) {
+                    dataMap.put("result", "上传时office文件转换pdf错误");
+                    e.printStackTrace();
+                }
+            }
 
         } catch (Exception e)
 
         {
-            dataMap.put("result", "部署流程时发生错误");
+            dataMap.put("result", "上传时发生错误");
             e.printStackTrace();
         }
         dataMap.put("result", "success");

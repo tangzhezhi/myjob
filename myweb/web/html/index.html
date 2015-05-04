@@ -96,78 +96,76 @@
   </div>
   <!--整个表格显示结束 -->
 
-  <form enctype="multipart/form-data" id="uploadForm">
-    <div id="uploadFileDiv"  style="width: 60%;">
-      <input id="pdFile" name="file" type="file">
-      <div id="fileError" class="help-block"></div>
-      <br />
-    </div>
-  </form>
-
-
-  <!--<form  method="POST" action="person/uploadFile" enctype="multipart/form-data" class="myFormFile  form-horizontal center">-->
-    <!--<div class="form-group">-->
-      <!--<label for="uploadFile" class="col-sm-2 control-label">上传文件</label>-->
-      <!--<div class="col-sm-10">-->
-        <!--<input id="uploadFile" class="file" type="file" data-show-preview="false">-->
-      <!--</div>-->
+  <!--<form enctype="multipart/form-data" id="uploadForm">-->
+    <!--<div id="uploadFileDiv"  style="width: 60%;">-->
+      <!--<input id="pdFile" name="file" type="file">-->
+      <!--<div id="fileError" class="help-block"></div>-->
+      <!--<br />-->
     <!--</div>-->
-    <!--<input type="submit" value="确定">-->
   <!--</form>-->
+
 
   <!-- 新增form开始-->
     <div class="myForm row hide">
         <br> <br>
         <div class="col-md-2"></div>
         <div class="col-md-8">
-          <!--<form id="myFormInput" class="myFormInput  form-horizontal center">-->
+          <form id="myFormInput" class="myFormInput  form-horizontal center">
+            <div class="form-group">
+              <label for="userId" class="col-sm-2 control-label" >Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="userId"  name="userId"  placeholder="请输入email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="remark" class="col-sm-2 control-label">remark</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="remark" placeholder="请输入remark">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-append date form_datetime">
+                <label for="createTime" class="col-sm-2 control-label" >createTime</label>
+                <div class="col-sm-10">
+                  <input id="createTime" size="20"   class="form-control" type="text" value="" readonly>
+                  <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="totalAmount" class="col-sm-2 control-label">totalAmount</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="totalAmount" placeholder="请输入totalAmount">
+              </div>
+            </div>
             <!--<div class="form-group">-->
-              <!--<label for="userId" class="col-sm-2 control-label" >Email</label>-->
-              <!--<div class="col-sm-10">-->
-                <!--<input type="email" class="form-control" id="userId"  name="userId"  placeholder="请输入email">-->
+              <!--<div class="row">-->
+                  <!--<span class="col-sm-2 control-label">&nbsp;&nbsp;</span>-->
+                  <!--<div class="col-sm-10">-->
+                    <!--<span class="btn-toolbar">-->
+                       <!--<button type="button" class="btn btn-success form_back_btn">返回</button>-->
+                       <!--<button class="btn btn-info form_save_btn " type="submit">保存</button>-->
+                       <!--<button type="reset" class="btn btn-success form_reset_btn ">重置</button>-->
+                    <!--</span>-->
+                  <!--</div>-->
               <!--</div>-->
             <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="remark" class="col-sm-2 control-label">remark</label>-->
-              <!--<div class="col-sm-10">-->
-                <!--<input type="text" class="form-control" id="remark" placeholder="请输入remark">-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<div class="input-append date form_datetime">-->
-                <!--<label for="createTime" class="col-sm-2 control-label" >createTime</label>-->
-                <!--<div class="col-sm-10">-->
-                  <!--<input id="createTime" size="20"   class="form-control" type="text" value="" readonly>-->
-                  <!--<span class="add-on"><i class="icon-th"></i></span>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="totalAmount" class="col-sm-2 control-label">totalAmount</label>-->
-              <!--<div class="col-sm-10">-->
-                <!--<input type="text" class="form-control" id="totalAmount" placeholder="请输入totalAmount">-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<span class="col-sm-2 control-label">&nbsp;&nbsp;</span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<div class="col-sm-10">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span class="btn-toolbar">&ndash;&gt;-->
-                       <!--&lt;!&ndash;<button type="button" class="btn btn-success form_back_btn">返回</button>&ndash;&gt;-->
-                       <!--&lt;!&ndash;<button class="btn btn-info form_save_btn " type="submit">保存</button>&ndash;&gt;-->
-                       <!--&lt;!&ndash;<button type="reset" class="btn btn-success form_reset_btn ">重置</button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--</form>-->
+          </form>
 
-
+          <form   enctype="multipart/form-data" class="myFormFile  form-horizontal center">
+            <div class="form-group">
+              <label for="uploadFile" class="col-sm-2 control-label">上传文件</label>
+              <div class="col-sm-10">
+                <input id="uploadFile" type="file" name="file" >
+                <div id="fileError" class="help-block"></div>
+              </div>
+            </div>
+          </form>
         </div>
 
         <div class="row">
-          <span class="col-sm-2 control-label">&nbsp;&nbsp;</span>
-          <div class="col-sm-10">
+          <span class="col-sm-4 control-label">&nbsp;&nbsp;</span>
+          <div class="col-sm-4">
                     <span class="btn-toolbar">
                        <button type="button" class="btn btn-success form_back_btn">返回</button>
                        <button class="btn btn-info form_save_btn " type="submit">保存</button>
@@ -175,7 +173,7 @@
                     </span>
           </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-4"></div>
     </div>
   <!-- 新增form结束-->
 </div>

@@ -7,4 +7,10 @@ public interface FileConstant {
 
     public String imageFile = "/imageFile/";
 
+    public String uploadTempFile = "/uploadTempFile/";
+
+    public String uploadFile = "/uploadFile/";
+
+    public String openOfficeDir = "C:\\Program Files (x86)\\OpenOffice 4";
+
 }
