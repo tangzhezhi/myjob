@@ -31,6 +31,7 @@ import org.tang.myjob.utils.page.PageDataTable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,54 +104,66 @@ public class PersonController  extends BaseController {
     }
 
 
-//    @RequestMapping(value = "person/uploadFile", method = {RequestMethod.POST , RequestMethod.GET})
-//    @ResponseBody
-//    public Map<String, Object> uploadFile(HttpServletRequest request,MultipartFile file)
-//
-//    {
-//        String filePath = FileConstant.uploadTempFile;// 上传文件临时路径
-//        String realFilePath = request.getSession().getServletContext().getRealPath(filePath);
-//        Map<String, Object> dataMap =new HashMap();
-//        String fileName = file.getOriginalFilename();
-//        try
-//        {
-//            File fileDir = new File(realFilePath);
-//            if(!fileDir.exists()){
-//                fileDir.mkdir();
-//            }
-//
-//            String truePath = realFilePath+File.separator+fileName;
-//
-//            File uploadedFile = new File(realFilePath+File.separator+fileName);
-//
-//            file.transferTo(uploadedFile);
-//
-//            String fileSuffix = fileName.split("\\.")[1];
-//
-//            String filePreffix = fileName.split("\\.")[0];
-//
-//            if(PreviewPdfFile.judgeIsOffice(fileSuffix)){
-//                try {
-//                    PreviewPdfFile.windowsSystemOffice2PDF(truePath,realFilePath+File.separator+filePreffix+".pdf");
-//                } catch (Exception e) {
-//                    dataMap.put("result", "上传时office文件转换pdf错误");
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        } catch (Exception e)
-//
-//        {
-//            dataMap.put("result", "上传时发生错误");
-//            e.printStackTrace();
-//        }
-//        dataMap.put("result", "success");
-//        return dataMap;
-//
-//    }
+    @RequestMapping(value = "person/uploadFile", method = {RequestMethod.POST , RequestMethod.GET})
+    @ResponseBody
+    public Map<String, Object> uploadFile(HttpServletRequest request,MultipartFile file)
+
+    {
+
+        String filePath = FileConstant.uploadTempFile;// 上传文件临时路径
+
+        String rootpath = request.getSession().getServletContext().getRealPath("/");
+        URL dd = Thread.currentThread().getContextClassLoader().getResource("");
+        String realFilePath = request.getSession().getServletContext().getRealPath(filePath);
+        Map<String, Object> dataMap =new HashMap();
+        String fileName = file.getOriginalFilename();
+        try
+        {
+            File fileDir = new File(realFilePath);
+            if(!fileDir.exists()){
+                fileDir.mkdir();
+            }
+
+            String truePath = realFilePath+File.separator+fileName;
+
+            File uploadedFile = new File(realFilePath+File.separator+fileName);
+
+            file.transferTo(uploadedFile);
+
+            String fileSuffix = fileName.split("\\.")[1];
+
+            String filePreffix = fileName.split("\\.")[0];
+
+            String dest = "";
+
+            if(PreviewPdfFile.judgeIsOffice(fileSuffix)){
+                try {
+                    dest = filePath+filePreffix+".pdf";
+                    PreviewPdfFile.windowsSystemOffice2PDF(truePath,realFilePath+filePreffix+".pdf");
+                    dataMap.put("fileUrl",dest);
+                } catch (Exception e) {
+                    dataMap.put("result", "上传时office文件转换pdf错误");
+                    e.printStackTrace();
+                }
+            }
+            else{
+                dest = filePath+fileName;
+                dataMap.put("fileUrl",dest);
+            }
+
+        } catch (Exception e)
+
+        {
+            dataMap.put("result", "上传时发生错误");
+            e.printStackTrace();
+        }
+        dataMap.put("result", "success");
+        return dataMap;
+
+    }
 
 
-    @RequestMapping(value="person/uploadFile",  method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value="person/uploadFileAsync",  method = {RequestMethod.POST , RequestMethod.GET})
     public @ResponseBody Callable<Map<String, Object>> responseBody(final HttpSession session, final HttpServletRequest request, final MultipartFile file) {
         System.out.println("线程名称：" + Thread.currentThread().getName());
         System.out.println(System.currentTimeMillis());

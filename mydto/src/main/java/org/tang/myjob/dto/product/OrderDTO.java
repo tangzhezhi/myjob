@@ -25,6 +25,15 @@ public class OrderDTO  extends PageDataTable implements Serializable{
 	private String startTime;
 	private String endTime;
 	private String totalAmount;
+	private String fileUrl;
+
+	public String getFileUrl() {
+		return fileUrl;
+	}
+
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
 
 	public int getId() {
 		return id;

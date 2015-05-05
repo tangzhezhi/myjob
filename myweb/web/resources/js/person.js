@@ -20,6 +20,7 @@ requirejs.config({
         'bootstrapValidator':'formvalidation.bootstrap',
         'formValidation':'formValidation',
         'fileinput':'fileinput',
+        'jquery.media':'jquery.media',
         'common':'../common/index',
         app: '../person'
     },
@@ -65,6 +66,11 @@ requirejs.config({
                 'css!../../../resources/css/fileinput.css'
             ]
         },
+        'jquery.media':{
+            deps:[
+                'jquery'
+            ]
+        },
         'formValidation': {
             deps:[
                 'jquery'
@@ -90,6 +96,7 @@ requirejs([
         'formValidation',
         'bootstrapValidator',
         'fileinput',
+        'jquery.media',
         '../person/main'
     ],
     function   (
@@ -98,6 +105,7 @@ requirejs([
         formValidation,
         bootstrapValidator,
         fileinput,
+        media,
         main
     ) {
         var userid = common.getUserId();
@@ -113,6 +121,8 @@ requirejs([
              * @type {*|jQuery}
              */
             var mytable = main.getPersonPicture(userid,"mytable");
+
+            $('.media').media( { width: 400, height: 300, autoplay: true } );
 
             /**
              * 查询监听
@@ -203,6 +213,7 @@ requirejs([
                     processData : false,
                     success : function(data) {
                     if (data.result == 'success') {
+                        $("#fileUrl").val(common.getRootPath()+data.fileUrl);
                         common.alert_message("消息","上传成功");
                     }
                 },
@@ -230,5 +241,10 @@ requirejs([
         //    });
         //});
 
+
+        $(".form_save_btn").click(function(e){
+            e.preventDefault();
+            main.postForm("myFormInput");
+        });
 
     });
