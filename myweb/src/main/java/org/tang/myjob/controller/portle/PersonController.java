@@ -1,25 +1,19 @@
 package org.tang.myjob.controller.portle;
 
-import com.gs.collections.impl.factory.Maps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.tang.myjob.controller.utils.BaseController;
-import org.tang.myjob.controller.utils.UploadImageUtil;
 import org.tang.myjob.dto.message.MessageDTO;
+import org.tang.myjob.dto.message.ProgressDTO;
 import org.tang.myjob.dto.product.OrderDTO;
 import org.tang.myjob.service.exception.ExceptionType;
 import org.tang.myjob.service.portle.PersonService;
@@ -30,9 +24,8 @@ import org.tang.myjob.utils.page.PageDataTable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.io.File;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,12 +97,21 @@ public class PersonController  extends BaseController {
     }
 
 
+    @RequestMapping(value = "/upfile/progress", method = RequestMethod.POST )
+    @ResponseBody
+    public String initCreateInfo(HttpServletRequest request) {
+        ProgressDTO status = (ProgressDTO) request.getSession().getAttribute("upload_ps");
+        if(status==null){
+            return "{}";
+        }
+        return status.toString();
+    }
+
     @RequestMapping(value = "person/uploadFile", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
     public Map<String, Object> uploadFile(HttpServletRequest request,MultipartFile file)
 
     {
-
         String filePath = FileConstant.uploadTempFile;// 上传文件临时路径
 
         String rootpath = request.getSession().getServletContext().getRealPath("/");

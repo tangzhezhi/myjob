@@ -24,6 +24,21 @@ define([
         return(prePath+postPath);
     }
 
+    function getProgress() {
+        var now = new Date();
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: getRootPath()+"/upfile/progress",
+            data: now.getTime(),
+            success: function(data) {
+                console.log(JSON.stringify(data));
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
 
 
     function alert_message(title,msg,callback){
@@ -104,7 +119,8 @@ define([
         getRootPath:getRootPath,
         getWebSocketMsg:getWebSocketMsg,
         alert_message:alert_message,
-        getUserId:getUserId
+        getUserId:getUserId,
+        getProgress:getProgress
     }
 
 });

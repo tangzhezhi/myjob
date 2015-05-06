@@ -16,7 +16,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.1.6.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:4.1.6.RELEASE" level="project" />
@@ -34,5 +33,9 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.openoffice:ridl:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.openoffice:unoil:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:1.8.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:1.8.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.8" level="project" />
+    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
   </component>
 </module>

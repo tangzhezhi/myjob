@@ -32,6 +32,9 @@
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.openoffice:ridl:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.openoffice:unoil:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:1.8.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:1.8.8" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.8" level="project" />
     <orderEntry type="module" module-name="mydao" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:4.1.6.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.8.5" level="project" />

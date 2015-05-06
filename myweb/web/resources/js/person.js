@@ -108,6 +108,7 @@ requirejs([
         media,
         main
     ) {
+        var oTimer = null;
         var userid = common.getUserId();
         if(userid!=null){
             /**
@@ -203,6 +204,8 @@ requirejs([
              */
             $(".myFormFile").submit(function(event) {
                 var formData = new FormData(this); //这里用的是this，如果是Form的话需要Form[0]
+                common.getProgress();
+                oTimer = setInterval(common.getProgress, 1000);
 
                 event.preventDefault(); //阻止当前提交事件，自行实现，否则会跳转
                 $.ajax({
@@ -215,9 +218,11 @@ requirejs([
                     if (data.result == 'success') {
                         $("#fileUrl").val(common.getRootPath()+data.fileUrl);
                         common.alert_message("消息","上传成功");
+                        clearInterval(oTimer);
                     }
                 },
                 error : function() {
+                    clearInterval(common.getProgress);
                     common.alert_message("消息","上传文件错误");
                 }
             });
