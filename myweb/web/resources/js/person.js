@@ -207,6 +207,8 @@ requirejs([
                 common.getProgress();
                 oTimer = setInterval(common.getProgress, 1000);
 
+                $(".progress").removeClass("hide");
+
                 event.preventDefault(); //阻止当前提交事件，自行实现，否则会跳转
                 $.ajax({
                     url : 'person/uploadFile?random='+parseInt(Math.random()*100000),
@@ -218,6 +220,7 @@ requirejs([
                     if (data.result == 'success') {
                         $("#fileUrl").val(common.getRootPath()+data.fileUrl);
                         common.alert_message("消息","上传成功");
+                        $(".progress").addClass("hide");
                         clearInterval(oTimer);
                     }
                 },

@@ -112,15 +112,8 @@ define([
                     "sClass" : "center"
                 },
                 {"mDataProp": function(source, type, val){
-                    return  '<a class="media btn btn-default" href="'+source.fileUrl+'"  data-toggle="tooltip" data-placement="top" title="预览"  role="button">' +
+                    return  '<a class="media btn btn-default preview"   rel="external" href="#"  value="'+source.fileUrl+'"  data-toggle="tooltip" data-placement="top" title="预览"  role="button">' +
                         '<span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>';
-
-                    //return '<div class="btn-toolbar">'
-                    //    +'<button class="btn btn-warning btn-xs" type="button" data-toggle="tooltip" data-placement="top" title="更新">' +
-                    //    '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'+
-                    //    '</button>' +
-                    //    '<button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="删除"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>'
-                    //    +'</div>';
                 },
                     "sTitle" : "文件",
                     "sClass" : "center"
@@ -155,6 +148,19 @@ define([
                     "success" : function(data){
                         fnCallback(data);
                     }
+                });
+            },
+            "fnDrawCallback":function(){
+
+                var nTrs = $('#mytable').dataTable().fnGetNodes();//fnGetNodes获取表格所有行，nTrs[i]表示第i行tr对象
+                for(var i = 0; i < nTrs.length; i++){
+                    if($(nTrs[i]).hasClass('selected')){
+                        console.log('[获取数据]' + table.fnGetData(nTrs[i]));//fnGetData获取一行的数据
+                    }
+                }
+
+                $(".preview").click(function(){
+                    alert("haha");
                 });
             }
 

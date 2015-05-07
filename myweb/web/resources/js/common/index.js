@@ -24,7 +24,7 @@ define([
         return(prePath+postPath);
     }
 
-    function getProgress() {
+    function getProgress(id) {
         var now = new Date();
         $.ajax({
             type: "post",
@@ -32,7 +32,20 @@ define([
             url: getRootPath()+"/upfile/progress",
             data: now.getTime(),
             success: function(data) {
-                console.log(JSON.stringify(data));
+
+                var nowvalue = Math.round((data.pBytesRead/data.pContentLength)*100);
+
+                var widthvalue = "width:"+nowvalue+"%";
+
+                if(id===null || id === undefined){
+                    $(".progress-bar")[0].innerHTML = nowvalue;
+                    $(".progress-bar").attr("style",widthvalue);
+                    $(".progress-bar")[1].innerHTML = nowvalue;
+                }
+                else{
+                    $("#"+id).innerHTML = nowvalue;
+                    $("#"+id).attr("style",widthvalue);
+                }
             },
             error: function(err) {
                 console.log(err);

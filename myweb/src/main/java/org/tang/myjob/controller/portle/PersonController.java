@@ -99,12 +99,12 @@ public class PersonController  extends BaseController {
 
     @RequestMapping(value = "/upfile/progress", method = RequestMethod.POST )
     @ResponseBody
-    public String initCreateInfo(HttpServletRequest request) {
+    public Object initCreateInfo(HttpServletRequest request) {
         ProgressDTO status = (ProgressDTO) request.getSession().getAttribute("upload_ps");
         if(status==null){
             return "{}";
         }
-        return status.toString();
+        return status;
     }
 
     @RequestMapping(value = "person/uploadFile", method = {RequestMethod.POST , RequestMethod.GET})
