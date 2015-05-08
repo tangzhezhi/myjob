@@ -218,7 +218,7 @@ requirejs([
                     processData : false,
                     success : function(data) {
                     if (data.result == 'success') {
-                        $("#fileUrl").val(common.getRootPath()+data.fileUrl);
+                        $("#fileUrl").val(data.fileUrl);
                         common.alert_message("消息","上传成功");
                         $(".progress").addClass("hide");
                         clearInterval(oTimer);
