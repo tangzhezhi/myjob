@@ -1,10 +1,10 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 public class JavaProperty {
 	PropertyDescriptor propertyDescriptor;

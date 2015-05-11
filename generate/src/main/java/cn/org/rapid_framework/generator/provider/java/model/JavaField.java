@@ -1,9 +1,9 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
+import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-
-import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
 public class JavaField {
 	private Field field;

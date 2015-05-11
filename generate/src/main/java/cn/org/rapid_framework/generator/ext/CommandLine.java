@@ -1,13 +1,13 @@
 package cn.org.rapid_framework.generator.ext;
 
-import java.io.File;
-import java.util.Scanner;
-
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ArrayHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
+
+import java.io.File;
+import java.util.Scanner;
 /**
  * 命令行工具类,可以直接运行
  * 

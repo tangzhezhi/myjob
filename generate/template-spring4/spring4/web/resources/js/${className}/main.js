@@ -48,7 +48,7 @@ define([
                     <#list table.columns as column>
                     {
                         "mDataProp" : "${column.columnName}",
-                        "sTitle" : "${column._remarks}",
+                        "sTitle" : "${column.remarks}",
                         "sDefaultContent" : "",
                         "sClass" : "center"
                     },
@@ -115,16 +115,14 @@ define([
             fields: {
                 row: '.col-sm-4',
             <#list table.columns as column>
-                <#if column._isNullable == true>
                     ${column.columnName} :{
-                        message: '${column._remarks}无效',
+                        message: '${column.remarks}无效',
                             validators: {
                             notEmpty: {
-                                message: '${column._remarks}不能为空'
+                                message: '${column.remarks}不能为空'
                             }
                         }
                     }<#if column_has_next>,</#if>
-                </#if>
             </#list>
             }
         }).on('success.form.fv', function(e) {

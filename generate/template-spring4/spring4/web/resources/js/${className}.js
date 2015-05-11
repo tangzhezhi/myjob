@@ -1,6 +1,5 @@
-/**
- * Created by Administrator on 2015/4/17.
- */
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first>
 /**
  * Created by Administrator on 2015/3/27.
  */

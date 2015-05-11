@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="myjob">
     <meta name="author" content="330882908@qq.com">
-    <title>${className} : ${remarks}</title>
+    <title>${className} : ${table.remarks}</title>
 </head>
 
 <body>
@@ -84,7 +84,7 @@
                 </th>
 
                 <#list table.columns as column>
-                    <th>${column._remarks}</th>
+                    <th>${column.remarks}</th>
                 </#list>
                 <th></th>
             </tr>
@@ -103,9 +103,9 @@
             <form id="myFormInput" class="myFormInput  form-horizontal center">
                 <#list table.columns as column>
                     <div class="form-group">
-                        <label for="${column.columnName}" class="col-sm-2 control-label" >${column._remarks}</label>
+                        <label for="${column.columnName}" class="col-sm-2 control-label" >${column.remarks}</label>
                         <div class="col-sm-10">
-                            <input  class="form-control" id="${column.columnName}"  name="${column.columnName}"  placeholder="请输入${column._remarks}">
+                            <input  class="form-control" id="${column.columnName}"  name="${column.columnName}"  placeholder="请输入${column.remarks}">
                         </div>
                     </div>
                 </#list>

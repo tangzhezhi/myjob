@@ -1,9 +1,9 @@
 package cn.org.rapid_framework.generator.util.typemapping;
 
+import cn.org.rapid_framework.generator.util.StringHelper;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class JavaPrimitiveTypeMapping {
 	static Map<String, String> wraper2primitive = new HashMap();

@@ -5,11 +5,11 @@
 package cn.org.rapid_framework.generator.provider.db.table.model;
 
 
-import java.util.List;
-
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.ListHashtable;
 import cn.org.rapid_framework.generator.util.StringHelper;
+
+import java.util.List;
 
 /**
  * @author chris

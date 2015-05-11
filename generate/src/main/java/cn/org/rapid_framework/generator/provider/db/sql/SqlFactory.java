@@ -1,18 +1,5 @@
 package cn.org.rapid_framework.generator.provider.db.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
@@ -28,6 +15,9 @@ import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
+
+import java.sql.*;
+import java.util.*;
 /**
  * 
  * 根据SQL语句生成Sql对象,用于代码生成器的生成<br />

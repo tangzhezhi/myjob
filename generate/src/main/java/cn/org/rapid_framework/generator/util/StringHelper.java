@@ -1,15 +1,10 @@
 package cn.org.rapid_framework.generator.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.StringTokenizer;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column.EnumMetaDada;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import cn.org.rapid_framework.generator.provider.db.table.model.Column.EnumMetaDada;
 
 /**
  * 

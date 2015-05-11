@@ -1,13 +1,13 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 /**
  * 用于生成代码的Sql对象.对应数据库的sql语句
  * 使用SqlFactory.parseSql()生成 <br />
