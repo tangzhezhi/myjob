@@ -1,0 +1,142 @@
+<#include "/java_copyright.include">
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="myjob">
+    <meta name="author" content="330882908@qq.com">
+    <title>${className} : ${remarks}</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">工作台</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="message">消息</a></li>
+                <li><a href="vedio">@Face</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">更多 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="product_new">最新产品</a></li>
+                        <li class="divider"></li>
+                        <li><a href="watch_history">我看过</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+<br><br><br>
+<div class="container">
+    <br><br>
+
+    <!--整个表格显示开始 -->
+    <div class="myshow">
+        <div class="myheader">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 col-xs-6">
+                    <div class="input-group">
+         <span class="input-group-btn">
+              <button id="test" type="button" class="btn btn-default check-all">全选</button>
+              <button type="button" class="btn btn-default check-all-not">全不选</button>
+         </span>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <span>&nbsp;&nbsp;</span>
+                </div>
+                <div class="col-lg-6 col-sm-12 col-xs-12">
+                    <div class="input-group">
+                        <input  type="text" class="form-control my_query" placeholder="请输入名称...">
+        <span class="input-group-btn">
+           <button class="btn btn-info my_query_btn" type="button">查询</button>
+           <button type="button" class="btn btn-success my_add_btn">新增</button>
+        </span>
+                    </div>
+                </div>
+            </div>
+            <br/>
+        </div>
+        <!--表格显示开始 -->
+        <table id="mytable" class="row-border" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>
+                    <!--<label><input type="checkbox"/></label>-->
+                </th>
+
+                <#list table.columns as column>
+                    <th>${column._remarks}</th>
+                </#list>
+                <th></th>
+            </tr>
+            </thead>
+        </table>
+        <!--表格显示结束 -->
+    </div>
+    <!--整个表格显示结束 -->
+
+
+    <!-- 新增form开始-->
+    <div class="myForm row hide">
+        <br> <br>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form id="myFormInput" class="myFormInput  form-horizontal center">
+                <#list table.columns as column>
+                    <div class="form-group">
+                        <label for="${column.columnName}" class="col-sm-2 control-label" >${column._remarks}</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="${column.columnName}"  name="${column.columnName}"  placeholder="请输入${column._remarks}">
+                        </div>
+                    </div>
+                </#list>
+
+            </form>
+
+        </div>
+
+        <div class="row">
+            <span class="col-sm-4 control-label">&nbsp;&nbsp;</span>
+            <div class="col-sm-4">
+                    <span class="btn-toolbar">
+                       <button type="button" class="btn btn-success form_back_btn">返回</button>
+                       <button class="btn btn-info form_save_btn " type="submit">保存</button>
+                       <button type="reset" class="btn btn-success form_reset_btn ">重置</button>
+                    </span>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- 新增form结束-->
+</div>
+
+<footer>
+</footer>
+
+<script data-main="resources/js/${className}.js" src="./resources/js/lib/require.js"></script>
+<script>
+    require.config({
+        urlArgs: "bust=" + (new Date()).getTime()
+    });
+</script>
+</body>
+</html>
