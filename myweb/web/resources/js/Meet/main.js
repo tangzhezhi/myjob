@@ -85,6 +85,9 @@ define([
                     },
                     {"mDataProp": function(source, type, val){
                         return '<div class="btn-toolbar">'
+                            +'<button class="btn btn-success btn-xs joinMeet" type="button" data-toggle="tooltip" data-placement="top" title="加入">' +
+                            '<span class="glyphicon glyphicon-hourglass " aria-hidden="true"></span>'+
+                            '</button>'
                             +'<button class="btn btn-warning btn-xs" type="button" data-toggle="tooltip" data-placement="top" title="更新">' +
                             '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'+
                             '</button>' +
@@ -120,6 +123,17 @@ define([
                     $(".preview").click(function(e){
                         var url = $(e.target).parent().attr("value");
                     });
+
+                    $(".joinMeet").click(function(){
+
+                        var a = $("<a href='http://localhost:3000/chat?userid=1' target='_blank'>会议</a>").get(0);
+                        var e = document.createEvent('MouseEvents');
+                        e.initEvent( 'click', true, true );
+                        a.dispatchEvent(e);
+
+                        //window.open("http://localhost:3000/chat?userid=1", "_blank");
+                    });
+
                 }
 
             }
@@ -222,7 +236,6 @@ define([
             }
         });
     }
-
 
     return {
         getMeet:getMeet,

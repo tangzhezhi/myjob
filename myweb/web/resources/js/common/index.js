@@ -24,6 +24,27 @@ define([
         return(prePath+postPath);
     }
 
+    function getSessionId(){
+        var c_name = 'JSESSIONID';
+        if(document.cookie.length>0){
+            c_start=document.cookie.indexOf(c_name + "=")
+            if(c_start!=-1){
+                c_start=c_start + c_name.length+1
+                c_end=document.cookie.indexOf(";",c_start)
+                if(c_end==-1) c_end=document.cookie.length
+                return unescape(document.cookie.substring(c_start,c_end));
+            }
+        }
+    }
+
+    function openNewWindow(url){
+        var a = $("<a href='"+url+"' target='_blank'></a>").get(0);
+        var e = document.createEvent('MouseEvents');
+        e.initEvent( 'click', true, true );
+        a.dispatchEvent(e);
+    }
+
+
     function getProgress(id) {
         var now = new Date();
         $.ajax({
@@ -129,6 +150,8 @@ define([
     }
 
     return {
+        getSessionId:getSessionId,
+        openNewWindow:openNewWindow,
         getRootPath:getRootPath,
         getWebSocketMsg:getWebSocketMsg,
         alert_message:alert_message,

@@ -187,4 +187,12 @@ requirejs([
             main.postForm("myFormInput");
         });
 
+        /**
+         * 加入会议
+         */
+        $(".joinMeet").click(function(){
+            alert("haha");
+            main.joinMeet();
+        });
+
     });
