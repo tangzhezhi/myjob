@@ -2,16 +2,18 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
 package ${basepackage}.service.${subpackage};
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import ${basepackage}.dao.${subpackage}.${className}Dao;
 import ${basepackage}.dto.${subpackage}.${className}DTO;
-import ${basepackage}.utils.Page;
+import ${basepackage}.utils.page.PageDataTable;
+import java.util.ArrayList;
 
 @Service
 public class ${className}Service {
+
+	private static Logger logger = Logger.getLogger${className}Service.class.getName());
+
 	@Autowired
 	private ${className}Dao ${classNameLower}Dao;
 	
@@ -20,21 +22,25 @@ public class ${className}Service {
 	 * @param udto
 	 * @return
 	 */
-	public  Page find${className}(Page page){
-		Page  pageList = (Page) ${classNameLower}Dao.select${className}All(page);
-		if(pageList!=null && pageList.getResults().size() > 0 ){
-			pageList.setPageNo(page.getPageNo());
-			pageList.setPageSize(page.getPageSize());
-			pageList.setTotalPage(page.getTotalPage());
-			pageList.setTotalRecord(page.getTotalRecord());
+	public  PageDataTable find${className}(PageDataTable page){
+		try {
+			page.setAaData( ${classNameLower}Dao.select${className}Page(page) == null ? new ArrayList() : ${classNameLower}Dao.select${className}Page(page).getAaData());
+		} catch (Exception e) {
+			logger.error("获取分页出错:", e);
 		}
-		return pageList;
+		return page;
 	}
 	
-	public int insert${className}(${className}DTO dto){
+	public int insert${className}(${className}DTO dto) throws Exception {
 		int flag = 0;
 		if(dto!=null){
-			flag = ${classNameLower}Dao.insert${className}(dto);
+			try{
+				flag = ${classNameLower}Dao.insert${className}(dto);
+			}
+			catch (Exception e){
+				logger.error("插入出错:", e);
+				throw new Exception(e);
+			}
 		}
 		else{
 			flag = 0;
@@ -43,10 +49,16 @@ public class ${className}Service {
 	}
 	
 	
-	public int update${className}(${className}DTO rdto){
+	public int update${className}(${className}DTO rdto) throws Exception{
 		int flag = 0;
 		if(rdto!=null){
-			flag = ${classNameLower}Dao.update${className}(rdto);
+			try{
+				flag = ${classNameLower}Dao.update${className}(rdto);
+			}
+			catch (Exception e){
+				logger.error("更新出错:", e);
+				throw new Exception(e);
+			}
 		}
 		else{
 			flag = 0;
@@ -56,10 +68,16 @@ public class ${className}Service {
 	
 	
 	
-	public int delete${className}(String ${classNameLower}Id){
+	public int delete${className}(int ${classNameLower}Id) throws Exception{
 		int flag = 0;
-		if(${classNameLower}Id!=null){
-			flag = ${classNameLower}Dao.delete${className}(${classNameLower}Id);
+		if(${classNameLower}Id > 0){
+			try{
+				flag = ${classNameLower}Dao.delete${className}(${classNameLower}Id);
+			}
+			catch (Exception e){
+				logger.error("删除出错:", e);
+				throw new Exception(e);
+			}
 		}
 		else{
 			flag = 0;

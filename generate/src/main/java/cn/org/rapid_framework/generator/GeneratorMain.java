@@ -16,7 +16,7 @@ public class GeneratorMain {
 //		g.printAllTableNames();				//打印数据库中的表名称
 //		g.deleteOutRootDir();							//删除生成器的输出目录
 		//t_msg   t_msgbak  t_msg_templet  t_record  t_recordbak
-		String tableNames [] = {"T_USER"};
+		String tableNames [] = {"T_MEET"};
 		for(String s : tableNames){
 			g.generateByTable(s,"generate/template-spring4");	//通过数据库表生成文件,template为模板的根目录
 //			g.generateByTable(s,"template-easyui");	//通过数据库表生成文件,template为模板的根目录

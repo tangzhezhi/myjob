@@ -11,11 +11,11 @@
 	</resultMap>
 	
 	<resultMap type="Page" id="Page${className}">
-		<result column="totalRecord" property="totalRecord" />
-		<result  column="totalPage" property="totalPage" />
-		<result column="pageNo" property="pageNo" />
-		<result column="pageSize"  property="pageSize" />
-		<collection property="results" ofType="${className}DTO">
+		<result column="iTotalRecords" property="iTotalRecords" />
+		<result column="iTotalDisplayRecords" property="iTotalDisplayRecords" />
+		<result column="iDisplayStart" property="iDisplayStart" />
+		<result column="iDisplayLength" property="iDisplayLength" />
+		<collection property="aaData" ofType="${className}DTO">
 		    <#list table.columns as column>
     		<result column="${column.constantName}"  property="${column.columnNameLower}" />
 		</#list>
@@ -24,7 +24,7 @@
 
 		
 	 <!-- 查询分页 -->
-	<select id="select${className}All" parameterType="Page" resultMap="Page${className}" >   
+	<select id="select${className}Page" parameterType="Page" resultMap="Page${className}" >
 		select  
 		    <#list table.columns as column>
     			t.${column.constantName}<#if column_has_next>,</#if>
@@ -33,8 +33,8 @@
 		<where>
 			 1=1 
 			<#list table.columns as column>
-    		<if test="params.${column.columnNameLower} != null and params.${column.columnNameLower} != '' " >
-			 	 and  t.${column.constantName}   =  <#if 1=1>#</#if>{params.${column.columnNameLower}} 
+    		<if test="${column.columnNameLower} != null and ${column.columnNameLower} != '' " >
+			 	 and  t.${column.constantName}   =  <#if 1=1>#</#if>{${column.columnNameLower}}
     		</if>
 			</#list>
 		</where>
@@ -42,18 +42,15 @@
 	
 	
 	<!-- 向数据库中插入资源记录-->
-	<insert id="insert${className}" parameterType="${className}DTO">    
-		 <selectKey keyProperty="${classNameLower}id" resultType="String" order="BEFORE">  
-            select   UUID() as ${classNameLower}id from dual
-    	</selectKey>
+	<insert id="insert${className}" useGeneratedKeys="true" keyProperty="id"  parameterType="${className}DTO">
 		insert into ${table.sqlName}(
 			<#list table.columns as column>
-    			${column.constantName}<#if column_has_next>,</#if>
+					${column.constantName}<#if column_has_next>,</#if>
 			</#list>
 		)
 		values(
 			<#list table.columns as column>
-    			<#if 1=1>#</#if>{${column.columnNameLower}, jdbcType=VARCHAR}<#if column_has_next>,</#if>
+					<#if 1=1>#</#if>{${column.columnNameLower}, jdbcType=VARCHAR}<#if column_has_next>,</#if>
 			</#list>
 		)
 	</insert>
@@ -71,13 +68,13 @@
     			</if>
 			</#list>
     	</set>
-    	where ${classNameLower}id=#${classNameLower}id}
+    	where  id = <#if 1=1>#</#if>{id}
 	</update>
 	
 	<!-- 删除-->
-	<delete id="delete${className}" parameterType="String">   
+	<delete id="delete${className}" parameterType="Integer">
 		<#list table.primaryKeyColumns as primaryKeyColumns>
-			delete from ${table.sqlName}  where ${primaryKeyColumns} =  <#if 1=1>#</#if>{${classNameLower}id}
+			delete from ${table.sqlName}  where ${primaryKeyColumns} =  <#if 1=1>#</#if>{id}
 		</#list>
 	</delete>
 	

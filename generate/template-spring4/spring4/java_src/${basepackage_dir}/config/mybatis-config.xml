@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     </properties>    
 
 	<typeAliases>
-		<typeAlias alias="${className}DTO" type="org.tang.jpa.dto.${subpackage}.${className}DTO"/>
+		<typeAlias alias="${className}DTO" type="${basepackage}.dto.${subpackage}.${className}DTO"/>
 		<typeAlias alias="Page" type="${basepackage}.utils.Page"/>
 	</typeAliases>
 	

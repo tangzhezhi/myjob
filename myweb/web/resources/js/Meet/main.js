@@ -1,6 +1,8 @@
-<#include "/java_copyright.include">
-<#assign className = table.className>
-<#assign classNameLower = className?uncap_first>
+/*
+ * Powered By tangzezhi
+ * Since 2013 - 2015
+ */
+
 /**
  * Created by Administrator on 2015/4/17.
  */
@@ -17,7 +19,7 @@ define([
      * @param id
      * @returns {*|jQuery}
      */
-    function get${className}(userid,id){
+    function getMeet(userid,id){
 
         var mytable = $('#'+id).DataTable( {
                 "sDom":'<"top"f<"clear">> rt<"bottom"ipl<"wrapper clear">> ',
@@ -45,14 +47,42 @@ define([
                         "sClass" : "left"
                     },
 
-                    <#list table.columns as column>
                     {
-                        "mDataProp" : "${column.columnNameLower}",
-                        "sTitle" : "${column.remarks}",
+                        "mDataProp" : "id",
+                        "sTitle" : "会议ID",
                         "sDefaultContent" : "",
                         "sClass" : "center"
                     },
-                    </#list>
+                    {
+                        "mDataProp" : "meetName",
+                        "sTitle" : "会议名称",
+                        "sDefaultContent" : "",
+                        "sClass" : "center"
+                    },
+                    {
+                        "mDataProp" : "roomId",
+                        "sTitle" : "房间ID",
+                        "sDefaultContent" : "",
+                        "sClass" : "center"
+                    },
+                    {
+                        "mDataProp" : "startTime",
+                        "sTitle" : "开始时间",
+                        "sDefaultContent" : "",
+                        "sClass" : "center"
+                    },
+                    {
+                        "mDataProp" : "endTime",
+                        "sTitle" : "结束时间",
+                        "sDefaultContent" : "",
+                        "sClass" : "center"
+                    },
+                    {
+                        "mDataProp" : "joinNumber",
+                        "sTitle" : "与会人数",
+                        "sDefaultContent" : "",
+                        "sClass" : "center"
+                    },
                     {"mDataProp": function(source, type, val){
                         return '<div class="btn-toolbar">'
                             +'<button class="btn btn-warning btn-xs" type="button" data-toggle="tooltip" data-placement="top" title="更新">' +
@@ -66,7 +96,7 @@ define([
                     }
                 ],
                 "oLanguage": $.parseJSON(language),
-                "sAjaxSource" : '${classNameLower}/query',
+                "sAjaxSource" : 'meet/query',
                 "fnServerParams":function(aoData){
                     if($(".my_query").val()!=null && $(".my_query").val().length>1){
                         aoData.push({ "name": "query", "value": $(".my_query").val()});
@@ -114,16 +144,54 @@ define([
             },
             fields: {
                 row: '.col-sm-4',
-            <#list table.columns as column>
-                    ${column.columnNameLower} :{
-                        message: '${column.remarks}无效',
+                    id :{
+                        message: '会议ID无效',
                             validators: {
                             notEmpty: {
-                                message: '${column.remarks}不能为空'
+                                message: '会议ID不能为空'
                             }
                         }
-                    }<#if column_has_next>,</#if>
-            </#list>
+                    },
+                    meetName :{
+                        message: '会议名称无效',
+                            validators: {
+                            notEmpty: {
+                                message: '会议名称不能为空'
+                            }
+                        }
+                    },
+                    roomId :{
+                        message: '房间ID无效',
+                            validators: {
+                            notEmpty: {
+                                message: '房间ID不能为空'
+                            }
+                        }
+                    },
+                    startTime :{
+                        message: '开始时间无效',
+                            validators: {
+                            notEmpty: {
+                                message: '开始时间不能为空'
+                            }
+                        }
+                    },
+                    endTime :{
+                        message: '结束时间无效',
+                            validators: {
+                            notEmpty: {
+                                message: '结束时间不能为空'
+                            }
+                        }
+                    },
+                    joinNumber :{
+                        message: '与会人数无效',
+                            validators: {
+                            notEmpty: {
+                                message: '与会人数不能为空'
+                            }
+                        }
+                    }
             }
         }).on('success.form.fv', function(e) {
             e.preventDefault();
@@ -141,7 +209,7 @@ define([
 
         $.ajax({
             type: "POST",
-            url: '${classNameLower}/add?random='+parseInt(Math.random()*100000),
+            url: 'meet/add?random='+parseInt(Math.random()*100000),
             data:data,
             dataType: 'json',
             success: function (data) {
@@ -157,7 +225,7 @@ define([
 
 
     return {
-        get${className}:get${className},
+        getMeet:getMeet,
         query:query,
         validateForm:validateForm,
         postForm:postForm

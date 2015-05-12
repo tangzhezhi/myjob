@@ -1,6 +1,3 @@
-<#assign className = table.className>
-<#assign classNameLower = className?uncap_first>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="myjob">
     <meta name="author" content="330882908@qq.com">
-    <title>${className}</title>
+    <title>Meet</title>
 </head>
 
 <body>
@@ -82,9 +79,12 @@
                     <!--<label><input type="checkbox"/></label>-->
                 </th>
 
-                <#list table.columns as column>
-                    <th>${column.remarks}</th>
-                </#list>
+                    <th>会议ID</th>
+                    <th>会议名称</th>
+                    <th>房间ID</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>与会人数</th>
                 <th></th>
             </tr>
             </thead>
@@ -100,14 +100,42 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <form id="myFormInput" class="myFormInput  form-horizontal center">
-                <#list table.columns as column>
                     <div class="form-group">
-                        <label for="${column.columnNameLower}" class="col-sm-2 control-label" >${column.remarks}</label>
+                        <label for="id" class="col-sm-2 control-label" >会议ID</label>
                         <div class="col-sm-10">
-                            <input  class="form-control" id="${column.columnNameLower}"  name="${column.columnNameLower}"  placeholder="请输入${column.remarks}">
+                            <input  class="form-control" id="id"  name="id"  placeholder="请输入会议ID">
                         </div>
                     </div>
-                </#list>
+                    <div class="form-group">
+                        <label for="meetName" class="col-sm-2 control-label" >会议名称</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="meetName"  name="meetName"  placeholder="请输入会议名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomId" class="col-sm-2 control-label" >房间ID</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="roomId"  name="roomId"  placeholder="请输入房间ID">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime" class="col-sm-2 control-label" >开始时间</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="startTime"  name="startTime"  placeholder="请输入开始时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime" class="col-sm-2 control-label" >结束时间</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="endTime"  name="endTime"  placeholder="请输入结束时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="joinNumber" class="col-sm-2 control-label" >与会人数</label>
+                        <div class="col-sm-10">
+                            <input  class="form-control" id="joinNumber"  name="joinNumber"  placeholder="请输入与会人数">
+                        </div>
+                    </div>
 
             </form>
 
@@ -131,7 +159,7 @@
 <footer>
 </footer>
 
-<script data-main="resources/js/${className}.js" src="./resources/js/lib/require.js"></script>
+<script data-main="resources/js/Meet.js" src="./resources/js/lib/require.js"></script>
 <script>
     require.config({
         urlArgs: "bust=" + (new Date()).getTime()

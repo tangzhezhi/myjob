@@ -23,6 +23,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="ProductDTO" type="org.tang.myjob.dto.product.ProductDTO"/>
 		<typeAlias alias="OrderDTO" type="org.tang.myjob.dto.product.OrderDTO"/>
 		<typeAlias alias="Page" type="org.tang.myjob.utils.page.PageDataTable"/>
+
+		<!-- 正式开始-->
+		<!-- business-->
+		<typeAlias alias="MeetDTO" type="org.tang.myjob.dto.business.MeetDTO"/>
 	</typeAliases>
 	
 	<!-- 配置数据库分页的实现 -->  
@@ -30,12 +34,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
        <plugin interceptor="org.tang.myjob.utils.page.PageDataTableInterceptor"></plugin>
     </plugins>  
 	<mappers>
+		<!-- 测试-->
 		 <mapper resource="config/system/User.xml" />
-
 		  <mapper resource="config/message/Message.xml" />
-
 		 <mapper resource="config/product/Product.xml" />
 		 <mapper resource="config/product/Order.xml" />
+
+
+		<!-- 正式开始-->
+		<!-- business-->
+		<mapper resource="config/business/Meet.xml" />
 	</mappers>
 </configuration>
 

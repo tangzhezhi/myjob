@@ -3,8 +3,9 @@
 <#assign classNameLower = className?uncap_first>   
 package ${basepackage}.dto.${subpackage};
 import org.apache.log4j.Logger;
+import java.io.Serializable;
 
-public class ${className}DTO {
+public class ${className}DTO  extends PageDataTable {
 
 	private static final long serialVersionUID = 1L;
 	private Logger logger = Logger.getLogger(this.getClass());

@@ -6,7 +6,8 @@ package ${basepackage}.dao.${subpackage};
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
-import ${basepackage}.utils.Page;
+import ${basepackage}.utils.page.PageDataTable;
+import ${basepackage}.dto.${subpackage}.${className}DTO;
 
 @Repository
 public interface ${className}Dao  {
@@ -17,6 +18,6 @@ public interface ${className}Dao  {
      
     public int delete${className}(String ${classNameLower}Id);  
      
-    public Page<?> select${className}All(Page<?> page);  
+    public PageDataTable<?> select${className}Page(PageDataTable<?> page);
     
 }
