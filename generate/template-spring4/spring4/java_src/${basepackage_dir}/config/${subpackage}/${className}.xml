@@ -42,7 +42,10 @@
 	
 	
 	<!-- 向数据库中插入资源记录-->
-	<insert id="insert${className}" useGeneratedKeys="true" keyProperty="id"  parameterType="${className}DTO">
+	<insert id="insert${className}"  parameterType="${className}DTO">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			SELECT uuid() from dual
+		</selectKey>
 		insert into ${table.sqlName}(
 			<#list table.columns as column>
 					${column.constantName}<#if column_has_next>,</#if>
@@ -72,7 +75,7 @@
 	</update>
 	
 	<!-- 删除-->
-	<delete id="delete${className}" parameterType="Integer">
+	<delete id="delete${className}" parameterType="String">
 		<#list table.primaryKeyColumns as primaryKeyColumns>
 			delete from ${table.sqlName}  where ${primaryKeyColumns} =  <#if 1=1>#</#if>{id}
 		</#list>

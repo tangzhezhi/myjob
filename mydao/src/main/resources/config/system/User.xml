@@ -1,21 +1,273 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.tang.myjob.dao.login.UserDao">
+<mapper namespace="org.tang.myjob.dao.system.UserDao">
 
 	<resultMap type="UserDTO" id="UserDTO">
-		<id 	column="user_id" property="userId" />
-		<result column="user_name" property="userName" />
-		<result column="user_pwd" property="userPwd" />
+    	<result column="USER_ID"  property="userId" />
+    	<result column="USERNAME"  property="username" />
+    	<result column="PASSWORD"  property="password" />
+    	<result column="ID_CARD"  property="idCard" />
+    	<result column="SEX"  property="sex" />
+    	<result column="AGE"  property="age" />
+    	<result column="EMAIL"  property="email" />
+    	<result column="ADDRESS"  property="address" />
+    	<result column="JOB"  property="job" />
+    	<result column="REGISTER_TIME"  property="registerTime" />
+    	<result column="IS_ADMIN"  property="isAdmin" />
+    	<result column="IS_NORMAL"  property="isNormal" />
+    	<result column="BIRTHDAY"  property="birthday" />
+    	<result column="QQ"  property="qq" />
+    	<result column="WEIXIN"  property="weixin" />
+    	<result column="WEIBO"  property="weibo" />
+	</resultMap>
+
+	<resultMap type="UserDTO" id="UserRole" extends="UserDTO">
+		<collection property="roles" ofType="Role">
+			<id property="id" column="id" />
+			<result property="roleName" column="role_name" />
+			<result property="roleCode" column="role_code" />
+		</collection>
 	</resultMap>
 
 
-	<!-- 查询用户登录  用户信息放入session -->
-	<select id="selectUser" parameterType="UserDTO" resultMap="UserDTO" >
-		<![CDATA[
- 		select user_id,user_name from t_user  u where 1=1
- 		and u.user_name = #{userName}
- 		and u.user_pwd = #{userPwd}
- 		]]>
+	<resultMap type="Page" id="PageUser">
+		<result column="iTotalRecords" property="iTotalRecords" />
+		<result column="iTotalDisplayRecords" property="iTotalDisplayRecords" />
+		<result column="iDisplayStart" property="iDisplayStart" />
+		<result column="iDisplayLength" property="iDisplayLength" />
+		<collection property="aaData" ofType="UserDTO">
+    		<result column="USER_ID"  property="userId" />
+    		<result column="USERNAME"  property="username" />
+    		<result column="PASSWORD"  property="password" />
+    		<result column="ID_CARD"  property="idCard" />
+    		<result column="SEX"  property="sex" />
+    		<result column="AGE"  property="age" />
+    		<result column="EMAIL"  property="email" />
+    		<result column="ADDRESS"  property="address" />
+    		<result column="JOB"  property="job" />
+    		<result column="REGISTER_TIME"  property="registerTime" />
+    		<result column="IS_ADMIN"  property="isAdmin" />
+    		<result column="IS_NORMAL"  property="isNormal" />
+    		<result column="BIRTHDAY"  property="birthday" />
+    		<result column="QQ"  property="qq" />
+    		<result column="WEIXIN"  property="weixin" />
+    		<result column="WEIBO"  property="weibo" />
+    	</collection>
+	</resultMap>
+
+
+		
+	 <!-- 查询分页 -->
+	<select id="selectUserPage" parameterType="Page" resultMap="PageUser" >
+		select  
+    			t.USER_ID,
+    			t.USERNAME,
+    			t.PASSWORD,
+    			t.ID_CARD,
+    			t.SEX,
+    			t.AGE,
+    			t.EMAIL,
+    			t.ADDRESS,
+    			t.JOB,
+    			t.REGISTER_TIME,
+    			t.IS_ADMIN,
+    			t.IS_NORMAL,
+    			t.BIRTHDAY,
+    			t.QQ,
+    			t.WEIXIN,
+    			t.WEIBO
+		 from t_user t
+		<where>
+			 1=1 
+    		<if test="userId != null and userId != '' " >
+			 	 and  t.USER_ID   =  #{userId}
+    		</if>
+    		<if test="username != null and username != '' " >
+			 	 and  t.USERNAME   =  #{username}
+    		</if>
+    		<if test="password != null and password != '' " >
+			 	 and  t.PASSWORD   =  #{password}
+    		</if>
+    		<if test="idCard != null and idCard != '' " >
+			 	 and  t.ID_CARD   =  #{idCard}
+    		</if>
+    		<if test="sex != null and sex != '' " >
+			 	 and  t.SEX   =  #{sex}
+    		</if>
+    		<if test="age != null and age != '' " >
+			 	 and  t.AGE   =  #{age}
+    		</if>
+    		<if test="email != null and email != '' " >
+			 	 and  t.EMAIL   =  #{email}
+    		</if>
+    		<if test="address != null and address != '' " >
+			 	 and  t.ADDRESS   =  #{address}
+    		</if>
+    		<if test="job != null and job != '' " >
+			 	 and  t.JOB   =  #{job}
+    		</if>
+    		<if test="registerTime != null and registerTime != '' " >
+			 	 and  t.REGISTER_TIME   =  #{registerTime}
+    		</if>
+    		<if test="isAdmin != null and isAdmin != '' " >
+			 	 and  t.IS_ADMIN   =  #{isAdmin}
+    		</if>
+    		<if test="isNormal != null and isNormal != '' " >
+			 	 and  t.IS_NORMAL   =  #{isNormal}
+    		</if>
+    		<if test="birthday != null and birthday != '' " >
+			 	 and  t.BIRTHDAY   =  #{birthday}
+    		</if>
+    		<if test="qq != null and qq != '' " >
+			 	 and  t.QQ   =  #{qq}
+    		</if>
+    		<if test="weixin != null and weixin != '' " >
+			 	 and  t.WEIXIN   =  #{weixin}
+    		</if>
+    		<if test="weibo != null and weibo != '' " >
+			 	 and  t.WEIBO   =  #{weibo}
+    		</if>
+		</where>
 	</select>
 
+
+	<!-- 查询分页 -->
+	<select id="selectUserRole" parameterType="UserDTO" resultMap="UserRole" >
+		select
+		t.USER_ID,t.USERNAME,t.PASSWORD,
+		t.ID_CARD,t.SEX,t.AGE,
+		t.EMAIL,t.ADDRESS,t.JOB,
+		t.REGISTER_TIME,t.IS_ADMIN,t.IS_NORMAL,
+		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO
+		from t_user t
+		left join t_user_role ur on (t.user_id = ur.user_id)
+		left join t_role r on (ur.role_id = r.id)
+		<where>
+			1=1
+			<if test="userId != null and userId != '' " >
+				and  t.USER_ID   =  #{userId}
+			</if>
+		</where>
+	</select>
+
+
+	<!-- 查询分页 -->
+	<select id="getByUsername" parameterType="java.lang.String" resultMap="UserDTO" >
+		select
+		t.USER_ID,t.USERNAME,t.PASSWORD,
+		t.ID_CARD,t.SEX,t.AGE,
+		t.EMAIL,t.ADDRESS,t.JOB,
+		t.REGISTER_TIME,t.IS_ADMIN,t.IS_NORMAL,
+		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO
+		from t_user t where username = #{username}
+	</select>
+
+
+	
+	<!-- 向数据库中插入资源记录-->
+	<insert id="insertUser"   parameterType="UserDTO">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="USER_ID">
+			SELECT uuid() from dual
+		</selectKey>
+
+		insert into t_user(
+					USER_ID,
+					USERNAME,
+					PASSWORD,
+					ID_CARD,
+					SEX,
+					AGE,
+					EMAIL,
+					ADDRESS,
+					JOB,
+					REGISTER_TIME,
+					IS_ADMIN,
+					IS_NORMAL,
+					BIRTHDAY,
+					QQ,
+					WEIXIN,
+					WEIBO
+		)
+		values(
+					#{userId, jdbcType=VARCHAR},
+					#{username, jdbcType=VARCHAR},
+					#{password, jdbcType=VARCHAR},
+					#{idCard, jdbcType=VARCHAR},
+					#{sex, jdbcType=VARCHAR},
+					#{age, jdbcType=VARCHAR},
+					#{email, jdbcType=VARCHAR},
+					#{address, jdbcType=VARCHAR},
+					#{job, jdbcType=VARCHAR},
+					#{registerTime, jdbcType=VARCHAR},
+					#{isAdmin, jdbcType=VARCHAR},
+					#{isNormal, jdbcType=VARCHAR},
+					#{birthday, jdbcType=VARCHAR},
+					#{qq, jdbcType=VARCHAR},
+					#{weixin, jdbcType=VARCHAR},
+					#{weibo, jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+	
+	
+	  <!-- 更新库中的资源 -->
+	<update id="updateUser" parameterType="UserDTO">   
+		update t_user  
+		<set>
+    			<if test="username != null and username != '' ">
+    				USERNAME=#{username},
+    			</if>
+    			<if test="password != null and password != '' ">
+    				PASSWORD=#{password},
+    			</if>
+    			<if test="idCard != null and idCard != '' ">
+    				ID_CARD=#{idCard},
+    			</if>
+    			<if test="sex != null and sex != '' ">
+    				SEX=#{sex},
+    			</if>
+    			<if test="age != null and age != '' ">
+    				AGE=#{age},
+    			</if>
+    			<if test="email != null and email != '' ">
+    				EMAIL=#{email},
+    			</if>
+    			<if test="address != null and address != '' ">
+    				ADDRESS=#{address},
+    			</if>
+    			<if test="job != null and job != '' ">
+    				JOB=#{job},
+    			</if>
+    			<if test="registerTime != null and registerTime != '' ">
+    				REGISTER_TIME=#{registerTime},
+    			</if>
+    			<if test="isAdmin != null and isAdmin != '' ">
+    				IS_ADMIN=#{isAdmin},
+    			</if>
+    			<if test="isNormal != null and isNormal != '' ">
+    				IS_NORMAL=#{isNormal},
+    			</if>
+    			<if test="birthday != null and birthday != '' ">
+    				BIRTHDAY=#{birthday},
+    			</if>
+    			<if test="qq != null and qq != '' ">
+    				QQ=#{qq},
+    			</if>
+    			<if test="weixin != null and weixin != '' ">
+    				WEIXIN=#{weixin},
+    			</if>
+    			<if test="weibo != null and weibo != '' ">
+    				WEIBO=#{weibo},
+    			</if>
+    	</set>
+    	where  USER_ID = #{userId}
+	</update>
+	
+	<!-- 删除-->
+	<delete id="deleteUser" parameterType="String">
+			delete from t_user  where user_id =  #{id}
+	</delete>
+	
+	
 </mapper>

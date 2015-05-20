@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tang.myjob.dao.system.RoleDao">
+
+	<resultMap type="RoleDTO" id="RoleDTO">
+    	<result column="ID"  property="id" />
+    	<result column="ROLE_NAME"  property="roleName" />
+    	<result column="ROLE_CODE"  property="roleCode" />
+	</resultMap>
+	
+	<resultMap type="Page" id="PageRole">
+		<result column="iTotalRecords" property="iTotalRecords" />
+		<result column="iTotalDisplayRecords" property="iTotalDisplayRecords" />
+		<result column="iDisplayStart" property="iDisplayStart" />
+		<result column="iDisplayLength" property="iDisplayLength" />
+		<collection property="aaData" ofType="RoleDTO">
+    		<result column="ID"  property="id" />
+    		<result column="ROLE_NAME"  property="roleName" />
+    		<result column="ROLE_CODE"  property="roleCode" />
+    	</collection>
+	</resultMap>
+
+
+	<!-- 查询 -->
+	<select id="selectRole" parameterType="RoleDTO" resultMap="RoleDTO" >
+		select
+		t.ID,
+		t.ROLE_NAME,
+		t.ROLE_CODE
+		from t_role t
+		<where>
+			1=1
+			<if test="id != null and id != '' " >
+				and  t.ID   =  #{id}
+			</if>
+			<if test="roleName != null and roleName != '' " >
+				and  t.ROLE_NAME   =  #{roleName}
+			</if>
+			<if test="roleCode != null and roleCode != '' " >
+				and  t.ROLE_CODE   =  #{roleCode}
+			</if>
+		</where>
+	</select>
+
+
+
+	<!-- 查询分页 -->
+	<select id="selectRolePage" parameterType="Page" resultMap="PageRole" >
+		select  
+    			t.ID,
+    			t.ROLE_NAME,
+    			t.ROLE_CODE
+		 from t_role t
+		<where>
+			 1=1 
+    		<if test="id != null and id != '' " >
+			 	 and  t.ID   =  #{id}
+    		</if>
+    		<if test="roleName != null and roleName != '' " >
+			 	 and  t.ROLE_NAME   =  #{roleName}
+    		</if>
+    		<if test="roleCode != null and roleCode != '' " >
+			 	 and  t.ROLE_CODE   =  #{roleCode}
+    		</if>
+		</where>
+	</select>
+	
+	
+	<!-- 向数据库中插入资源记录-->
+	<insert id="insertRole" useGeneratedKeys="true" keyProperty="id"  parameterType="RoleDTO">
+		insert into t_role(
+					ID,
+					ROLE_NAME,
+					ROLE_CODE
+		)
+		values(
+					#{id, jdbcType=VARCHAR},
+					#{roleName, jdbcType=VARCHAR},
+					#{roleCode, jdbcType=VARCHAR}
+		)
+	</insert>
+
+
+	
+	
+	  <!-- 更新库中的资源 -->
+	<update id="updateRole" parameterType="RoleDTO">   
+		update t_role  
+		<set>
+    			<if test="id != null and id != '' ">
+    				ID=#{id},
+    			</if>
+    			<if test="roleName != null and roleName != '' ">
+    				ROLE_NAME=#{roleName},
+    			</if>
+    			<if test="roleCode != null and roleCode != '' ">
+    				ROLE_CODE=#{roleCode},
+    			</if>
+    	</set>
+    	where  id = #{id}
+	</update>
+	
+	<!-- 删除-->
+	<delete id="deleteRole" parameterType="Integer">
+			delete from t_role  where id =  #{id}
+	</delete>
+	
+	
+</mapper>

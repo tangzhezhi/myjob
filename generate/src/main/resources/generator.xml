@@ -8,7 +8,7 @@
 	</comment>
 	
 	<entry key="basepackage">org.tang.myjob</entry>
-	<entry key="subpackage">business</entry>
+	<entry key="subpackage">system</entry>
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
 	

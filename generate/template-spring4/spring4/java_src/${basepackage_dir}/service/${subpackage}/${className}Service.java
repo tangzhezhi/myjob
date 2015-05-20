@@ -8,18 +8,20 @@ import ${basepackage}.dao.${subpackage}.${className}Dao;
 import ${basepackage}.dto.${subpackage}.${className}DTO;
 import ${basepackage}.utils.page.PageDataTable;
 import java.util.ArrayList;
+import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ${className}Service {
 
-	private static Logger logger = Logger.getLogger${className}Service.class.getName());
+	private static Logger logger = Logger.getLogger(${className}Service.class.getName());
 
 	@Autowired
 	private ${className}Dao ${classNameLower}Dao;
 	
 	/**
 	 * 分页
-	 * @param udto
+	 * @param page
 	 * @return
 	 */
 	public  PageDataTable find${className}(PageDataTable page){
@@ -68,9 +70,9 @@ public class ${className}Service {
 	
 	
 	
-	public int delete${className}(int ${classNameLower}Id) throws Exception{
+	public int delete${className}(String ${classNameLower}Id) throws Exception{
 		int flag = 0;
-		if(${classNameLower}Id > 0){
+		if((StringUtils.hasText(${classNameLower}Id)){
 			try{
 				flag = ${classNameLower}Dao.delete${className}(${classNameLower}Id);
 			}

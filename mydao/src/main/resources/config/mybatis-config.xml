@@ -11,39 +11,32 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<settings>
 		<setting name="logImpl" value="LOG4J" />
 		<setting name="logPrefix" value="dao."/>
+
+		<!-- 开启二级缓存-->
+		<!--<setting name="cacheEnabled" value="true"/>-->
 	</settings>
 
 	<typeAliases>
-		<typeAlias alias="UserDTO" type="org.tang.myjob.dto.system.UserDTO"/>
-
-		<!--message -->
-		<typeAlias alias="MessageDTO" type="org.tang.myjob.dto.message.MessageDTO"/>
-
-		<!-- product-->
-		<typeAlias alias="ProductDTO" type="org.tang.myjob.dto.product.ProductDTO"/>
-		<typeAlias alias="OrderDTO" type="org.tang.myjob.dto.product.OrderDTO"/>
-		<typeAlias alias="Page" type="org.tang.myjob.utils.page.PageDataTable"/>
-
 		<!-- 正式开始-->
 		<!-- business-->
-		<typeAlias alias="MeetDTO" type="org.tang.myjob.dto.business.MeetDTO"/>
+		<typeAlias alias="UserDTO" type="org.tang.myjob.dto.system.UserDTO"/>
+		<typeAlias alias="RoleDTO" type="org.tang.myjob.dto.system.RoleDTO"/>
+		<typeAlias alias="PermissionDTO" type="org.tang.myjob.dto.system.PermissionDTO"/>
+
+		<typeAlias alias="Page" type="org.tang.myjob.utils.Page"/>
 	</typeAliases>
 	
-	<!-- 配置数据库分页的实现 -->  
-	<plugins>  
-       <plugin interceptor="org.tang.myjob.utils.page.PageDataTableInterceptor"></plugin>
-    </plugins>  
+	<!-- 配置数据库分页的实现 -->
+	<plugins>
+		<plugin interceptor="org.tang.myjob.utils.PageInterceptor"></plugin>
+	</plugins>
+
 	<mappers>
-		<!-- 测试-->
-		 <mapper resource="config/system/User.xml" />
-		  <mapper resource="config/message/Message.xml" />
-		 <mapper resource="config/product/Product.xml" />
-		 <mapper resource="config/product/Order.xml" />
-
-
 		<!-- 正式开始-->
 		<!-- business-->
-		<mapper resource="config/business/Meet.xml" />
+		<mapper resource="org/tang/myjob/config/system/User.xml" />
+		<mapper resource="org/tang/myjob/config/system/Role.xml" />
+		<mapper resource="org/tang/myjob/config/system/Permission.xml" />
 	</mappers>
 </configuration>
 
