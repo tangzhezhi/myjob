@@ -3,7 +3,6 @@ package org.tang.myjob.service.portle;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.tang.myjob.dao.login.UserDao;
 import org.tang.myjob.dao.message.MessageDao;
 import org.tang.myjob.dao.product.ProductDao;
 import org.tang.myjob.dto.message.MessageDTO;

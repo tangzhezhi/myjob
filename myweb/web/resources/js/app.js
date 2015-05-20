@@ -131,13 +131,13 @@ requirejs([
 
         //top_news.init("jumbotronContent",showTopNew, common.alert_message);
 
-        portal_product.queryProduct("portal_product",showPortalProduct, common.alert_message);
+        //portal_product.queryProduct("portal_product",showPortalProduct, common.alert_message);
 
-        portal_product.queryTopProduct("top_pic",top_carousel.init, common.alert_message);
+        //portal_product.queryTopProduct("top_pic",top_carousel.init, common.alert_message);
 
         login.init("myForm");
 
-        if( $.cookie('userName')){
-            $("#userName").val($.cookie('userName'));
+        if( $.cookie('username')){
+            $("#username").val($.cookie('username'));
         }
     });

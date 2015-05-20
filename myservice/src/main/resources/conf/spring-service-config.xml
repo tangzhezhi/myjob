@@ -65,8 +65,13 @@
 	</bean>
 
 	<ehcache:annotation-driven cache-manager="ehCacheManager" />
-	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	<bean id="ehCacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 			<property name="configLocation" value="classpath:ehcache.xml" />
+			<property name="shared" value="false"/>
+	</bean>
+
+	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManagerFactory"/>
 	</bean>
 
 	<!--定义声明式的事务管理器-->

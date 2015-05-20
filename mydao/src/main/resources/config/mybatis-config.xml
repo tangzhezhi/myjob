@@ -23,20 +23,20 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="RoleDTO" type="org.tang.myjob.dto.system.RoleDTO"/>
 		<typeAlias alias="PermissionDTO" type="org.tang.myjob.dto.system.PermissionDTO"/>
 
-		<typeAlias alias="Page" type="org.tang.myjob.utils.Page"/>
+		<typeAlias alias="Page" type="org.tang.myjob.utils.page.PageDataTable"/>
 	</typeAliases>
 	
 	<!-- 配置数据库分页的实现 -->
 	<plugins>
-		<plugin interceptor="org.tang.myjob.utils.PageInterceptor"></plugin>
+		<plugin interceptor="org.tang.myjob.utils.page.PageDataTableInterceptor"></plugin>
 	</plugins>
 
 	<mappers>
 		<!-- 正式开始-->
 		<!-- business-->
-		<mapper resource="org/tang/myjob/config/system/User.xml" />
-		<mapper resource="org/tang/myjob/config/system/Role.xml" />
-		<mapper resource="org/tang/myjob/config/system/Permission.xml" />
+		<mapper resource="config/system/User.xml" />
+		<mapper resource="config/system/Role.xml" />
+		<mapper resource="config/system/Permission.xml" />
 	</mappers>
 </configuration>
 

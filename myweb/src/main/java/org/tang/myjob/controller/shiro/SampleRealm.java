@@ -1,24 +1,21 @@
 package org.tang.myjob.controller.shiro;
-    import java.util.Set;
-    import org.apache.commons.lang.StringUtils;
-    import org.apache.shiro.authc.AccountException;
-    import org.apache.shiro.authc.AuthenticationException;
-    import org.apache.shiro.authc.AuthenticationInfo;
-    import org.apache.shiro.authc.AuthenticationToken;
-    import org.apache.shiro.authc.DisabledAccountException;
-    import org.apache.shiro.authc.SimpleAuthenticationInfo;
-    import org.apache.shiro.authc.UnknownAccountException;
-    import org.apache.shiro.authc.UsernamePasswordToken;
-    import org.apache.shiro.authz.AuthorizationInfo;
-    import org.apache.shiro.authz.SimpleAuthorizationInfo;
-    import org.apache.shiro.realm.AuthorizingRealm;
-    import org.apache.shiro.subject.PrincipalCollection;
-    import org.slf4j.Logger;
-    import org.slf4j.LoggerFactory;
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.tang.myjob.dto.system.RoleDTO;
-    import org.tang.myjob.dto.system.UserDTO;
-    import org.tang.myjob.service.system.UserService;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.tang.myjob.dto.system.RoleDTO;
+import org.tang.myjob.dto.system.UserDTO;
+import org.tang.myjob.service.system.UserService;
+
+import java.util.Set;
 
 /**
  * @author Dylan
@@ -45,15 +42,15 @@ public class SampleRealm extends AuthorizingRealm {
 
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         String username = token.getUsername();
-        if(LOG.isTraceEnabled()){
-            LOG.trace("开始认证 "+ username);
-        }
+
+        LOG.info("开始认证 "+ username);
+
         try {
             if(StringUtils.isBlank(username)){
                 throw new AccountException("can not handle this login");
             }
             UserDTO user = userService.getByUsername(username);
-            checkUser(user, username);
+//            checkUser(user, username);
             return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
         } catch (Exception e) {
             throw translateAuthenticationException(e);
@@ -68,10 +65,7 @@ public class SampleRealm extends AuthorizingRealm {
 
         String username = (String)getAvailablePrincipal(principals);
 
-        if(LOG.isTraceEnabled()){
-            LOG.trace("开始授权 "+ username);
-        }
-
+        LOG.info("开始授权 "+ username);
         UserDTO user = userService.getByUsername(username);
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -114,6 +108,29 @@ public class SampleRealm extends AuthorizingRealm {
         }
         if(user.getIsLocked()>0){
             throw new DisabledAccountException("the account is locked now");
+        }
+    }
+
+    /**
+     * 清空用户关联权限认证，待下次使用时重新加载。
+     *
+     * @param principal
+     */
+    public void clearCachedAuthorizationInfo(String principal) {
+        SimplePrincipalCollection principals = new SimplePrincipalCollection(
+                principal, getName());
+        clearCachedAuthorizationInfo(principals);
+    }
+
+    /**
+     * 清空所有关联认证
+     */
+    public void clearAllCachedAuthorizationInfo() {
+        Cache<Object, AuthorizationInfo> cache = getAuthorizationCache();
+        if (cache != null) {
+            for (Object key : cache.keys()) {
+                cache.remove(key);
+            }
         }
     }
 

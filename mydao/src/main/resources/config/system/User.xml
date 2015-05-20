@@ -19,10 +19,11 @@
     	<result column="QQ"  property="qq" />
     	<result column="WEIXIN"  property="weixin" />
     	<result column="WEIBO"  property="weibo" />
+		<result column="IS_LOCKED"  property="isLocked" />
 	</resultMap>
 
 	<resultMap type="UserDTO" id="UserRole" extends="UserDTO">
-		<collection property="roles" ofType="Role">
+		<collection property="roles" ofType="RoleDTO">
 			<id property="id" column="id" />
 			<result property="roleName" column="role_name" />
 			<result property="roleCode" column="role_code" />
@@ -52,6 +53,7 @@
     		<result column="QQ"  property="qq" />
     		<result column="WEIXIN"  property="weixin" />
     		<result column="WEIBO"  property="weibo" />
+			<result column="IS_LOCKED"  property="isLocked" />
     	</collection>
 	</resultMap>
 
@@ -138,7 +140,7 @@
 		t.ID_CARD,t.SEX,t.AGE,
 		t.EMAIL,t.ADDRESS,t.JOB,
 		t.REGISTER_TIME,t.IS_ADMIN,t.IS_NORMAL,
-		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO
+		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO,t.IS_LOCKED
 		from t_user t
 		left join t_user_role ur on (t.user_id = ur.user_id)
 		left join t_role r on (ur.role_id = r.id)
@@ -158,7 +160,7 @@
 		t.ID_CARD,t.SEX,t.AGE,
 		t.EMAIL,t.ADDRESS,t.JOB,
 		t.REGISTER_TIME,t.IS_ADMIN,t.IS_NORMAL,
-		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO
+		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO,t.IS_LOCKED
 		from t_user t where username = #{username}
 	</select>
 

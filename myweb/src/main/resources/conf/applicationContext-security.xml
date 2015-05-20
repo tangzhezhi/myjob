@@ -1,26 +1,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/bean http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/home" />
+		<property name="successUrl" value="/index" />
 		<property name="unauthorizedUrl" value="/unauthorized" />
 		<property name="filterChainDefinitions">
 			<value>
-				/admin = authc,roles[admin]
-				/edit = authc,perms[admin:edit]
-				/home = user
+				/admin = authc
+				/index = user
+				/login = authc
 				/** = anon
 			</value>
 		</property>
 	</bean>
 
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="ehCacheManagerFactory"/>
+	</bean>
+
+
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="sampleRealm" />
+		<property name="cacheManager" ref="cacheManager"/>
 	</bean>
+
 	<bean id="sampleRealm" class="org.tang.myjob.controller.shiro.SampleRealm" />
-	<!-- Post processor that automatically invokes init() and destroy() methods -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>

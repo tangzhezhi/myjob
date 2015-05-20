@@ -39,7 +39,7 @@ define(["jquery",
             },
             fields: {
                 row: '.col-sm-4',
-                userName: {
+                username: {
                     message: '用户名无效',
                     validators: {
                         notEmpty: {
@@ -67,8 +67,8 @@ define(["jquery",
             var bv = $form.data('formValidation');
 
             var user = {
-                userName:$("#userName").val(),
-                userPwd: $.md5($("#password").val())
+                username:$("#username").val(),
+                password: $.md5($("#password").val())
             }
 
             login(user,id,loginCallback,common.alert_message);
@@ -76,7 +76,7 @@ define(["jquery",
     }
 
     function loginCallback(user,id){
-        $.cookie('userName', user.userName, { expires: 7 });
+        $.cookie('username', user.username, { expires: 7 });
         location.href = "index";
     }
 
