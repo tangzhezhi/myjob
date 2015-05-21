@@ -44,6 +44,7 @@ public class LoginController {
 				Subject subject= SecurityUtils.getSubject();
 				if (subject.isAuthenticated()) {
 					m.put("user",dto);
+					dto.setPassword(null);
 					m.put("msg", "success");
                     return m;
                 }

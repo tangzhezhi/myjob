@@ -140,7 +140,7 @@
 		t.ID_CARD,t.SEX,t.AGE,
 		t.EMAIL,t.ADDRESS,t.JOB,
 		t.REGISTER_TIME,t.IS_ADMIN,t.IS_NORMAL,
-		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO,t.IS_LOCKED
+		t.BIRTHDAY,t.QQ,t.WEIXIN,t.WEIBO,t.IS_LOCKED,r.id,r.role_name,r.role_code
 		from t_user t
 		left join t_user_role ur on (t.user_id = ur.user_id)
 		left join t_role r on (ur.role_id = r.id)

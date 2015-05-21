@@ -92,7 +92,7 @@ public class UserService {
 		return flag;
 	}
 
-
+	@Cacheable(cacheName = "CustomerCache")
 	public UserDTO getByUsername(String username) {
 		try {
 			if(StringUtils.hasText(username)){

@@ -1,6 +1,7 @@
 package org.tang.myjob.controller.shiro;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -8,13 +9,17 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.tang.myjob.controller.session.ShiroSession;
+import org.tang.myjob.controller.session.ShiroSessionDao;
 import org.tang.myjob.dto.system.RoleDTO;
 import org.tang.myjob.dto.system.UserDTO;
 import org.tang.myjob.service.system.UserService;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -29,6 +34,9 @@ public class SampleRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ShiroSessionDao shiroSessionDao;
 
     public SampleRealm() {
         setName(REALM_NAME); // This name must match the name in the User
@@ -51,6 +59,14 @@ public class SampleRealm extends AuthorizingRealm {
             }
             UserDTO user = userService.getByUsername(username);
 //            checkUser(user, username);
+
+            Subject subject = SecurityUtils.getSubject();
+            Serializable sessionId = subject.getSession().getId();
+            ShiroSession session = (ShiroSession) shiroSessionDao.doReadSessionWithoutExpire(sessionId);
+            session.setAttribute("userId", user.getUserId());
+            session.setAttribute("userName", user.getUsername());
+            shiroSessionDao.update(session);
+
             return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
         } catch (Exception e) {
             throw translateAuthenticationException(e);

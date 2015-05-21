@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/unauthorized" />
+		<property name="filterChainDefinitions">
+			<value>
+				/admin = authc
+				/index = user
+				/login = authc
+				/** = anon
+			</value>
+		</property>
+	</bean>
+
+	<!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+		<!--<property name="cacheManager" ref="ehCacheManagerFactory"/>-->
+	<!--</bean>-->
+
+	<!--此处使用ehcache做缓存
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="sampleRealm" />
+		<property name="cacheManager" ref="cacheManager"/>
+	</bean>
+	-->
+
+	<!-- 此处使用redis做共享缓存-->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="sessionManager" ref="defaultWebSessionManager"/>
+		<property name="realm" ref="sampleRealm"/>
+		<property name="cacheManager" ref="customShiroCacheManager"/>
+	</bean>
+
+	<!-- default web session manager，session expire time 20 minutes -->
+	<bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1200000"/>
+		<property name="sessionDAO" ref="customShiroSessionDAO"/>
+		<property name="sessionIdCookie" ref="simpleCookie"/>
+		<property name="sessionListeners">
+			<list>
+				<ref bean="customSessionListener"/>
+			</list>
+		</property>
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+		<property name="sessionValidationSchedulerEnabled" value="true"/>
+		<property name="deleteInvalidSessions" value="true"/>
+	</bean>
+
+	<bean id="sessionValidationScheduler"
+		  class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler">
+		<property name="sessionManager" ref="defaultWebSessionManager"/>
+		<property name="interval" value="1800000"/>
+	</bean>
+
+	<bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg index="0" value="JSESSIONID_COOKIE"/>
+		<property name="httpOnly" value="true"/>
+	</bean>
+
+	<!-- custom shiro authorization info cache manager class-->
+	<bean id="customShiroCacheManager" class="org.tang.myjob.controller.shiro.cache.CustomShiroCacheManager">
+		<property name="shiroCacheManager" ref="jedisShiroCacheManager"/>
+	</bean>
+
+	<!-- ...AUTHENTICATION INFO CACHE BEGIN... -->
+	<!-- custom sessionDAO,must use class impl CustomShiroSessionRepository interface -->
+	<bean id="customShiroSessionDAO" class="org.tang.myjob.controller.session.CustomShiroSessionDAO">
+		<property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+	</bean>
+
+	<!-- custom shiro session listener -->
+	<bean id="customSessionListener" class="org.tang.myjob.controller.listen.CustomSessionListener">
+		<property name="shiroSessionRepository" ref="jedisShiroSessionRepository"/>
+	</bean>
+
+	<!-- custom save session by redis class impl ShiroSessionRepository interface -->
+	<bean id="jedisShiroSessionRepository" class="org.tang.myjob.controller.session.JedisShiroSessionRepository">
+		<property name="redisUtil" ref="redisUtil"/>
+	</bean>
+
+	<!-- ShiroCacheManager interface impl class by redis,save authorization info to redis -->
+	<bean id="jedisShiroCacheManager" class="org.tang.myjob.controller.shiro.cache.JedisShiroCacheManager">
+		<property name="redisUtil" ref="redisUtil"/>
+	</bean>
+
+	<bean id="sampleRealm" class="org.tang.myjob.controller.shiro.SampleRealm" />
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>
