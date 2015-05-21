@@ -33,12 +33,11 @@
 
 	<!-- 此处使用redis做共享缓存-->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="sessionManager" ref="defaultWebSessionManager"/>
+		<property name="sessionManager" ref="sessionManager"/>
 		<property name="realm" ref="sampleRealm"/>
 		<!-- 可选项 最好使用,SessionDao,中 doReadSession 读取过于频繁了-->
 		<property name="cacheManager" ref="shiroEhcacheManager"/>
 		<!--可选项 默认使用ServletContainerSessionManager，直接使用容器的HttpSession，可以通过配置sessionManager，使用DefaultWebSessionManager来替代-->
-		<property name="sessionManager" ref="sessionManager"/>
 	</bean>
 
 
@@ -65,20 +64,17 @@
 		</property>
 		<property name="sessionListeners">
 			<list>
-				<bean class="com.gqshao.authentication.listener.ShiroSessionListener"/>
+				<bean class="org.tang.myjob.controller.listen.ShiroSessionListener"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- 自定义Session工厂方法 返回会标识是否修改主要字段的自定义Session-->
-	<bean id="sessionFactory" class="com.gqshao.authentication.session.ShiroSessionFactory"/>
+	<bean id="sessionFactory" class="org.tang.myjob.controller.session.ShiroSessionFactory"/>
 
 	<!-- 普通持久化接口，不会被缓存 每次doReadSession会被反复调用 -->
-	<!--<bean class="com.gqshao.authentication.dao.RedisSessionDao">-->
-	<!-- 使用可被缓存的Dao ，本地缓存减轻网络压力 -->
-	<!--<bean id="sessionDao" class="com.gqshao.authentication.dao.CachingSessionDao">-->
 	<!-- 可缓存Dao，操作自定义Session,添加标识位，减少doUpdate方法中Redis的连接次数来减轻网络压力 -->
-	<bean id="sessionDao" class="com.gqshao.authentication.dao.CachingShiroSessionDao">
+	<bean id="sessionDao" class="org.tang.myjob.controller.session.ShiroSessionDao">
 		<property name="prefix" value="ShiroSession_"/>
 		<!-- 注意中央缓存有效时间要比本地缓存有效时间长-->
 		<property name="seconds" value="1800"/>

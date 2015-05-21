@@ -49,7 +49,7 @@ public class LoginController {
                     return m;
                 }
 
-				boolean rememberMe = ServletRequestUtils.getBooleanParameter(request, "rememberMe", false);
+				boolean rememberMe = ServletRequestUtils.getBooleanParameter(request, "rememberMe", true);
 				UsernamePasswordToken token = new UsernamePasswordToken(dto.getUsername(), dto.getPassword(), rememberMe);
 				subject.login(token); // 登录
 				dto.setPassword(null);
